@@ -1,4 +1,5 @@
 ﻿using DiscreteLogarithm.ExponentialAlgorithms;
+using DiscreteLogarithm.MathFunctionsForCalculation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,10 +16,14 @@ namespace DiscreteLogarithm
     public partial class Form1 : Form
     {
         Shenks shenks;
+        RoPollard roPollard;
+        MathFunctions mathFunctions;
         public Form1()
         {
             InitializeComponent();
             shenks = new Shenks();
+            mathFunctions = new MathFunctions();
+            roPollard = new RoPollard();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -35,6 +40,21 @@ namespace DiscreteLogarithm
             }
 
             shenks.CalculateShenks(a, b, p, label5);
+        }
+
+        private void button2_Click(object sender, EventArgs _e)
+        {
+            BigInteger N;
+            BigInteger e;
+            bool theValuesAreCorrect = true;
+
+            roPollard.CheckingTheInputValues(textBox6.Text, textBox5.Text, label11, ref theValuesAreCorrect, out N, out e);
+            if (!theValuesAreCorrect)
+            {
+                return;
+            }
+
+            roPollard.CalculateRoPollard(N, e, label11);
         }
     }
 }

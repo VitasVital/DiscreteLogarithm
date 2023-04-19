@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExponentialAlgorithms\RoPollard.cs" />
     <Compile Include="ExponentialAlgorithms\Shenks.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

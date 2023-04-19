@@ -4,6 +4,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using Label = System.Windows.Forms.Label;
 
 namespace DiscreteLogarithm.MathFunctionsForCalculation
 {

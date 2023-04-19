@@ -21,10 +21,10 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
         }
 
         public void CheckingTheInputValues(
-            string input_a, 
-            string input_b, 
+            string input_a,
+            string input_b,
             string input_p,
-            Label inputLabel, 
+            Label inputLabel,
             ref bool theValuesAreCorrect,
             out BigInteger a,
             out BigInteger b,
