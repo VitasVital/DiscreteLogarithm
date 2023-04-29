@@ -18,12 +18,14 @@ namespace DiscreteLogarithm
         Shenks shenks;
         RoPollard roPollard;
         MathFunctions mathFunctions;
+        PoligHellman poligHellman;
         public Form1()
         {
             InitializeComponent();
             shenks = new Shenks();
             mathFunctions = new MathFunctions();
             roPollard = new RoPollard();
+            poligHellman = new PoligHellman();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -45,16 +47,31 @@ namespace DiscreteLogarithm
         private void button2_Click(object sender, EventArgs _e)
         {
             BigInteger N;
-            BigInteger e;
             bool theValuesAreCorrect = true;
 
-            roPollard.CheckingTheInputValues(textBox6.Text, textBox5.Text, label11, ref theValuesAreCorrect, out N, out e);
+            roPollard.CheckingTheInputValues(textBox6.Text, label11, ref theValuesAreCorrect, out N);
             if (!theValuesAreCorrect)
             {
                 return;
             }
 
-            roPollard.CalculateRoPollard(N, e, label11);
+            roPollard.CalculateRoPollard(N, label11);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            BigInteger a;
+            BigInteger b;
+            BigInteger p;
+            bool theValuesAreCorrect = true;
+
+            poligHellman.CheckingTheInputValues(textBox8.Text, textBox7.Text, textBox4.Text, label8, ref theValuesAreCorrect, out a, out b, out p);
+            if (!theValuesAreCorrect)
+            {
+                return;
+            }
+
+            poligHellman.CalculatePoligHellman(a, b, p, label8);
         }
     }
 }

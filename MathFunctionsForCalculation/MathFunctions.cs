@@ -13,43 +13,11 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
         public MathFunctions()
         {
         }
-
-        public string ConvertToBinaty(BigInteger number)
+        public BigInteger ExponentiationModulo(BigInteger a, BigInteger b, BigInteger n)
         {
-            string binary_letter = "";
-            if (number == 0)
-            {
-                return "0";
-            }
-            while (number >= 1)
-            {
-                binary_letter += Convert.ToString(number % 2);
-                number /= 2;
-            }
-            return binary_letter;
-        }
-
-        // возведение в степень по модулю
-        public BigInteger ExponentiationModulo(BigInteger a, BigInteger alpha, BigInteger n)
-        {
-            //перевод alpha в двоичный вид
-            string binary_alpha = ConvertToBinaty(alpha);
-
-            List<BigInteger> number = new List<BigInteger>() { a };
-            for (int i = 1; i < binary_alpha.Length; i++)
-            {
-                number.Add((number[i - 1] * number[i - 1]) % n);
-            }
-
-            BigInteger result = 1;
-            for (int i = 0; i < binary_alpha.Length; i++)
-            {
-                if (binary_alpha[i] == '1')
-                {
-                    result *= number[i];
-                }
-            }
-            return result %= n;
+            if (b == 0) return 1;
+            BigInteger z = ExponentiationModulo(a, b / 2, n);
+            return (b % 2 == 0) ? (z * z) % n : (a * z * z) % n;
         }
     }
 }

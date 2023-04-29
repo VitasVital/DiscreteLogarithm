@@ -5,6 +5,8 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Xml.Linq;
 using Label = System.Windows.Forms.Label;
 
 namespace DiscreteLogarithm.ExponentialAlgorithms
@@ -16,11 +18,9 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
 
         public void CheckingTheInputValues(
             string input_N,
-            string input_e,
             Label inputLabel,
             ref bool theValuesAreCorrect,
-            out BigInteger a,
-            out BigInteger b)
+            out BigInteger a)
         {
             inputLabel.Text = "";
             if (!BigInteger.TryParse(input_N, out a))
@@ -28,14 +28,9 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
                 theValuesAreCorrect = false;
                 inputLabel.Text = "Ошибка ввода числа N";
             };
-            if (!BigInteger.TryParse(input_e, out b))
-            {
-                theValuesAreCorrect = false;
-                inputLabel.Text += "\nОшибка ввода числа e";
-            };
         }
 
-        private BigInteger ro_Pollard(BigInteger n)
+        public BigInteger ro_Pollard(BigInteger n)
         {
             BigInteger x = 4;
             BigInteger y = 1;
@@ -93,22 +88,12 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
             y = list[ind][5];
         }
 
-        public void CalculateRoPollard(BigInteger N, BigInteger e, Label inputLabel)
+        public void CalculateRoPollard(BigInteger N, Label inputLabel)
         {
             BigInteger p = ro_Pollard(N);
             BigInteger q = N / p;
-            BigInteger fi_n = (p - 1) * (q - 1);
 
-            NOD(fi_n, e);
-
-            BigInteger d = y;
-
-            while (d < 0)
-            {
-                d = fi_n + d;
-            }
-
-            inputLabel.Text = "Результат P = " + p.ToString() + "\nРезультат Q = " + q.ToString();
+            inputLabel.Text = string.Format("Результат P: {0} \nРезультат Q: {1}", p, q);
         }
     }
 }
