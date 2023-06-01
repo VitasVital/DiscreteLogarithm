@@ -55,9 +55,6 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
             IList<BigInteger> calculated_a_b_1 = Step1(factorizated_num1, a, b, p);
             IList<BigInteger> calculated_a_b_2 = Step1(factorizated_num2, a, b, p);
 
-            calculated_a_b_1.Add(factorizated_num1);
-            calculated_a_b_2.Add(factorizated_num2);
-
             BigInteger x_1 = Step2(calculated_a_b_1, p);
             BigInteger x_2 = Step2(calculated_a_b_2, p);
 
@@ -74,7 +71,7 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
             BigInteger a_simplified = mathFunctions.ExponentiationModulo(a, factorizated_num, p);
             BigInteger b_simplified = mathFunctions.ExponentiationModulo(b, factorizated_num, p);
 
-            return new List<BigInteger> { a_simplified, b_simplified };
+            return new List<BigInteger> { a_simplified, b_simplified, factorizated_num };
         }
 
         public BigInteger Step2(IList<BigInteger> calculated_a_b, BigInteger p)
@@ -92,17 +89,41 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
 
         public BigInteger Step3(IList<BigInteger> calculated_a_b_1, IList<BigInteger> calculated_a_b_2, BigInteger a, BigInteger b, BigInteger p)
         {
-            BigInteger i = 1;
+            //BigInteger i = 0;
+            //while (true)
+            //{
+            //    BigInteger x_1 = mathFunctions.ExponentiationModulo(i, 1, calculated_a_b_2[2]);
+            //    BigInteger x_2 = mathFunctions.ExponentiationModulo(i, 1, calculated_a_b_1[2]);
+            //    if (x_1 != calculated_a_b_1[3] || x_2 != calculated_a_b_2[3])
+            //    {
+            //        i++;
+            //        continue;
+            //    }
+            //    BigInteger x_main = mathFunctions.ExponentiationModulo(a, i, p);
+            //    if (x_main == b)
+            //    {
+            //        return i;
+            //    }
+            //    i++;
+            //}
+            BigInteger i = 0;
+            BigInteger x;
+            BigInteger x_2;
+            BigInteger x_main;
             while (true)
             {
-                BigInteger x_1 = mathFunctions.ExponentiationModulo(i, 1, calculated_a_b_2[2]);
-                BigInteger x_2 = mathFunctions.ExponentiationModulo(i, 1, calculated_a_b_1[2]);
-                BigInteger x_main = mathFunctions.ExponentiationModulo(a, i, p);
-                if (x_1 == calculated_a_b_1[3] && x_2 == calculated_a_b_2[3] && x_main == b)
-                {
-                    return i;
-                }
+                x = calculated_a_b_2[2] * i + calculated_a_b_1[3];
+                x_2 = mathFunctions.ExponentiationModulo(x, 1, calculated_a_b_1[2]);
                 i++;
+                if (x_2 != calculated_a_b_2[3])
+                {
+                    continue;
+                }
+                x_main = mathFunctions.ExponentiationModulo(a, x, p);
+                if (x_main == b)
+                {
+                    return x;
+                }
             }
         }
     }

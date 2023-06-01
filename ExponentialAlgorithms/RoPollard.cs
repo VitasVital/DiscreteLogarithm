@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Xml.Linq;
 using Label = System.Windows.Forms.Label;
+using System.Security.Cryptography;
 
 namespace DiscreteLogarithm.ExponentialAlgorithms
 {
@@ -23,7 +24,7 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
             out BigInteger a)
         {
             inputLabel.Text = "";
-            if (!BigInteger.TryParse(input_N, out a))
+            if (!BigInteger.TryParse(input_N, out a) || a < 5)
             {
                 theValuesAreCorrect = false;
                 inputLabel.Text = "Ошибка ввода числа N";
@@ -32,7 +33,12 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
 
         public BigInteger ro_Pollard(BigInteger n)
         {
-            BigInteger x = 4;
+            Random random = new Random();
+            byte[] data = new byte[n.ToString().Length / 4 + 1];
+            random.NextBytes(data);
+            BigInteger x = new BigInteger(data);
+            x = x < 0 ? -x - 2 : x - 2;
+
             BigInteger y = 1;
             BigInteger i = 0;
             BigInteger stage = 2;

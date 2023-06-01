@@ -73,5 +73,78 @@ namespace DiscreteLogarithm
 
             poligHellman.CalculatePoligHellman(a, b, p, label8);
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            BigInteger a;
+            BigInteger x;
+            BigInteger p;
+            bool theValuesAreCorrect = true;
+
+            mathFunctions.CheckingTheInputValues(textBox11.Text, textBox10.Text, textBox9.Text, label8, ref theValuesAreCorrect, out a, out x, out p);
+            if (!theValuesAreCorrect)
+            {
+                return;
+            }
+
+            mathFunctions.ExponentiationModuloWin(a, x, p, label20);
+        }
+
+        private void label24_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label21_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label22_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label23_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox9_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox10_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox11_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label20_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            BigInteger a = mathFunctions.Generate_a();
+            BigInteger p = mathFunctions.Generate_p();
+            BigInteger g = mathFunctions.Generate_g(p);
+            BigInteger A = mathFunctions.ExponentiationModulo(g, a, p);
+            textBox13.Text = a.ToString();
+            textBox12.Text = p.ToString();
+            textBox14.Text = g.ToString();
+            textBox15.Text = A.ToString();
+        }
     }
 }
