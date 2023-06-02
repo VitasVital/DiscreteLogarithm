@@ -21,25 +21,25 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
         }
 
         public void CheckingTheInputValues(
-            string input_a,
-            string input_b,
+            string input_g,
+            string input_A,
             string input_p,
             Label inputLabel,
             ref bool theValuesAreCorrect,
-            out BigInteger a,
-            out BigInteger b,
+            out BigInteger g,
+            out BigInteger A,
             out BigInteger p)
         {
             inputLabel.Text = "";
-            if (!BigInteger.TryParse(input_a, out a))
+            if (!BigInteger.TryParse(input_g, out g))
             {
                 theValuesAreCorrect = false;
-                inputLabel.Text = "Ошибка ввода числа а";
+                inputLabel.Text = "Ошибка ввода числа g";
             };
-            if (!BigInteger.TryParse(input_b, out b))
+            if (!BigInteger.TryParse(input_A, out A))
             {
                 theValuesAreCorrect = false;
-                inputLabel.Text += "\nОшибка ввода числа b";
+                inputLabel.Text += "\nОшибка ввода числа A";
             };
             if (!BigInteger.TryParse(input_p, out p))
             {
@@ -48,18 +48,18 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
             };
         }
 
-        public void CalculateShenks(BigInteger a, BigInteger b, BigInteger p, Label inputLabel)
+        public void CalculateShenks(BigInteger g, BigInteger A, BigInteger p, Label inputLabel)
         {
             BigInteger m, k;
             Step1(p, out m, out k);
 
-            List<BigInteger> a_km_degree = new List<BigInteger>();
-            List<BigInteger> ba_m_degree = new List<BigInteger>();
+            List<BigInteger> g_km_degree = new List<BigInteger>();
+            List<BigInteger> Ag_m_degree = new List<BigInteger>();
 
-            Step2(a_km_degree, ba_m_degree, a, b, p, m, k);
+            Step2(g_km_degree, Ag_m_degree, g, A, p, m, k);
 
             int i, j;
-            Step3(a_km_degree, ba_m_degree, out i, out j);
+            Step3(g_km_degree, Ag_m_degree, out i, out j);
             BigInteger result = BigInteger.Multiply(i, m) - j;
 
             inputLabel.Text = "Результат = " + result.ToString();
@@ -70,25 +70,25 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
             m = k = (BigInteger)Math.Sqrt((double)p) + 1;
         }
 
-        private void Step2(List<BigInteger> a_km_degree, List<BigInteger> ba_m_degree, BigInteger a, BigInteger b, BigInteger p, BigInteger m, BigInteger k)
+        private void Step2(List<BigInteger> g_km_degree, List<BigInteger> Ag_m_degree, BigInteger g, BigInteger A, BigInteger p, BigInteger m, BigInteger k)
         {
             for (BigInteger k_i = 1; k_i <= k; k_i++)
             {
-                a_km_degree.Add(BigInteger.ModPow(a, BigInteger.Multiply(k_i, m), p));
+                g_km_degree.Add(BigInteger.ModPow(g, BigInteger.Multiply(k_i, m), p));
             }
             for (int m_i = 0; m_i <= m - 1; m_i++)
             {
-                ba_m_degree.Add(BigInteger.Multiply(b, BigInteger.Pow(a, m_i)) % p);
+                Ag_m_degree.Add(BigInteger.Multiply(A, BigInteger.Pow(g, m_i)) % p);
             }
         }
 
-        private void Step3(List<BigInteger> a_km_degree, List<BigInteger> ba_m_degree, out int ind_i, out int ind_j)
+        private void Step3(List<BigInteger> g_km_degree, List<BigInteger> Ag_m_degree, out int ind_i, out int ind_j)
         {
-            for(int i = 0; i < a_km_degree.Count; i++)
+            for(int i = 0; i < g_km_degree.Count; i++)
             {
-                for (int j = 0; j < ba_m_degree.Count; j++)
+                for (int j = 0; j < Ag_m_degree.Count; j++)
                 {
-                    if (a_km_degree[i] == ba_m_degree[j])
+                    if (g_km_degree[i] == Ag_m_degree[j])
                     {
                         ind_i = i + 1; 
                         ind_j = j; 

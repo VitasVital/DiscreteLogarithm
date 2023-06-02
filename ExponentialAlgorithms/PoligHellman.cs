@@ -20,25 +20,25 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
         }
 
         public void CheckingTheInputValues(
-            string input_a,
-            string input_b,
+            string input_g,
+            string input_A,
             string input_p,
             Label inputLabel,
             ref bool theValuesAreCorrect,
-            out BigInteger a,
-            out BigInteger b,
+            out BigInteger g,
+            out BigInteger A,
             out BigInteger p)
         {
             inputLabel.Text = "";
-            if (!BigInteger.TryParse(input_a, out a))
+            if (!BigInteger.TryParse(input_g, out g))
             {
                 theValuesAreCorrect = false;
-                inputLabel.Text = "Ошибка ввода числа а";
+                inputLabel.Text = "Ошибка ввода числа g";
             };
-            if (!BigInteger.TryParse(input_b, out b))
+            if (!BigInteger.TryParse(input_A, out A))
             {
                 theValuesAreCorrect = false;
-                inputLabel.Text += "\nОшибка ввода числа b";
+                inputLabel.Text += "\nОшибка ввода числа A";
             };
             if (!BigInteger.TryParse(input_p, out p))
             {
@@ -47,39 +47,39 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
             };
         }
 
-        public void CalculatePoligHellman(BigInteger a, BigInteger b, BigInteger p, Label inputLabel)
+        public void CalculatePoligHellman(BigInteger g, BigInteger A, BigInteger p, Label inputLabel)
         {
             BigInteger factorizated_num1 = roPollard.ro_Pollard(p - 1);
             BigInteger factorizated_num2 = (p - 1) / factorizated_num1;
 
-            IList<BigInteger> calculated_a_b_1 = Step1(factorizated_num1, a, b, p);
-            IList<BigInteger> calculated_a_b_2 = Step1(factorizated_num2, a, b, p);
+            IList<BigInteger> calculated_g_A_1 = Step1(factorizated_num1, g, A, p);
+            IList<BigInteger> calculated_g_A_2 = Step1(factorizated_num2, g, A, p);
 
-            BigInteger x_1 = Step2(calculated_a_b_1, p);
-            BigInteger x_2 = Step2(calculated_a_b_2, p);
+            BigInteger x_1 = Step2(calculated_g_A_1, p);
+            BigInteger x_2 = Step2(calculated_g_A_2, p);
 
-            calculated_a_b_1.Add(x_1);
-            calculated_a_b_2.Add(x_2);
+            calculated_g_A_1.Add(x_1);
+            calculated_g_A_2.Add(x_2);
 
-            BigInteger x_main = Step3(calculated_a_b_1, calculated_a_b_2, a, b, p);
+            BigInteger x_main = Step3(calculated_g_A_1, calculated_g_A_2, g, A, p);
 
             inputLabel.Text = string.Format("Результат = {0}", x_main);
         }
 
-        public IList<BigInteger> Step1(BigInteger factorizated_num, BigInteger a, BigInteger b, BigInteger p)
+        public IList<BigInteger> Step1(BigInteger factorizated_num, BigInteger g, BigInteger A, BigInteger p)
         {
-            BigInteger a_simplified = mathFunctions.ExponentiationModulo(a, factorizated_num, p);
-            BigInteger b_simplified = mathFunctions.ExponentiationModulo(b, factorizated_num, p);
+            BigInteger g_simplified = mathFunctions.ExponentiationModulo(g, factorizated_num, p);
+            BigInteger A_simplified = mathFunctions.ExponentiationModulo(A, factorizated_num, p);
 
-            return new List<BigInteger> { a_simplified, b_simplified, factorizated_num };
+            return new List<BigInteger> { g_simplified, A_simplified, factorizated_num };
         }
 
-        public BigInteger Step2(IList<BigInteger> calculated_a_b, BigInteger p)
+        public BigInteger Step2(IList<BigInteger> calculated_g_A, BigInteger p)
         {
             BigInteger i = 2;
             while(true)
             {
-                if (mathFunctions.ExponentiationModulo(calculated_a_b[0], i, p) == calculated_a_b[1])
+                if (mathFunctions.ExponentiationModulo(calculated_g_A[0], i, p) == calculated_g_A[1])
                 {
                     return i;
                 }
@@ -87,7 +87,7 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
             }
         }
 
-        public BigInteger Step3(IList<BigInteger> calculated_a_b_1, IList<BigInteger> calculated_a_b_2, BigInteger a, BigInteger b, BigInteger p)
+        public BigInteger Step3(IList<BigInteger> calculated_g_A_1, IList<BigInteger> calculated_g_A_2, BigInteger g, BigInteger A, BigInteger p)
         {
             //BigInteger i = 0;
             //while (true)
@@ -112,15 +112,15 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
             BigInteger x_main;
             while (true)
             {
-                x = calculated_a_b_2[2] * i + calculated_a_b_1[3];
-                x_2 = mathFunctions.ExponentiationModulo(x, 1, calculated_a_b_1[2]);
+                x = calculated_g_A_2[2] * i + calculated_g_A_1[3];
+                x_2 = mathFunctions.ExponentiationModulo(x, 1, calculated_g_A_1[2]);
                 i++;
-                if (x_2 != calculated_a_b_2[3])
+                if (x_2 != calculated_g_A_2[3])
                 {
                     continue;
                 }
-                x_main = mathFunctions.ExponentiationModulo(a, x, p);
-                if (x_main == b)
+                x_main = mathFunctions.ExponentiationModulo(g, x, p);
+                if (x_main == A)
                 {
                     return x;
                 }

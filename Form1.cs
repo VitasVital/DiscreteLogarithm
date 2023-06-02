@@ -30,18 +30,18 @@ namespace DiscreteLogarithm
 
         private void button1_Click(object sender, EventArgs e)
         {
-            BigInteger a;
-            BigInteger b;
+            BigInteger g;
+            BigInteger A;
             BigInteger p;
             bool theValuesAreCorrect = true;
 
-            shenks.CheckingTheInputValues(textBox1.Text, textBox2.Text, textBox3.Text, label5, ref theValuesAreCorrect, out a, out b, out p);
+            shenks.CheckingTheInputValues(textBox1.Text, textBox2.Text, textBox3.Text, label5, ref theValuesAreCorrect, out g, out A, out p);
             if (!theValuesAreCorrect)
             {
                 return;
             }
 
-            shenks.CalculateShenks(a, b, p, label5);
+            shenks.CalculateShenks(g, A, p, label5);
         }
 
         private void button2_Click(object sender, EventArgs _e)
@@ -81,18 +81,18 @@ namespace DiscreteLogarithm
 
         private void button5_Click(object sender, EventArgs e)
         {
+            BigInteger g;
             BigInteger a;
-            BigInteger x;
             BigInteger p;
             bool theValuesAreCorrect = true;
 
-            mathFunctions.CheckingTheInputValues(textBox11.Text, textBox10.Text, textBox9.Text, label8, ref theValuesAreCorrect, out a, out x, out p);
+            mathFunctions.CheckingTheInputValues(textBox11.Text, textBox10.Text, textBox9.Text, label8, ref theValuesAreCorrect, out g, out a, out p);
             if (!theValuesAreCorrect)
             {
                 return;
             }
 
-            mathFunctions.ExponentiationModuloWin(a, x, p, label20);
+            mathFunctions.ExponentiationModuloWin(g, a, p, label20);
         }
 
         private void label24_Click(object sender, EventArgs e)

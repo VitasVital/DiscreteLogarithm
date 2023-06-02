@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DiscreteLogarithm.ExponentialAlgorithms;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -11,8 +12,10 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
 {
     public class MathFunctions
     {
+        RoPollard roPollard;
         public MathFunctions()
         {
+            roPollard = new RoPollard();
         }
         //public BigInteger ExponentiationModulo(BigInteger a, BigInteger b, BigInteger n)
         //{
@@ -22,25 +25,25 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
         //}
 
         public void CheckingTheInputValues(
+            string input_g,
             string input_a,
-            string input_x,
             string input_p,
             Label inputLabel,
             ref bool theValuesAreCorrect,
+            out BigInteger g,
             out BigInteger a,
-            out BigInteger x,
             out BigInteger p)
         {
             inputLabel.Text = "";
+            if (!BigInteger.TryParse(input_g, out g))
+            {
+                theValuesAreCorrect = false;
+                inputLabel.Text = "Ошибка ввода числа g";
+            };
             if (!BigInteger.TryParse(input_a, out a))
             {
                 theValuesAreCorrect = false;
-                inputLabel.Text = "Ошибка ввода числа а";
-            };
-            if (!BigInteger.TryParse(input_x, out x))
-            {
-                theValuesAreCorrect = false;
-                inputLabel.Text += "\nОшибка ввода числа x";
+                inputLabel.Text += "\nОшибка ввода числа a";
             };
             if (!BigInteger.TryParse(input_p, out p))
             {
@@ -64,21 +67,21 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
             return binary_letter;
         }
 
-        public BigInteger ExponentiationModulo(BigInteger a, BigInteger alpha, BigInteger n)
+        public BigInteger ExponentiationModulo(BigInteger g, BigInteger a, BigInteger n)
         {
             //перевод alpha в двоичный вид
-            string binary_alpha = ConvertToBinaty(alpha);
+            string binary_a = ConvertToBinaty(a);
 
-            List<BigInteger> number = new List<BigInteger>() { a };
-            for (int i = 1; i < binary_alpha.Length; i++)
+            List<BigInteger> number = new List<BigInteger>() { g };
+            for (int i = 1; i < binary_a.Length; i++)
             {
                 number.Add((number[i - 1] * number[i - 1]) % n);
             }
 
             BigInteger result = 1;
-            for (int i = 0; i < binary_alpha.Length; i++)
+            for (int i = 0; i < binary_a.Length; i++)
             {
-                if (binary_alpha[i] == '1')
+                if (binary_a[i] == '1')
                 {
                     result *= number[i];
                 }
@@ -88,9 +91,9 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
             return result;
         }
 
-        public void ExponentiationModuloWin(BigInteger a, BigInteger alpha, BigInteger n, Label inputLabel)
+        public void ExponentiationModuloWin(BigInteger g, BigInteger a, BigInteger n, Label inputLabel)
         {
-            BigInteger result = ExponentiationModulo(a, alpha, n);
+            BigInteger result = ExponentiationModulo(g, a, n);
 
             inputLabel.Text = string.Format("Результат = {0}", result);
         }
@@ -139,6 +142,19 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
             }
         }
 
+        public List<BigInteger> Factorization(List<BigInteger> p_dividers, BigInteger p_factorized, BigInteger q_factorized)
+        {
+            if (q_factorized == 1 || q_factorized == 1)
+            {
+                return p_dividers;
+            }
+            p_factorized = roPollard.ro_Pollard(p_factorized);
+            q_factorized = q_factorized / p_factorized;
+            p_dividers.Add(p_factorized);
+            p_dividers.Add(q_factorized);
+            return Factorization(p_dividers, p_factorized, q_factorized);
+        }
+
         public BigInteger Generate_g(BigInteger p)
         {
             // число g 64 бит
@@ -148,18 +164,11 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
             BigInteger g;
 
             BigInteger fi_p = p - 1;
-            IList<BigInteger> p_dividers = new List<BigInteger>();
-            for (BigInteger i = 2; i < fi_p; i++)
-            {
-                if (fi_p % i == 0)
-                {
-                    p_dividers.Add(i);
-                }
-                if (p_dividers.Count > 5)
-                {
-                    break;
-                }
-            }
+            List<BigInteger> p_dividers = new List<BigInteger>();
+            BigInteger p_factorized = roPollard.ro_Pollard(fi_p);
+            BigInteger q_factorized = fi_p / p_factorized;
+            p_dividers = Factorization(p_dividers, p_factorized, q_factorized);
+            p_dividers.RemoveAll(p_divider => fi_p % p_divider != 0 || p_divider == 1);
 
             bool true_p;
             while (true)
