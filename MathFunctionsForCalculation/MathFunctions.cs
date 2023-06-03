@@ -142,17 +142,26 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
             }
         }
 
-        public List<BigInteger> Factorization(List<BigInteger> p_dividers, BigInteger p_factorized, BigInteger q_factorized)
+        public List<BigInteger> Factorization(List<BigInteger> p_dividers, BigInteger fi_p, BigInteger p_factorized, BigInteger q_factorized)
         {
             if (q_factorized == 1 || q_factorized == 1)
             {
+                fi_p /= p_factorized;
+                p_dividers.Add(p_factorized);
+                p_dividers.Add(q_factorized);
+                p_factorized = fi_p;
+            }
+            if (fi_p == 1)
+            {
                 return p_dividers;
             }
-            p_factorized = roPollard.ro_Pollard(p_factorized);
-            q_factorized = q_factorized / p_factorized;
-            p_dividers.Add(p_factorized);
-            p_dividers.Add(q_factorized);
-            return Factorization(p_dividers, p_factorized, q_factorized);
+            BigInteger p_factorized_new = roPollard.ro_Pollard(p_factorized);
+            BigInteger q_factorized_new = p_factorized / p_factorized_new;
+            if (p_factorized_new > q_factorized_new)
+            {
+                return Factorization(p_dividers, fi_p, p_factorized_new, q_factorized_new);
+            }
+            return Factorization(p_dividers, fi_p, q_factorized_new, p_factorized_new);
         }
 
         public BigInteger Generate_g(BigInteger p)
@@ -167,8 +176,20 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
             List<BigInteger> p_dividers = new List<BigInteger>();
             BigInteger p_factorized = roPollard.ro_Pollard(fi_p);
             BigInteger q_factorized = fi_p / p_factorized;
-            p_dividers = Factorization(p_dividers, p_factorized, q_factorized);
-            p_dividers.RemoveAll(p_divider => fi_p % p_divider != 0 || p_divider == 1);
+            if (p_factorized > q_factorized)
+            {
+                p_dividers = Factorization(p_dividers, fi_p, p_factorized, q_factorized);
+            }
+            else
+            {
+                p_dividers = Factorization(p_dividers, fi_p, q_factorized, p_factorized);
+            }
+            p_dividers.RemoveAll(p_divider => p_divider == 1);
+            BigInteger p_dividers_sum = 1;
+            for (int i = 0; i < p_dividers.Count; i++)
+            {
+                p_dividers_sum *= p_dividers[i];
+            }
 
             bool true_p;
             while (true)

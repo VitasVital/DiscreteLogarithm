@@ -31,7 +31,7 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
         public BigInteger ro_Pollard(BigInteger n)
         {
             Random random = new Random();
-            byte[] data = new byte[n.ToString().Length / 4 + 1];
+            byte[] data = new byte[n.ToByteArray().Length];
             random.NextBytes(data);
             BigInteger x = new BigInteger(data);
             x = x < 0 ? -x - 2 : x - 2;
