@@ -6,6 +6,7 @@ using System.Numerics;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using Label = System.Windows.Forms.Label;
 
 namespace DiscreteLogarithm.MathFunctionsForCalculation
@@ -142,37 +143,26 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
             }
         }
 
-        public List<BigInteger> Factorization(List<BigInteger> p_dividers, BigInteger fi_p, BigInteger p_factorized, BigInteger q_factorized)
+        public void Factorization(List<BigInteger> p_dividers, BigInteger p_factorized)
         {
-            if (p_factorized == 1 || q_factorized == 1)
+            if (TestMillerRabin(p_factorized) == "Вероятно простое")
             {
-                fi_p /= p_factorized;
-                p_dividers.Add(p_factorized);
-                p_dividers.Add(q_factorized);
-                p_factorized = fi_p;
-            }
-            if (fi_p == 1)
-            {
-                return p_dividers;
+                return;
             }
 
-            BigInteger p_factorized_new = 1;
-            BigInteger q_factorized_new = 1;
-            for (int i = 0; i < 10; i++)
+            BigInteger p_factorized_new = roPollard.ro_Pollard(p_factorized);
+            BigInteger q_factorized_new = p_factorized / p_factorized_new;
+
+            p_dividers.Add(p_factorized_new);
+            p_dividers.Add(q_factorized_new);
+
+            if (p_factorized_new == 1 || q_factorized_new == 1)
             {
-                p_factorized_new = roPollard.ro_Pollard(p_factorized);
-                q_factorized_new = p_factorized / p_factorized_new;
-                if (p_factorized_new > 1 && q_factorized_new > 1)
-                {
-                    break;
-                }
+                return;
             }
 
-            if (p_factorized_new > q_factorized_new)
-            {
-                return Factorization(p_dividers, fi_p, p_factorized_new, q_factorized_new);
-            }
-            return Factorization(p_dividers, fi_p, q_factorized_new, p_factorized_new);
+            Factorization(p_dividers, p_factorized_new);
+            Factorization(p_dividers, q_factorized_new);
         }
 
         public BigInteger Generate_g(BigInteger p)
@@ -185,13 +175,8 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
 
             BigInteger fi_p = p - 1;
             List<BigInteger> p_dividers = new List<BigInteger>();
-            p_dividers = Factorization(p_dividers, fi_p, fi_p, 0);
-            p_dividers.RemoveAll(p_divider => p_divider == 1);
-            BigInteger p_dividers_sum = 1;
-            for (int i = 0; i < p_dividers.Count; i++)
-            {
-                p_dividers_sum *= p_dividers[i];
-            }
+            Factorization(p_dividers, fi_p);
+            p_dividers = p_dividers.Distinct().ToList();
 
             bool true_p;
             while (true)
