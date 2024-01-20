@@ -137,6 +137,51 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
             }
         }
 
+        public List<BigInteger> Factorization(BigInteger fi_p)
+        {
+            List<BigInteger> p_dividers = new List<BigInteger>();
+            BigInteger p_factorized_new;
+            BigInteger q_factorized_new;
+            BigInteger fi_p_help = fi_p;
+
+            while (true)
+            {
+                if (TestMillerRabin(fi_p_help) == "Вероятно простое")
+                {
+                    p_dividers.Add(fi_p_help);
+                    return p_dividers;
+                }
+
+                p_factorized_new = roPollard.ro_Pollard(fi_p_help);
+                q_factorized_new = fi_p_help / p_factorized_new;
+
+                string p_factorized_new_miller_rabin = p_factorized_new > 1 ? TestMillerRabin(p_factorized_new) : "Меньше 2";
+                string q_factorized_new_miller_rabin = q_factorized_new > 1 ? TestMillerRabin(q_factorized_new) : "Меньше 2";
+
+                if (p_factorized_new != 1 && q_factorized_new != 1 && p_factorized_new_miller_rabin == "Вероятно простое")
+                {
+                    p_dividers.Add(p_factorized_new);
+                    fi_p /= p_factorized_new;
+                    fi_p_help = fi_p;
+                } 
+                else if (p_factorized_new != 1 && q_factorized_new != 1 && q_factorized_new_miller_rabin == "Вероятно простое")
+                {
+                    p_dividers.Add(q_factorized_new);
+                    fi_p /= q_factorized_new;
+                    fi_p_help = fi_p;
+                } 
+                else if (p_factorized_new > q_factorized_new)
+                {
+                    fi_p_help /= p_factorized_new;
+                }
+                else
+                {
+                    fi_p_help /= q_factorized_new;
+                }
+
+            }
+        }
+
         public void FindAllDivisors(List<BigInteger> p_dividers, BigInteger p_factorized)
         {
             if (TestMillerRabin(p_factorized) == "Вероятно простое")
@@ -217,7 +262,7 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
 
         private string TestMillerRabin(BigInteger n)
         {
-            if (n == 2 || n == 3)
+            if (n == 1 || n == 2 || n == 3)
             {
                 return "Вероятно простое";
             }
