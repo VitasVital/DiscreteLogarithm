@@ -65,10 +65,10 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
         public void CalculatePoligHellman(BigInteger g, BigInteger A, BigInteger p, Label inputLabel)
         {
             BigInteger fi_p = p - 1;
-            List<BigInteger> fi_p_dividers = new List<BigInteger>();
-            //fi_p_dividers = mathFunctions.Factorization(fi_p_dividers, fi_p, fi_p, 0);
-            fi_p_dividers.RemoveAll(p_divider => p_divider == 1);
-            List<ListGroupedValues> fi_p_dividers_grouped = fi_p_dividers.GroupBy(x => x).Select(group => new ListGroupedValues(group.Key, group.Count())).ToList();
+            List<BigInteger> p_dividers = new List<BigInteger>();
+            mathFunctions.FindAllDivisors(p_dividers, fi_p);
+            p_dividers.RemoveAll(p_divider => p_divider == 1);
+            List<ListGroupedValues> fi_p_dividers_grouped = p_dividers.GroupBy(x => x).Select(group => new ListGroupedValues(group.Key, group.Count())).ToList();
 
             List<List<BigInteger>> step1_result = new List<List<BigInteger>>();
             for (int i = 0; i < fi_p_dividers_grouped.Count; i++)

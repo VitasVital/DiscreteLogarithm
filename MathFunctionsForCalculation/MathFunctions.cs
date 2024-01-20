@@ -18,12 +18,6 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
         {
             roPollard = new RoPollard();
         }
-        //public BigInteger ExponentiationModulo(BigInteger a, BigInteger b, BigInteger n)
-        //{
-        //    if (b == 0) return 1;
-        //    BigInteger z = ExponentiationModulo(a, b / 2, n);
-        //    return (b % 2 == 0) ? (z * z) % n : (a * z * z) % n;
-        //}
 
         public void CheckingTheInputValues(
             string input_g,
@@ -143,15 +137,25 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
             }
         }
 
-        public void Factorization(List<BigInteger> p_dividers, BigInteger p_factorized)
+        public void FindAllDivisors(List<BigInteger> p_dividers, BigInteger p_factorized)
         {
             if (TestMillerRabin(p_factorized) == "Вероятно простое")
             {
                 return;
             }
 
-            BigInteger p_factorized_new = roPollard.ro_Pollard(p_factorized);
-            BigInteger q_factorized_new = p_factorized / p_factorized_new;
+            BigInteger p_factorized_new;
+            BigInteger q_factorized_new;
+
+            while (true)
+            {
+                p_factorized_new = roPollard.ro_Pollard(p_factorized);
+                q_factorized_new = p_factorized / p_factorized_new;
+                if (p_factorized_new != 1 && q_factorized_new != 1)
+                {
+                    break;
+                }
+            }
 
             p_dividers.Add(p_factorized_new);
             p_dividers.Add(q_factorized_new);
@@ -161,22 +165,22 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
                 return;
             }
 
-            Factorization(p_dividers, p_factorized_new);
-            Factorization(p_dividers, q_factorized_new);
+            FindAllDivisors(p_dividers, p_factorized_new);
+            FindAllDivisors(p_dividers, q_factorized_new);
         }
 
         public BigInteger Generate_g(BigInteger p)
         {
+            BigInteger fi_p = p - 1;
+            List<BigInteger> p_dividers = new List<BigInteger>();
+            FindAllDivisors(p_dividers, fi_p);
+            p_dividers = p_dividers.Distinct().ToList();
+
             // число g 64 бит
             int byteCount = 64 / 8;
             RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
             byte[] bytes;
             BigInteger g;
-
-            BigInteger fi_p = p - 1;
-            List<BigInteger> p_dividers = new List<BigInteger>();
-            Factorization(p_dividers, fi_p);
-            p_dividers = p_dividers.Distinct().ToList();
 
             bool true_p;
             while (true)
@@ -190,15 +194,21 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
                 }
                 while (g < 2 || g >= p - 2);
 
-                for (int i = 0; i < p_dividers.Count; i++)
+                //for (int i = 0; i < p_dividers.Count; i++) // идёт долгий поиск. Ниразу пока не нашел
+                //{
+                //    if (ExponentiationModulo(g, fi_p, p_dividers[i]) != 1)
+                //    {
+                //        true_p = false;
+                //        break;
+                //    };
+                //}
+
+                if (TestMillerRabin(g) != "Вероятно простое" || ExponentiationModulo(g, fi_p, p_dividers[0]) != 1) // проверка на первом делителе из списка
                 {
-                    if (ExponentiationModulo(g, fi_p, p_dividers[i]) != 1)
-                    {
-                        true_p = false;
-                        break;
-                    };
-                }
-                if(true_p)
+                    true_p = false;
+                };
+
+                if (true_p)
                 {
                     return g;
                 }
