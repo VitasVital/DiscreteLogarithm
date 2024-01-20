@@ -3,12 +3,27 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.Serialization.Formatters;
 using System.Text;
 using System.Threading.Tasks;
 using Label = System.Windows.Forms.Label;
 
 namespace DiscreteLogarithm.ExponentialAlgorithms
 {
+    public class ListGroupedValues
+    {
+        public ListGroupedValues(BigInteger Key, int degree_number) 
+        {
+            this.Key = Key;
+            this.degree_number = degree_number;
+            this.x_values = new List<int> { 0 };
+        }
+
+        public BigInteger Key { get; set; }
+        public int degree_number { get; set; }
+        public List<int> x_values { get; set; }
+    }
+
     public class PoligHellman
     {
         RoPollard roPollard;
@@ -49,41 +64,76 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
 
         public void CalculatePoligHellman(BigInteger g, BigInteger A, BigInteger p, Label inputLabel)
         {
-            BigInteger factorizated_num1 = roPollard.ro_Pollard(p - 1);
-            BigInteger factorizated_num2 = (p - 1) / factorizated_num1;
+            BigInteger fi_p = p - 1;
+            List<BigInteger> fi_p_dividers = new List<BigInteger>();
+            fi_p_dividers = mathFunctions.Factorization(fi_p_dividers, fi_p, fi_p, 0);
+            fi_p_dividers.RemoveAll(p_divider => p_divider == 1);
+            List<ListGroupedValues> fi_p_dividers_grouped = fi_p_dividers.GroupBy(x => x).Select(group => new ListGroupedValues(group.Key, group.Count())).ToList();
 
-            IList<BigInteger> calculated_g_A_1 = Step1(factorizated_num1, g, A, p);
-            IList<BigInteger> calculated_g_A_2 = Step1(factorizated_num2, g, A, p);
-
-            BigInteger x_1 = Step2(calculated_g_A_1, p);
-            BigInteger x_2 = Step2(calculated_g_A_2, p);
-
-            calculated_g_A_1.Add(x_1);
-            calculated_g_A_2.Add(x_2);
-
-            BigInteger x_main = Step3(calculated_g_A_1, calculated_g_A_2, g, A, p);
-
-            inputLabel.Text = string.Format("Результат = {0}", x_main);
-        }
-
-        public IList<BigInteger> Step1(BigInteger factorizated_num, BigInteger g, BigInteger A, BigInteger p)
-        {
-            BigInteger g_simplified = mathFunctions.ExponentiationModulo(g, factorizated_num, p);
-            BigInteger A_simplified = mathFunctions.ExponentiationModulo(A, factorizated_num, p);
-
-            return new List<BigInteger> { g_simplified, A_simplified, factorizated_num };
-        }
-
-        public BigInteger Step2(IList<BigInteger> calculated_g_A, BigInteger p)
-        {
-            BigInteger i = 2;
-            while(true)
+            List<List<BigInteger>> step1_result = new List<List<BigInteger>>();
+            for (int i = 0; i < fi_p_dividers_grouped.Count; i++)
             {
-                if (mathFunctions.ExponentiationModulo(calculated_g_A[0], i, p) == calculated_g_A[1])
+                step1_result.Add(Step1(g, fi_p_dividers_grouped[i].degree_number, fi_p, p));
+            }
+
+            Step2(fi_p_dividers_grouped, g, A, p);
+
+            //BigInteger factorizated_num1 = roPollard.ro_Pollard(p - 1);
+            //BigInteger factorizated_num2 = (p - 1) / factorizated_num1;
+
+            //IList<BigInteger> calculated_g_A_1 = Step1(factorizated_num1, g, A, p);
+            //IList<BigInteger> calculated_g_A_2 = Step1(factorizated_num2, g, A, p);
+
+            //BigInteger x_1 = Step2(calculated_g_A_1, p);
+            //BigInteger x_2 = Step2(calculated_g_A_2, p);
+
+            //calculated_g_A_1.Add(x_1);
+            //calculated_g_A_2.Add(x_2);
+
+            //BigInteger x_main = Step3(calculated_g_A_1, calculated_g_A_2, g, A, p);
+
+            //inputLabel.Text = string.Format("Результат = {0}", x_main);
+        }
+
+        public List<BigInteger> Step1(BigInteger g, BigInteger q_i, BigInteger fi_p, BigInteger p)
+        {
+            List<BigInteger> step1_result = new List<BigInteger>();
+            for (BigInteger j = 0; j <= q_i - 1; j++)
+            {
+                step1_result.Add(BigInteger.ModPow(g, j * fi_p / q_i, p));
+            }
+            return step1_result;
+        }
+
+        public BigInteger Step2(List<ListGroupedValues> fi_p_dividers_grouped, BigInteger g, BigInteger A, BigInteger p)
+        {
+            for (int i = 0; i < fi_p_dividers_grouped.Count; i++)
+            {
+                Step2_find_x(fi_p_dividers_grouped[i], g, A, p);
+            }
+            return 1;
+        }
+
+        public void Step2_find_x(ListGroupedValues fi_p_dividers_grouped_i, BigInteger g, BigInteger A, BigInteger p)
+        {
+            for (int i = 0; i < fi_p_dividers_grouped_i.degree_number; i++)
+            {
+                int x_ind = 0;
+                BigInteger g_x_q = BigInteger.Pow(g, -fi_p_dividers_grouped_i.x_values[0]);
+                BigInteger A_g_x;
+                while (true)
                 {
-                    return i;
+                    for (int j = 1; j < fi_p_dividers_grouped_i.x_values.Count; j++)
+                    {
+                        g_x_q *= -BigInteger.Pow(g, (int)(-fi_p_dividers_grouped_i.x_values[j] * BigInteger.Pow(fi_p_dividers_grouped_i.degree_number, j)));
+                    }
+                    A_g_x = BigInteger.ModPow(A * BigInteger.Pow(g, (int)g_x_q), (p - 1) / BigInteger.Pow(fi_p_dividers_grouped_i.degree_number, i + 1), p);
+                    if(BigInteger.ModPow(g, x_ind * (p - 1) / fi_p_dividers_grouped_i.degree_number, p) == A_g_x)
+                    {
+                        fi_p_dividers_grouped_i.x_values[i] = x_ind;
+                    }
+                    x_ind++;
                 }
-                i++;
             }
         }
 

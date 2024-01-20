@@ -86,7 +86,7 @@ namespace DiscreteLogarithm
             BigInteger p;
             bool theValuesAreCorrect = true;
 
-            mathFunctions.CheckingTheInputValues(textBox11.Text, textBox10.Text, textBox9.Text, label8, ref theValuesAreCorrect, out g, out a, out p);
+            mathFunctions.CheckingTheInputValues(textBox11.Text, textBox10.Text, textBox9.Text, label20, ref theValuesAreCorrect, out g, out a, out p);
             if (!theValuesAreCorrect)
             {
                 return;

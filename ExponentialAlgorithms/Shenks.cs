@@ -74,11 +74,11 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
         {
             for (BigInteger k_i = 1; k_i <= k; k_i++)
             {
-                g_km_degree.Add(BigInteger.ModPow(g, BigInteger.Multiply(k_i, m), p));
+                g_km_degree.Add(mathFunctions.ExponentiationModulo(g, k_i * m, p));
             }
             for (int m_i = 0; m_i <= m - 1; m_i++)
             {
-                Ag_m_degree.Add(BigInteger.Multiply(A, BigInteger.Pow(g, m_i)) % p);
+                Ag_m_degree.Add(mathFunctions.ExponentiationModulo(A * BigInteger.Pow(g, m_i), 1, p)); 
             }
         }
 

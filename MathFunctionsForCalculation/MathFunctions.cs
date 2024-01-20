@@ -144,7 +144,7 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
 
         public List<BigInteger> Factorization(List<BigInteger> p_dividers, BigInteger fi_p, BigInteger p_factorized, BigInteger q_factorized)
         {
-            if (q_factorized == 1 || q_factorized == 1)
+            if (p_factorized == 1 || q_factorized == 1)
             {
                 fi_p /= p_factorized;
                 p_dividers.Add(p_factorized);
@@ -155,8 +155,19 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
             {
                 return p_dividers;
             }
-            BigInteger p_factorized_new = roPollard.ro_Pollard(p_factorized);
-            BigInteger q_factorized_new = p_factorized / p_factorized_new;
+
+            BigInteger p_factorized_new = 1;
+            BigInteger q_factorized_new = 1;
+            for (int i = 0; i < 10; i++)
+            {
+                p_factorized_new = roPollard.ro_Pollard(p_factorized);
+                q_factorized_new = p_factorized / p_factorized_new;
+                if (p_factorized_new > 1 && q_factorized_new > 1)
+                {
+                    break;
+                }
+            }
+
             if (p_factorized_new > q_factorized_new)
             {
                 return Factorization(p_dividers, fi_p, p_factorized_new, q_factorized_new);
@@ -174,16 +185,7 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
 
             BigInteger fi_p = p - 1;
             List<BigInteger> p_dividers = new List<BigInteger>();
-            BigInteger p_factorized = roPollard.ro_Pollard(fi_p);
-            BigInteger q_factorized = fi_p / p_factorized;
-            if (p_factorized > q_factorized)
-            {
-                p_dividers = Factorization(p_dividers, fi_p, p_factorized, q_factorized);
-            }
-            else
-            {
-                p_dividers = Factorization(p_dividers, fi_p, q_factorized, p_factorized);
-            }
+            p_dividers = Factorization(p_dividers, fi_p, fi_p, 0);
             p_dividers.RemoveAll(p_divider => p_divider == 1);
             BigInteger p_dividers_sum = 1;
             for (int i = 0; i < p_dividers.Count; i++)
