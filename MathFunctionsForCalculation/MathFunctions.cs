@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -142,43 +143,87 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
             List<BigInteger> p_dividers = new List<BigInteger>();
             BigInteger p_factorized_new;
             BigInteger q_factorized_new;
+            BigInteger fi_p_initial = fi_p;
             BigInteger fi_p_help = fi_p;
 
+            BigInteger check_factorization;
+
+            List<BigInteger> dividers = new List<BigInteger>() { 2, 3, 5, 7, 11, 13, 17 };
+
+            bool сontinue_cycle;
             while (true)
             {
-                if (TestMillerRabin(fi_p_help) == "Вероятно простое")
+                while (true)
                 {
-                    p_dividers.Add(fi_p_help);
-                    return p_dividers;
+                    сontinue_cycle = true;
+                    if (TestMillerRabin(fi_p_help) == "Вероятно простое")
+                    {
+                        p_dividers.Add(fi_p_help);
+                        break;
+                    }
+
+                    for (int i = 0; i < dividers.Count; i++)
+                    {
+                        if (fi_p_help % dividers[i] == 0)
+                        {
+                            fi_p_help /= dividers[i];
+                            fi_p = fi_p_help;
+                            p_dividers.Add(dividers[i]);
+                            сontinue_cycle = false;
+                            break;
+                        }
+                    }
+
+                    if (сontinue_cycle == false)
+                    {
+                        continue;
+                    }
+
+                    p_factorized_new = roPollard.ro_Pollard(fi_p_help);
+                    q_factorized_new = fi_p_help / p_factorized_new;
+
+                    string p_factorized_new_miller_rabin = p_factorized_new > 1 ? TestMillerRabin(p_factorized_new) : "Меньше 2";
+                    string q_factorized_new_miller_rabin = q_factorized_new > 1 ? TestMillerRabin(q_factorized_new) : "Меньше 2";
+
+                    if (p_factorized_new != 1 && q_factorized_new != 1 && p_factorized_new_miller_rabin == "Вероятно простое")
+                    {
+                        p_dividers.Add(p_factorized_new);
+                        fi_p /= p_factorized_new;
+                        fi_p_help = fi_p;
+                    }
+                    else if (p_factorized_new != 1 && q_factorized_new != 1 && q_factorized_new_miller_rabin == "Вероятно простое")
+                    {
+                        p_dividers.Add(q_factorized_new);
+                        fi_p /= q_factorized_new;
+                        fi_p_help = fi_p;
+                    }
+                    else if (p_factorized_new > q_factorized_new)
+                    {
+                        fi_p_help /= p_factorized_new;
+                    }
+                    else
+                    {
+                        fi_p_help /= q_factorized_new;
+                    }
+
                 }
 
-                p_factorized_new = roPollard.ro_Pollard(fi_p_help);
-                q_factorized_new = fi_p_help / p_factorized_new;
-
-                string p_factorized_new_miller_rabin = p_factorized_new > 1 ? TestMillerRabin(p_factorized_new) : "Меньше 2";
-                string q_factorized_new_miller_rabin = q_factorized_new > 1 ? TestMillerRabin(q_factorized_new) : "Меньше 2";
-
-                if (p_factorized_new != 1 && q_factorized_new != 1 && p_factorized_new_miller_rabin == "Вероятно простое")
+                check_factorization = 1;
+                for (int i = 0; i < p_dividers.Count; i++)
                 {
-                    p_dividers.Add(p_factorized_new);
-                    fi_p /= p_factorized_new;
-                    fi_p_help = fi_p;
-                } 
-                else if (p_factorized_new != 1 && q_factorized_new != 1 && q_factorized_new_miller_rabin == "Вероятно простое")
+                    check_factorization *= p_dividers[i];
+                }
+                if (check_factorization != fi_p_initial)
                 {
-                    p_dividers.Add(q_factorized_new);
-                    fi_p /= q_factorized_new;
-                    fi_p_help = fi_p;
-                } 
-                else if (p_factorized_new > q_factorized_new)
-                {
-                    fi_p_help /= p_factorized_new;
+                    p_dividers.Clear();
+                    fi_p = fi_p_initial;
+                    fi_p_help = fi_p_initial;
+                    continue;
                 }
                 else
                 {
-                    fi_p_help /= q_factorized_new;
+                    return p_dividers;
                 }
-
             }
         }
 
@@ -214,22 +259,27 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
             FindAllDivisors(p_dividers, q_factorized_new);
         }
 
-        public BigInteger Generate_g(BigInteger p)
+        public List<BigInteger> Generate_p_g()
         {
-            BigInteger fi_p = p - 1;
-            List<BigInteger> p_dividers = new List<BigInteger>();
-            FindAllDivisors(p_dividers, fi_p);
-            p_dividers = p_dividers.Distinct().ToList();
+            BigInteger p;
+            BigInteger fi_p;
+            List<BigInteger> p_dividers;
 
             // число g 64 бит
             int byteCount = 64 / 8;
             RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
             byte[] bytes;
             BigInteger g;
+            List<BigInteger> g_dividers;
 
             bool true_p;
             while (true)
             {
+                p = Generate_p();
+                fi_p = p - 1;
+                p_dividers = Factorization(fi_p);
+                //p_dividers = p_dividers.Distinct().ToList();
+
                 true_p = true;
                 bytes = new byte[byteCount];
                 do
@@ -239,30 +289,41 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
                 }
                 while (g < 2 || g >= p - 2);
 
-                //for (int i = 0; i < p_dividers.Count; i++) // идёт долгий поиск. Ниразу пока не нашел
-                //{
-                //    if (ExponentiationModulo(g, fi_p, p_dividers[i]) != 1)
-                //    {
-                //        true_p = false;
-                //        break;
-                //    };
-                //}
-
-                if (TestMillerRabin(g) != "Вероятно простое" || ExponentiationModulo(g, fi_p, p_dividers[0]) != 1) // проверка на первом делителе из списка
+                g_dividers = Factorization(g);
+                //g_dividers = g_dividers.Distinct().ToList();
+                for (int i = 0; i < g_dividers.Count; i++)
                 {
-                    true_p = false;
-                };
+                    if (p_dividers.Contains(g_dividers[i]))
+                    {
+                        true_p = false;
+                        break;
+                    }
+                }
+
+                if (true_p == false)
+                {
+                    continue;
+                }
+
+                for (int i = 0; i < p_dividers.Count; i++)
+                {
+                    if (ExponentiationModulo(g, fi_p / p_dividers[i], p) != 1)
+                    {
+                        true_p = false;
+                        break;
+                    };
+                }
 
                 if (true_p)
                 {
-                    return g;
+                    return new List<BigInteger> { p, g };
                 }
             }
         }
 
         private string TestMillerRabin(BigInteger n)
         {
-            if (n == 1 || n == 2 || n == 3)
+            if (n == 1 || n == 2 || n == 3) // 1 не является простым числом. Это для того, чтобы программа не падала
             {
                 return "Вероятно простое";
             }

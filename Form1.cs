@@ -138,12 +138,11 @@ namespace DiscreteLogarithm
         private void button6_Click(object sender, EventArgs e)
         {
             BigInteger a = mathFunctions.Generate_a();
-            BigInteger p = mathFunctions.Generate_p();
-            BigInteger g = mathFunctions.Generate_g(p);
-            BigInteger A = mathFunctions.ExponentiationModulo(g, a, p);
+            List<BigInteger> p_g = mathFunctions.Generate_p_g();
+            BigInteger A = mathFunctions.ExponentiationModulo(p_g[1], a, p_g[0]);
             textBox13.Text = a.ToString();
-            textBox12.Text = p.ToString();
-            textBox14.Text = g.ToString();
+            textBox12.Text = p_g[0].ToString();
+            textBox14.Text = p_g[1].ToString();
             textBox15.Text = A.ToString();
         }
     }
