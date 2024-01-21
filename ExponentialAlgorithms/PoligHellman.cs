@@ -66,12 +66,6 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
         {
             BigInteger fi_p = p - 1;
             List<BigInteger> p_dividers = mathFunctions.Factorization(fi_p);
-            BigInteger check_fi_p = 1;
-            for (int i = 0; i < p_dividers.Count; i++)
-            {
-                check_fi_p *= p_dividers[i];
-            }
-            p_dividers.RemoveAll(p_divider => p_divider == 1);
             List<ListGroupedValues> fi_p_dividers_grouped = p_dividers.GroupBy(x => x).Select(group => new ListGroupedValues(group.Key, group.Count())).ToList();
 
             List<List<BigInteger>> step1_result = new List<List<BigInteger>>();

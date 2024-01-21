@@ -278,46 +278,50 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
                 p = Generate_p();
                 fi_p = p - 1;
                 p_dividers = Factorization(fi_p);
-                //p_dividers = p_dividers.Distinct().ToList();
+                p_dividers = p_dividers.Distinct().ToList();
 
-                true_p = true;
-                bytes = new byte[byteCount];
-                do
+                for (int step = 0; step < 1000; step++)
                 {
-                    rng.GetBytes(bytes);
-                    g = new BigInteger(bytes);
-                }
-                while (g < 2 || g >= p - 2);
-
-                g_dividers = Factorization(g);
-                //g_dividers = g_dividers.Distinct().ToList();
-                for (int i = 0; i < g_dividers.Count; i++)
-                {
-                    if (p_dividers.Contains(g_dividers[i]))
+                    true_p = true;
+                    bytes = new byte[byteCount];
+                    do
                     {
-                        true_p = false;
-                        break;
+                        rng.GetBytes(bytes);
+                        g = new BigInteger(bytes);
+                    }
+                    while (g < 2 || g >= p - 2);
+
+                    g_dividers = Factorization(g);
+                    g_dividers = g_dividers.Distinct().ToList();
+                    for (int i = 0; i < g_dividers.Count; i++)
+                    {
+                        if (p_dividers.Contains(g_dividers[i]))
+                        {
+                            true_p = false;
+                            break;
+                        }
+                    }
+
+                    if (true_p == false)
+                    {
+                        continue;
+                    }
+
+                    for (int i = 0; i < p_dividers.Count; i++)
+                    {
+                        if (ExponentiationModulo(g, fi_p / p_dividers[i], p) != 1)
+                        {
+                            true_p = false;
+                            break;
+                        };
+                    }
+
+                    if (true_p)
+                    {
+                        return new List<BigInteger> { p, g };
                     }
                 }
-
-                if (true_p == false)
-                {
-                    continue;
-                }
-
-                for (int i = 0; i < p_dividers.Count; i++)
-                {
-                    if (ExponentiationModulo(g, fi_p / p_dividers[i], p) != 1)
-                    {
-                        true_p = false;
-                        break;
-                    };
-                }
-
-                if (true_p)
-                {
-                    return new List<BigInteger> { p, g };
-                }
+                
             }
         }
 
