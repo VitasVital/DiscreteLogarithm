@@ -1,5 +1,6 @@
 ﻿using DiscreteLogarithm.ExponentialAlgorithms;
 using DiscreteLogarithm.MathFunctionsForCalculation;
+using DiscreteLogarithm.SubExponentialAlgorithms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,6 +20,7 @@ namespace DiscreteLogarithm
         RoPollard roPollard;
         MathFunctions mathFunctions;
         PoligHellman poligHellman;
+        Adleman adleman;
         public Form1()
         {
             InitializeComponent();
@@ -26,6 +28,7 @@ namespace DiscreteLogarithm
             mathFunctions = new MathFunctions();
             roPollard = new RoPollard();
             poligHellman = new PoligHellman();
+            adleman = new Adleman();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -144,6 +147,22 @@ namespace DiscreteLogarithm
             textBox12.Text = p_g[0].ToString();
             textBox14.Text = p_g[1].ToString();
             textBox15.Text = A.ToString();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            BigInteger g;
+            BigInteger A;
+            BigInteger p;
+            bool theValuesAreCorrect = true;
+
+            adleman.CheckingTheInputValues(textBox18.Text, textBox17.Text, textBox16.Text, label32, ref theValuesAreCorrect, out g, out A, out p);
+            if (!theValuesAreCorrect)
+            {
+                return;
+            }
+
+            adleman.CalculateAdleman(g, A, p, label32);
         }
     }
 }
