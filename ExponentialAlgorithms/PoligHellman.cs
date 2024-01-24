@@ -68,12 +68,12 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
 
             List<List<BigInteger>> step1_result = Step1(fi_p_dividers_grouped, g, fi_p, p);
 
-            Step2(fi_p_dividers_grouped, g, A, p);
+            List<List<BigInteger>> step2_result = Step2(fi_p_dividers_grouped, step1_result, g, A, p);
 
             //inputLabel.Text = string.Format("Результат = {0}", x_main);
         }
 
-        public List<List<BigInteger>> Step1(List<ListGroupedValues> fi_p_dividers_grouped, BigInteger g, BigInteger fi_p, BigInteger p)
+        private List<List<BigInteger>> Step1(List<ListGroupedValues> fi_p_dividers_grouped, BigInteger g, BigInteger fi_p, BigInteger p)
         {
             List<List<BigInteger>> step1_result = new List<List<BigInteger>>();
             for (int i = 0; i <  fi_p_dividers_grouped.Count; i++)
@@ -88,12 +88,49 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
             return step1_result;
         }
 
-        public BigInteger Step2(List<ListGroupedValues> fi_p_dividers_grouped, BigInteger g, BigInteger A, BigInteger p)
+        private List<List<BigInteger>> Step2(List<ListGroupedValues> fi_p_dividers_grouped, List<List<BigInteger>> step1_result, BigInteger g, BigInteger A, BigInteger p)
         {
-            return 1;
+            BigInteger Agmodp;
+            BigInteger p_1_q_degree;
+            List<List<BigInteger>> x_list = new List<List<BigInteger>>();
+            for (int i = 0; i <  fi_p_dividers_grouped.Count; i++)
+            {
+                List<BigInteger> x_list_i = new List<BigInteger>() { 0 };
+                for (int j = 0; j < fi_p_dividers_grouped[i].degree_number; j++)
+                {
+                    p_1_q_degree = (p - 1) / BigInteger.Pow(fi_p_dividers_grouped[i].Key, j + 1);
+                    Agmodp = mathFunctions.ExponentiationModulo(A / BigInteger.Pow(g, CalculateDegreeStep2(fi_p_dividers_grouped[i].Key, x_list_i)), p_1_q_degree, p);
+                    Find_x_j_Step2(Agmodp, step1_result[i], x_list_i);
+                }
+                x_list_i.RemoveAt(0);
+                x_list.Add(x_list_i);
+            }
+            return x_list;
         }
 
-        public BigInteger Step3(IList<BigInteger> calculated_g_A_1, IList<BigInteger> calculated_g_A_2, BigInteger g, BigInteger A, BigInteger p)
+        private int CalculateDegreeStep2(BigInteger q_i, List<BigInteger> x_list_i)
+        {
+            BigInteger result = 0;
+            for (int j = 1; j < x_list_i.Count; j++)
+            {
+                result += x_list_i[j] * BigInteger.Pow(q_i, j - 1);
+            }
+            return (int)result;
+        }
+
+        private void Find_x_j_Step2(BigInteger Agmodp, List<BigInteger> step1_result_i, List<BigInteger> x_list_i)
+        {
+            for (int i = 0; i < step1_result_i.Count; i++)
+            {
+                if (Agmodp == step1_result_i[i])
+                {
+                    x_list_i.Add(i);
+                    break;
+                }
+            }
+        }
+
+        private BigInteger Step3(IList<BigInteger> calculated_g_A_1, IList<BigInteger> calculated_g_A_2, BigInteger g, BigInteger A, BigInteger p)
         {
             return 1;
         }
