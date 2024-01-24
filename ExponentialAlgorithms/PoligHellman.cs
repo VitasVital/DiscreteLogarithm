@@ -147,7 +147,16 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
             }
 
             bool x_result_true = true;
-            BigInteger x_result = 2;
+            BigInteger x_result = 0;
+            BigInteger max_key_degree = 0;
+            for (int i = 0; i < fi_p_dividers_grouped.Count; i++)
+            {
+                if (max_key_degree < fi_p_dividers_grouped[i].key_degree)
+                {
+                    x_result = x_q[i];
+                    max_key_degree = fi_p_dividers_grouped[i].key_degree;
+                }
+            }
             while (true)
             {
                 for (int i = 0; i < fi_p_dividers_grouped.Count; i++)
@@ -160,7 +169,7 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
                 }
                 if (x_result_true == false)
                 {
-                    x_result += 1;
+                    x_result += max_key_degree;
                     x_result_true = true;
                     continue;
                 }
