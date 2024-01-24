@@ -134,7 +134,6 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
 
         private BigInteger Step3(List<ListGroupedValues> fi_p_dividers_grouped, List<List<BigInteger>> step2_result)
         {
-            BigInteger x_result = 1;
             List<BigInteger> x_q = new List<BigInteger>();
             for (int i = 0; i < fi_p_dividers_grouped.Count; i++)
             {
@@ -146,10 +145,11 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
                 x_q_i %= fi_p_dividers_grouped[i].key_degree;
                 x_q.Add(x_q_i);
             }
+
             bool x_result_true = true;
+            BigInteger x_result = 2;
             while (true)
             {
-                x_result += 1;
                 for (int i = 0; i < fi_p_dividers_grouped.Count; i++)
                 {
                     if (x_result % fi_p_dividers_grouped[i].key_degree != x_q[i])
@@ -160,6 +160,7 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
                 }
                 if (x_result_true == false)
                 {
+                    x_result += 1;
                     x_result_true = true;
                     continue;
                 }
