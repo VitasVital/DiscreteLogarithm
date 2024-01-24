@@ -185,7 +185,7 @@
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(1170, 253);
-            this.button2.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.button2.Margin = new System.Windows.Forms.Padding(6);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(150, 44);
             this.button2.TabIndex = 10;
@@ -241,9 +241,10 @@
             this.label8.Location = new System.Drawing.Point(568, 522);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(151, 31);
+            this.label8.Size = new System.Drawing.Size(609, 124);
             this.label8.TabIndex = 27;
-            this.label8.Text = "Результат:\r\n";
+            this.label8.Text = "Результат:\r\nСчитает неправильно с сильным генератором, \r\nтак как в первом шаге вс" +
+    "е по 1\r\n\r\n";
             // 
             // button3
             // 
@@ -386,7 +387,7 @@
             // button4
             // 
             this.button4.Location = new System.Drawing.Point(1170, 925);
-            this.button4.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.button4.Margin = new System.Windows.Forms.Padding(6);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(150, 44);
             this.button4.TabIndex = 29;
