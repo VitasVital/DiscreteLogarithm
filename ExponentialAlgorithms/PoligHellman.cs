@@ -12,16 +12,16 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
 {
     public class ListGroupedValues
     {
-        public ListGroupedValues(BigInteger Key, int degree_number) 
+        public ListGroupedValues(BigInteger Key, int degree_number, BigInteger key_degree) 
         {
             this.Key = Key;
             this.degree_number = degree_number;
-            this.x_values = new List<int> { 0 };
+            this.key_degree = key_degree;
         }
 
         public BigInteger Key { get; set; }
         public int degree_number { get; set; }
-        public List<int> x_values { get; set; }
+        public BigInteger key_degree { get; set; }
     }
 
     public class PoligHellman
@@ -64,13 +64,15 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
         {
             BigInteger fi_p = p - 1;
             List<BigInteger> p_dividers = mathFunctions.Factorization(fi_p);
-            List<ListGroupedValues> fi_p_dividers_grouped = p_dividers.GroupBy(x => x).Select(group => new ListGroupedValues(group.Key, group.Count())).ToList();
+            List<ListGroupedValues> fi_p_dividers_grouped = p_dividers.GroupBy(x => x).Select(group => new ListGroupedValues(group.Key, group.Count(), BigInteger.Pow(group.Key, group.Count()))).ToList();
 
             List<List<BigInteger>> step1_result = Step1(fi_p_dividers_grouped, g, fi_p, p);
 
             List<List<BigInteger>> step2_result = Step2(fi_p_dividers_grouped, step1_result, g, A, p);
 
-            //inputLabel.Text = string.Format("Результат = {0}", x_main);
+            BigInteger step3_result = Step3(fi_p_dividers_grouped, step2_result);
+
+            inputLabel.Text = string.Format("Результат = {0}", step3_result);
         }
 
         private List<List<BigInteger>> Step1(List<ListGroupedValues> fi_p_dividers_grouped, BigInteger g, BigInteger fi_p, BigInteger p)
@@ -130,9 +132,39 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
             }
         }
 
-        private BigInteger Step3(IList<BigInteger> calculated_g_A_1, IList<BigInteger> calculated_g_A_2, BigInteger g, BigInteger A, BigInteger p)
+        private BigInteger Step3(List<ListGroupedValues> fi_p_dividers_grouped, List<List<BigInteger>> step2_result)
         {
-            return 1;
+            BigInteger x_result = 1;
+            List<BigInteger> x_q = new List<BigInteger>();
+            for (int i = 0; i < fi_p_dividers_grouped.Count; i++)
+            {
+                BigInteger x_q_i = 0;
+                for (int x_i = 0; x_i < step2_result[i].Count; x_i++)
+                {
+                    x_q_i += step2_result[i][x_i] * BigInteger.Pow(fi_p_dividers_grouped[i].Key, x_i);
+                }
+                x_q_i %= fi_p_dividers_grouped[i].key_degree;
+                x_q.Add(x_q_i);
+            }
+            bool x_result_true = true;
+            while (true)
+            {
+                x_result += 1;
+                for (int i = 0; i < fi_p_dividers_grouped.Count; i++)
+                {
+                    if (x_result % fi_p_dividers_grouped[i].key_degree != x_q[i])
+                    {
+                        x_result_true = false;
+                        break;
+                    }
+                }
+                if (x_result_true == false)
+                {
+                    x_result_true = true;
+                    continue;
+                }
+                return x_result;
+            }
         }
     }
 }
