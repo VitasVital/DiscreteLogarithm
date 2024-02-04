@@ -33,9 +33,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ExtendedArithmetic.Polynomial, Version=2023.288.635.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\ExtendedArithmetic.Polynomial.2023.288.635\lib\net48\ExtendedArithmetic.Polynomial.dll</HintPath>
+    </Reference>
+    <Reference Include="ExtendedNumerics.BigRational, Version=2023.1000.2.328, Culture=neutral, PublicKeyToken=5e5628f1622a5136, processorArchitecture=MSIL">
+      <HintPath>packages\ExtendedNumerics.BigRational.2023.1000.2.328\lib\net48\ExtendedNumerics.BigRational.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.CodeDom, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.CodeDom.8.0.0\lib\net462\System.CodeDom.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Web.Mobile" />
     <Reference Include="System.Xml.Linq" />
@@ -62,6 +72,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SubExponentialAlgorithms\Adleman.cs" />
+    <Compile Include="SubExponentialAlgorithms\GNFS.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -74,6 +85,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -116,7 +116,7 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
         public BigInteger Generate_p()
         {
             // число p 64 бит
-            int byteCount = 64 / 8;
+            int byteCount = 24 / 8;
             var rng = new RNGCryptoServiceProvider();
             byte[] bytes;
             BigInteger p;
@@ -266,11 +266,10 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
             List<BigInteger> p_dividers;
 
             // число g 64 бит
-            int byteCount = 64 / 8;
+            int byteCount = 24 / 8;
             RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
             byte[] bytes;
             BigInteger g;
-            List<BigInteger> g_dividers;
 
             bool true_p;
             while (true)
@@ -291,23 +290,12 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
                     }
                     while (g < 2 || g >= p - 2);
 
-                    g_dividers = Factorization(g);
-                    g_dividers = g_dividers.Distinct().ToList();
-                    for (int i = 0; i < g_dividers.Count; i++)
-                    {
-                        if (p_dividers.Contains(g_dividers[i]))
-                        {
-                            true_p = false;
-                            break;
-                        }
-                    }
-
-                    if (true_p == false)
+                    if (BigInteger.GreatestCommonDivisor(g, p) != 1)
                     {
                         continue;
                     }
 
-                    for (int i = 0; i < p_dividers.Count; i++)
+                    for (int i = 0; i < p_dividers.Count; i++) // для усиления генератора
                     {
                         if (ExponentiationModulo(g, fi_p / p_dividers[i], p) != 1)
                         {
@@ -325,7 +313,7 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
             }
         }
 
-        private string TestMillerRabin(BigInteger n)
+        public string TestMillerRabin(BigInteger n)
         {
             if (n == 1 || n == 2 || n == 3) // 1 не является простым числом. Это для того, чтобы программа не падала
             {

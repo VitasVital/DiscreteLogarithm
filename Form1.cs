@@ -21,6 +21,7 @@ namespace DiscreteLogarithm
         MathFunctions mathFunctions;
         PoligHellman poligHellman;
         Adleman adleman;
+        GNFS gNFS;
         public Form1()
         {
             InitializeComponent();
@@ -29,6 +30,7 @@ namespace DiscreteLogarithm
             roPollard = new RoPollard();
             poligHellman = new PoligHellman();
             adleman = new Adleman();
+            gNFS = new GNFS();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -79,7 +81,16 @@ namespace DiscreteLogarithm
 
         private void button4_Click(object sender, EventArgs e)
         {
+            BigInteger N;
+            bool theValuesAreCorrect = true;
 
+            gNFS.CheckingTheInputValues(textBox5.Text, label17, ref theValuesAreCorrect, out N);
+            if (!theValuesAreCorrect)
+            {
+                return;
+            }
+
+            gNFS.CalculateGNFS(N, label17);
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -163,6 +174,11 @@ namespace DiscreteLogarithm
             }
 
             adleman.CalculateAdleman(g, A, p, label32);
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
