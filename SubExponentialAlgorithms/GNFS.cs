@@ -211,20 +211,9 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
 
         internal GNFS _gnfs;
 
-
-        public PolyRelationsSieveProgress()
-        {
-            Relations = new RelationContainer();
-            mathFunctions = new MathFunctions();
-        }
-
-        public PolyRelationsSieveProgress(GNFS gnfs, BigInteger valueRange)
-            : this(gnfs, -1, valueRange)
-        {
-        }
-
         public PolyRelationsSieveProgress(GNFS gnfs, int smoothRelationsTargetQuantity, BigInteger valueRange)
         {
+            mathFunctions = new MathFunctions();
             _gnfs = gnfs;
             Relations = new RelationContainer();
 
@@ -340,35 +329,10 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
         {
             Relations.FreeRelations.Add(freeRelationSolution);
         }
-
-        public string FormatRelations(IEnumerable<Relation> relations)
-        {
-            StringBuilder result = new StringBuilder();
-
-            result.AppendLine($"Smooth relations:");
-            result.AppendLine("\t_______________________________________________");
-            result.AppendLine($"\t|   A   |  B | ALGEBRAIC_NORM | RATIONAL_NORM | \t\tRelations count: {Relations.SmoothRelations.Count} Target quantity: {SmoothRelations_TargetQuantity}");
-            result.AppendLine("\t```````````````````````````````````````````````");
-            foreach (Relation rel in relations.OrderByDescending(rel => rel.A * rel.B))
-            {
-                result.AppendLine(rel.ToString());
-                result.AppendLine("Algebraic " + rel.AlgebraicFactorization.FormatStringAsFactorization());
-                result.AppendLine("Rational  " + rel.RationalFactorization.FormatStringAsFactorization());
-                result.AppendLine();
-            }
-            result.AppendLine();
-
-            return result.ToString();
-        }
     }
 
     public static class SieveRange
     {
-        public static IEnumerable<BigInteger> GetSieveRange(BigInteger maximumRange)
-        {
-            return GetSieveRangeContinuation(1, maximumRange);
-        }
-
         public static IEnumerable<BigInteger> GetSieveRangeContinuation(BigInteger currentValue, BigInteger maximumRange)
         {
             BigInteger max = maximumRange;
@@ -392,7 +356,7 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
         }
     }
 
-    public class Relation : IEquatable<Relation>, IEqualityComparer<Relation>
+    public class Relation
     {
         public BigInteger A { get; protected set; }
 
@@ -450,11 +414,6 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
             }
         }
 
-        public BigInteger Apply(BigInteger x)
-        {
-            return BigInteger.Add(A, BigInteger.Multiply(B, x));
-        }
-
         public void Sieve(PolyRelationsSieveProgress relationsSieve)
         {
             Sieve(relationsSieve._gnfs.PrimeFactorBase.RationalFactorBase, ref RationalQuotient, RationalFactorization);
@@ -497,44 +456,6 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
             }
         }
 
-        #region IEquatable / IEqualityComparer
-
-        public override bool Equals(object obj)
-        {
-            Relation other = obj as Relation;
-
-            if (other == null)
-            {
-                return false;
-            }
-            else
-            {
-                return this.Equals(other);
-            }
-        }
-
-        public bool Equals(Relation x, Relation y)
-        {
-            return x.Equals(y);
-        }
-
-        public bool Equals(Relation other)
-        {
-            return (this.A == other.A && this.B == other.B);
-        }
-
-        public int GetHashCode(Relation obj)
-        {
-            return obj.GetHashCode();
-        }
-
-        public override int GetHashCode()
-        {
-            return Tuple.Create(this.A, this.B).GetHashCode();
-        }
-
-        #endregion
-
     }
 
     public class FactorBase
@@ -570,7 +491,7 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
         }
     }
 
-    public class CountDictionary : SortedDictionary<BigInteger, BigInteger>, ICloneable<Dictionary<BigInteger, BigInteger>>
+    public class CountDictionary : SortedDictionary<BigInteger, BigInteger>
     {
         public CountDictionary()
             : base(Comparer<BigInteger>.Create(BigInteger.Compare))
@@ -595,35 +516,8 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
             }
         }
 
-        public Dictionary<BigInteger, BigInteger> ToDictionary()
-        {
-            return this.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-        }
-
-        public Dictionary<BigInteger, BigInteger> Clone()
-        {
-            return this.ToDictionary();
-        }
 
         #region String Formatting
-
-        public override string ToString()
-        {
-            //Order();
-
-            StringBuilder result = new StringBuilder();
-            result.AppendLine("{");
-            foreach (KeyValuePair<BigInteger, BigInteger> kvp in this)
-            {
-                result.Append('\t');
-                result.Append(kvp.Key.ToString().PadLeft(5));
-                result.Append(":\t");
-                result.AppendLine(kvp.Value.ToString().PadLeft(5));
-            }
-            result.Append("}");
-
-            return result.ToString();
-        }
 
         public string FormatStringAsFactorization()
         {
@@ -650,14 +544,6 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
         public static BigInteger Rational(BigInteger a, BigInteger b, BigInteger polynomialBase)
         {
             return BigInteger.Add(a, BigInteger.Multiply(b, polynomialBase));
-        }
-
-        /// <summary>
-        /// a - bm
-        /// </summary>
-        public static BigInteger RationalSubtract(BigInteger a, BigInteger b, BigInteger polynomialBase)
-        {
-            return BigInteger.Subtract(a, BigInteger.Multiply(b, polynomialBase));
         }
 
         /// <summary>
@@ -813,11 +699,6 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
             return GetPrimeEnumerator(0).TakeWhile(p => p < maxValue);
         }
 
-        public static bool IsPrime(BigInteger value)
-        {
-            return primes.Contains(BigInteger.Abs(value));
-        }
-
         public static BigInteger GetNextPrime(BigInteger fromValue)
         {
             BigInteger result = fromValue + 1;
@@ -846,16 +727,6 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
         public FactorPairCollection(IEnumerable<FactorPair> collection)
             : base(collection)
         {
-        }
-
-        public override string ToString()
-        {
-            return string.Join("\t", this.Select(factr => factr.ToString()));
-        }
-
-        public string ToString(int take)
-        {
-            return string.Join("\t", this.Take(take).Select(factr => factr.ToString()));
         }
 
         public static class Factory
@@ -915,7 +786,7 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
         }
     }
 
-    public struct FactorPair : IEquatable<FactorPair>
+    public struct FactorPair
     {
         public int P { get; private set; }
         public int R { get; private set; }
@@ -926,49 +797,9 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
             R = (int)r;
         }
 
-        public FactorPair(int p, int r)
-        {
-            P = p;
-            R = r;
-        }
-
-        public override int GetHashCode()
-        {
-            return CombineHashCodes(P, R);
-        }
-
-        private static int CombineHashCodes(int h1, int h2)
-        {
-            return (((h1 << 5) + h1) ^ h2);
-        }
-
-        public override bool Equals(object obj)
-        {
-            return (obj is FactorPair && this.Equals((FactorPair)obj));
-        }
-
-        public bool Equals(FactorPair other)
-        {
-            return (this == other);
-        }
-
-        public static bool operator !=(FactorPair left, FactorPair right)
-        {
-            return !(left == right);
-        }
-
-        public static bool operator ==(FactorPair left, FactorPair right)
-        {
-            return (left.P == right.P && left.R == right.R);
-        }
-
-        public override string ToString()
-        {
-            return $"({P},{R})";
-        }
     }
 
-    public class FastPrimeSieve : IEnumerable<BigInteger>
+    public class FastPrimeSieve
     {
         private static readonly uint PageSize; // L1 CPU cache size in bytes
         private static readonly uint BufferBits;
@@ -1017,11 +848,6 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
         public IEnumerator<BigInteger> GetEnumerator()
         {
             return Iterator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return (IEnumerator)GetEnumerator();
         }
 
         private static IEnumerator<BigInteger> Iterator()
@@ -1150,75 +976,10 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
     {
         public static class Save
         {
-            public static void Object(object obj, string filename)
-            {
-
-            }
-
-            public static void All(GNFS gnfs)
-            {
-                Save.Gnfs(gnfs);
-
-                int counter = 1;
-                foreach (Polynomial poly in gnfs.PolynomialCollection)
-                {
-                    string filename = $"Polynomial.{counter:00}";
-                    counter++;
-                }
-
-                Save.FactorPair.Rational(gnfs);
-                Save.FactorPair.Algebraic(gnfs);
-                Save.FactorPair.Quadratic(gnfs);
-
-                Save.Relations.Smooth.Append(gnfs);
-                Save.Relations.Rough.Append(gnfs);
-                Save.Relations.Free.AllSolutions(gnfs);
-            }
-
-            public static void Gnfs(GNFS gnfs)
-            {
-
-            }
-
-            public static class FactorPair
-            {
-                public static void Rational(GNFS gnfs)
-                {
-                    if (gnfs.RationalFactorPairCollection.Any())
-                    {
-
-                    }
-                }
-
-                public static void Algebraic(GNFS gnfs)
-                {
-                    if (gnfs.AlgebraicFactorPairCollection.Any())
-                    {
-
-                    }
-                }
-
-                public static void Quadratic(GNFS gnfs)
-                {
-                    if (gnfs.QuadraticFactorPairCollection.Any())
-                    {
-
-                    }
-                }
-            }
-
             public static class Relations
             {
                 public static class Smooth
                 {
-                    private static bool? _fileExists = null;
-                    private static string _saveFilePath = null;
-
-                    private static bool FileExists(GNFS gnfs)
-                    {
-                        return _fileExists.Value;
-                    }
-
                     public static void Append(GNFS gnfs)
                     {
                         if (gnfs.CurrentRelationsProgress.Relations.SmoothRelations.Any())
@@ -1242,60 +1003,6 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
                     }
                 }
 
-                public static class Rough
-                {
-                    private static bool? _fileExists = null;
-                    private static string _saveFilePath = null;
-
-                    private static bool FileExists(GNFS gnfs)
-                    {
-                        return _fileExists.Value;
-                    }
-
-                    public static void Append(GNFS gnfs)
-                    {
-                        if (gnfs.CurrentRelationsProgress.Relations.RoughRelations.Any())
-                        {
-                            List<Relation> toSave = gnfs.CurrentRelationsProgress.Relations.RoughRelations.Where(rel => !rel.IsPersisted).ToList();
-                            foreach (Relation rel in toSave)
-                            {
-                                Append(gnfs, rel);
-                            }
-                        }
-                    }
-
-                    public static void Append(GNFS gnfs, Relation roughRelation)
-                    {
-                        if (roughRelation != null && !roughRelation.IsSmooth && !roughRelation.IsPersisted)
-                        {
-                            roughRelation.IsPersisted = true;
-                        }
-                    }
-                }
-
-                public static class Free
-                {
-                    public static void AllSolutions(GNFS gnfs)
-                    {
-                        if (gnfs.CurrentRelationsProgress.Relations.FreeRelations.Any())
-                        {
-                            gnfs.CurrentRelationsProgress.FreeRelationsCounter = 1;
-                            foreach (List<Relation> solution in gnfs.CurrentRelationsProgress.Relations.FreeRelations)
-                            {
-                                SingleSolution(gnfs, solution);
-                            }
-                        }
-                    }
-
-                    public static void SingleSolution(GNFS gnfs, List<Relation> solution)
-                    {
-                        if (solution.Any())
-                        {
-                            solution.ForEach(rel => rel.IsPersisted = true);
-                            gnfs.CurrentRelationsProgress.FreeRelationsCounter += 1;
-                        }
-                    }
-                }
             }
         }
     }
@@ -1305,12 +1012,6 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
         public static void GaussianSolve(GNFS gnfs)
         {
             Serialization.Save.Relations.Smooth.Append(gnfs); // Persist any relations not already persisted to disk
-
-            // Because some operations clear this collection after persisting unsaved relations (to keep memory usage light)...
-            // We completely reload the entire relations collection from disk.
-            // This ensure that all the smooth relations are available for the matrix solving step.
-            //Serialization.Load.Relations.Smooth(ref gnfs);
-
 
             List<Relation> smoothRelations = gnfs.CurrentRelationsProgress.SmoothRelations.ToList();
 
@@ -1380,56 +1081,9 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
             }
         }
 
-        public static int Next()
-        {
-            return rand.Next();
-        }
-
-        public static int Next(int maxValue)
-        {
-            return rand.Next(maxValue);
-        }
-
         public static int Next(int minValue, int maxValue)
         {
             return rand.Next(minValue, maxValue);
-        }
-
-        public static double NextDouble()
-        {
-            return rand.NextDouble();
-        }
-
-        public static void NextBytes(byte[] bytes)
-        {
-            rand.NextBytes(bytes);
-        }
-
-        /// <summary>
-        ///  Picks a random number from a range, where such numbers will be chosen uniformly across the entire range.
-        /// </summary>
-        public static BigInteger NextBigInteger(BigInteger lower, BigInteger upper)
-        {
-            if (lower > upper) { throw new ArgumentOutOfRangeException("Upper must be greater than upper"); }
-
-            BigInteger delta = upper - lower;
-            byte[] deltaBytes = delta.ToByteArray();
-            byte[] buffer = new byte[deltaBytes.Length];
-            deltaBytes = null;
-
-            BigInteger result;
-            while (true)
-            {
-                NextBytes(buffer);
-
-                result = new BigInteger(buffer) + lower;
-
-                if (result >= lower && result <= upper)
-                {
-                    buffer = null;
-                    return result;
-                }
-            }
         }
     }
 
@@ -1689,20 +1343,6 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
             return result;
         }
 
-        public static string VectorToString(bool[] vector)
-        {
-            return string.Join(",", vector.Select(b => b ? '1' : '0'));
-        }
-
-        public static string MatrixToString(List<bool[]> matrix)
-        {
-            return string.Join(Environment.NewLine, matrix.Select(i => VectorToString(i)));
-        }
-
-        public override string ToString()
-        {
-            return MatrixToString(M);
-        }
     }
 
     public class GaussianRow
@@ -1801,15 +1441,6 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
 
     public class QuadraticResidue
     {
-        // a^(p-1)/2 ≡ 1 (mod p)
-        public static bool IsQuadraticResidue(BigInteger a, BigInteger p)
-        {
-            BigInteger quotient = BigInteger.Divide(p - 1, 2);
-            BigInteger modPow = BigInteger.ModPow(a, quotient, p);
-
-            return modPow.IsOne;
-        }
-
         public static bool GetQuadraticCharacter(Relation rel, FactorPair quadraticFactor)
         {
             BigInteger ab = rel.A + rel.B;
@@ -1880,17 +1511,6 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
 
     public static class BigIntegerCollectionExtensionMethods
     {
-        public static BigInteger Sum(this IEnumerable<BigInteger> source)
-        {
-            BigInteger result = BigInteger.Zero;
-            foreach (BigInteger bi in source)
-            {
-                result = BigInteger.Add(result, bi);
-            }
-
-            return result;
-        }
-
         public static BigInteger Product(this IEnumerable<BigInteger> input)
         {
             BigInteger result = 1;
@@ -1901,19 +1521,6 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
             return result;
         }
 
-        public static BigInteger ProductMod(this IEnumerable<BigInteger> input, BigInteger modulus)
-        {
-            BigInteger result = 1;
-            foreach (BigInteger bi in input)
-            {
-                result = BigInteger.Multiply(result, bi);
-                if (result >= modulus || result <= -modulus)
-                {
-                    result = result % modulus;
-                }
-            }
-            return result;
-        }
     }
 
     public partial class SquareFinder
@@ -1989,11 +1596,6 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
             MonicPolynomialDerivativeValueSquared = MonicPolynomialDerivativeSquared.Evaluate(gnfs.PolynomialBase);
         }
 
-        private static bool IsPrimitive(IEnumerable<BigInteger> coefficients)
-        {
-            return (GCD.FindGCD(coefficients) == 1);
-        }
-
         public static bool Solve(GNFS gnfs)
         {
             List<int> triedFreeRelationIndices = new List<int>();
@@ -2038,16 +1640,6 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
                 {
                     solutionFound = gnfs.SetFactorizationSolution(P, Q);
 
-                    if (solutionFound)
-                    {
-                        //gnfs.LogMessage("NON-TRIVIAL FACTORS FOUND!");
-                        //gnfs.LogMessage();
-                        //gnfs.LogMessage(squareRootFinder.ToString());
-                        //gnfs.LogMessage();
-                        //gnfs.LogMessage();
-                        //gnfs.LogMessage(gnfs.Factorization.ToString());
-                        //gnfs.LogMessage();
-                    }
                     break;
                 }
                 else
@@ -2282,9 +1874,6 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
 
             bool bothResultsAgree = (resultSquared1.CompareTo(resultSquared2) == 0);
 
-            bool resultSquaredEqualsInput1 = (startPolynomial.CompareTo(resultSquared1) == 0);
-            bool resultSquaredEqualsInput2 = (startInversePolynomial.CompareTo(resultSquared1) == 0);
-
             BigInteger result1 = resultPoly1.Evaluate(m).Mod(p);
             BigInteger result2 = resultPoly2.Evaluate(m).Mod(p);
 
@@ -2304,86 +1893,15 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
             return new Polynomial(Term.GetTerms(poly.Terms.Select(trm => (mod - trm.CoEfficient).Mod(mod)).ToArray()));
         }
 
-        public override string ToString()
-        {
-            StringBuilder result = new StringBuilder();
-
-
-            BigInteger min = BigInteger.Min(RationalSquareRootResidue, AlgebraicSquareRootResidue);
-            BigInteger max = BigInteger.Max(RationalSquareRootResidue, AlgebraicSquareRootResidue);
-
-            BigInteger add = max + min;
-            BigInteger sub = max - min;
-
-            BigInteger gcdAdd = BigInteger.GreatestCommonDivisor(N, add);
-            BigInteger gcdSub = BigInteger.GreatestCommonDivisor(N, sub);
-
-            BigInteger answer = BigInteger.Max(gcdAdd, gcdSub);
-
-
-            result.AppendLine();
-            result.AppendLine($"GCD(N, γ+χ) = {gcdAdd}");
-            result.AppendLine($"GCD(N, γ-χ) = {gcdSub}");
-            result.AppendLine();
-            result.AppendLine($"Solution? {(answer != 1).ToString().ToUpper()}");
-
-            if (answer != 1)
-            {
-                result.AppendLine();
-                result.AppendLine();
-                result.AppendLine("*********************");
-                result.AppendLine();
-                result.AppendLine($" SOLUTION = {answer} ");
-                result.AppendLine();
-                result.AppendLine("*********************");
-                result.AppendLine();
-                result.AppendLine();
-            }
-
-            result.AppendLine();
-
-            return result.ToString();
-        }
     }
 
     public static class GCD
     {
-        public static BigInteger FindLCM(IEnumerable<BigInteger> numbers)
-        {
-            return FindLCM(numbers.ToArray());
-        }
-
-        public static BigInteger FindLCM(params BigInteger[] numbers)
-        {
-            return numbers.Aggregate(FindLCM);
-        }
-
-        public static BigInteger FindLCM(BigInteger left, BigInteger right)
-        {
-            BigInteger absValue1 = BigInteger.Abs(left);
-            BigInteger absValue2 = BigInteger.Abs(right);
-            return (absValue1 * absValue2) / FindGCD(absValue1, absValue2);
-        }
-
-        public static BigInteger FindGCD(IEnumerable<BigInteger> numbers)
-        {
-            return FindGCD(numbers.ToArray());
-        }
-
-        public static BigInteger FindGCD(params BigInteger[] numbers)
-        {
-            return numbers.Aggregate(FindGCD);
-        }
-
         public static BigInteger FindGCD(BigInteger left, BigInteger right)
         {
             return BigInteger.GreatestCommonDivisor(left, right);
         }
 
-        public static bool AreCoprime(params BigInteger[] numbers)
-        {
-            return (FindGCD(numbers.ToArray()) == 1);
-        }
     }
 
     public class Solution
@@ -2397,18 +1915,6 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
         {
             P = p;
             Q = q;
-        }
-
-        public override string ToString()
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine($"N = {(P * Q)}");
-            sb.AppendLine();
-            sb.AppendLine($"P = {BigInteger.Max(P, Q)}");
-            sb.AppendLine($"Q = {BigInteger.Min(P, Q)}");
-            sb.AppendLine();
-
-            return sb.ToString();
         }
     }
     public static class FiniteFieldArithmetic
