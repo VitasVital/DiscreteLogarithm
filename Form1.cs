@@ -1,18 +1,9 @@
-﻿using DiscreteLogarithm.ExponentialAlgorithms;
+using DiscreteLogarithm.ExponentialAlgorithms;
 using DiscreteLogarithm.MathFunctionsForCalculation;
 using DiscreteLogarithm.SubExponentialAlgorithms;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
-namespace DiscreteLogarithm
+namespace DiscreteLogarithmCore
 {
     public partial class Form1 : Form
     {
@@ -33,34 +24,34 @@ namespace DiscreteLogarithm
             gNFS = new GNFS();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            BigInteger N;
+            bool theValuesAreCorrect = true;
+
+            gNFS.CheckingTheInputValues(textBox1.Text, label28, ref theValuesAreCorrect, out N);
+            if (!theValuesAreCorrect)
+            {
+                return;
+            }
+
+            gNFS.CalculateGNFS(N, label28);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
         {
             BigInteger g;
             BigInteger A;
             BigInteger p;
             bool theValuesAreCorrect = true;
 
-            shenks.CheckingTheInputValues(textBox1.Text, textBox2.Text, textBox3.Text, label5, ref theValuesAreCorrect, out g, out A, out p);
+            shenks.CheckingTheInputValues(textBox2.Text, textBox3.Text, textBox4.Text, label15, ref theValuesAreCorrect, out g, out A, out p);
             if (!theValuesAreCorrect)
             {
                 return;
             }
 
-            shenks.CalculateShenks(g, A, p, label5);
-        }
-
-        private void button2_Click(object sender, EventArgs _e)
-        {
-            BigInteger N;
-            bool theValuesAreCorrect = true;
-
-            roPollard.CheckingTheInputValues(textBox6.Text, label11, ref theValuesAreCorrect, out N);
-            if (!theValuesAreCorrect)
-            {
-                return;
-            }
-
-            roPollard.CalculateRoPollard(N, label11);
+            shenks.CalculateShenks(g, A, p, label15);
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -70,115 +61,54 @@ namespace DiscreteLogarithm
             BigInteger p;
             bool theValuesAreCorrect = true;
 
-            poligHellman.CheckingTheInputValues(textBox8.Text, textBox7.Text, textBox4.Text, label8, ref theValuesAreCorrect, out a, out b, out p);
+            poligHellman.CheckingTheInputValues(textBox7.Text, textBox6.Text, textBox5.Text, label16, ref theValuesAreCorrect, out a, out b, out p);
             if (!theValuesAreCorrect)
             {
                 return;
             }
 
-            poligHellman.CalculatePoligHellman(a, b, p, label8);
+            poligHellman.CalculatePoligHellman(a, b, p, label16);
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void button6_Click(object sender, EventArgs e)
         {
             BigInteger N;
             bool theValuesAreCorrect = true;
 
-            gNFS.CheckingTheInputValues(textBox5.Text, label17, ref theValuesAreCorrect, out N);
+            roPollard.CheckingTheInputValues(textBox14.Text, label29, ref theValuesAreCorrect, out N);
             if (!theValuesAreCorrect)
             {
                 return;
             }
 
-            gNFS.CalculateGNFS(N, label17);
+            roPollard.CalculateRoPollard(N, label29);
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void button7_Click(object sender, EventArgs e)
+        {
+            BigInteger a = mathFunctions.Generate_a();
+            List<BigInteger> p_g = mathFunctions.Generate_p_g();
+            BigInteger A = mathFunctions.ExponentiationModulo(p_g[1], a, p_g[0]);
+            textBox16.Text = a.ToString();
+            textBox15.Text = p_g[0].ToString();
+            textBox17.Text = p_g[1].ToString();
+            textBox18.Text = A.ToString();
+        }
+
+        private void button8_Click(object sender, EventArgs e)
         {
             BigInteger g;
             BigInteger a;
             BigInteger p;
             bool theValuesAreCorrect = true;
 
-            mathFunctions.CheckingTheInputValues(textBox11.Text, textBox10.Text, textBox9.Text, label20, ref theValuesAreCorrect, out g, out a, out p);
+            mathFunctions.CheckingTheInputValues(textBox21.Text, textBox20.Text, textBox19.Text, label35, ref theValuesAreCorrect, out g, out a, out p);
             if (!theValuesAreCorrect)
             {
                 return;
             }
 
-            mathFunctions.ExponentiationModuloWin(g, a, p, label20);
-        }
-
-        private void label24_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label21_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label22_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label23_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox9_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox10_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox11_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label20_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button6_Click(object sender, EventArgs e)
-        {
-            BigInteger a = mathFunctions.Generate_a();
-            List<BigInteger> p_g = mathFunctions.Generate_p_g();
-            BigInteger A = mathFunctions.ExponentiationModulo(p_g[1], a, p_g[0]);
-            textBox13.Text = a.ToString();
-            textBox12.Text = p_g[0].ToString();
-            textBox14.Text = p_g[1].ToString();
-            textBox15.Text = A.ToString();
-        }
-
-        private void button7_Click(object sender, EventArgs e)
-        {
-            BigInteger g;
-            BigInteger A;
-            BigInteger p;
-            bool theValuesAreCorrect = true;
-
-            adleman.CheckingTheInputValues(textBox18.Text, textBox17.Text, textBox16.Text, label32, ref theValuesAreCorrect, out g, out A, out p);
-            if (!theValuesAreCorrect)
-            {
-                return;
-            }
-
-            adleman.CalculateAdleman(g, A, p, label32);
-        }
-
-        private void button8_Click(object sender, EventArgs e)
-        {
-
+            mathFunctions.ExponentiationModuloWin(g, a, p, label35);
         }
     }
 }

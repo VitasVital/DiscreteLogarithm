@@ -3,11 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Documents;
 using Label = System.Windows.Forms.Label;
 
 namespace DiscreteLogarithm.MathFunctionsForCalculation
