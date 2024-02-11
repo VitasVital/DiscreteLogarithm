@@ -1,11 +1,6 @@
 ﻿using DiscreteLogarithm.ExponentialAlgorithms;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 using Label = System.Windows.Forms.Label;
 
 namespace DiscreteLogarithm.MathFunctionsForCalculation
@@ -96,14 +91,10 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
         {
             // число a 16 бит
             int byteCount = 16 / 8;
-            var rng = new RNGCryptoServiceProvider();
-            byte[] bytes;
             BigInteger a;
             while (true)
             {
-                bytes = new byte[byteCount];
-                rng.GetBytes(bytes);
-                a = new BigInteger(bytes);
+                a = new BigInteger(RandomNumberGenerator.GetBytes(byteCount));
                 if (a > 1)
                 {
                     return a;
@@ -115,14 +106,10 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
         {
             // число p 64 бит
             int byteCount = 24 / 8;
-            var rng = new RNGCryptoServiceProvider();
-            byte[] bytes;
             BigInteger p;
             while (true)
             {
-                bytes = new byte[byteCount];
-                rng.GetBytes(bytes);
-                p = new BigInteger(bytes);
+                p = new BigInteger(RandomNumberGenerator.GetBytes(byteCount));
 
                 if (p < 3)
                 {
@@ -265,8 +252,6 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
 
             // число g 64 бит
             int byteCount = 24 / 8;
-            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
-            byte[] bytes;
             BigInteger g;
 
             bool true_p;
@@ -280,11 +265,9 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
                 for (int step = 0; step < 1000; step++)
                 {
                     true_p = true;
-                    bytes = new byte[byteCount];
                     do
                     {
-                        rng.GetBytes(bytes);
-                        g = new BigInteger(bytes);
+                        g = new BigInteger(RandomNumberGenerator.GetBytes(byteCount));
                     }
                     while (g < 2 || g >= p - 2);
 
@@ -334,16 +317,11 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
 
             for (int i = 0; i < k; i++)
             {
-                RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
-
-                byte[] _a = new byte[n.ToByteArray().LongLength];
-
                 BigInteger a;
 
                 do
                 {
-                    rng.GetBytes(_a);
-                    a = new BigInteger(_a);
+                    a = new BigInteger(RandomNumberGenerator.GetBytes(n.GetByteCount()));
                 }
                 while (a < 2 || a >= n - 2);
 
