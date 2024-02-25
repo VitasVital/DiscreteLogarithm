@@ -48,7 +48,7 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
 
         public void CalculateAdleman(BigInteger g, BigInteger A, BigInteger p, Label inputLabel)
         {
-            inputLabel.Text = string.Format("Результат = {0}");
+            inputLabel.Text = string.Format("Результат = {0}", 34);
         }
     }
 }

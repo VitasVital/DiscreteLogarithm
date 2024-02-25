@@ -110,5 +110,21 @@ namespace DiscreteLogarithmCore
 
             mathFunctions.ExponentiationModuloWin(g, a, p, label35);
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            BigInteger a;
+            BigInteger b;
+            BigInteger p;
+            bool theValuesAreCorrect = true;
+
+            adleman.CheckingTheInputValues(textBox10.Text, textBox9.Text, textBox8.Text, label20, ref theValuesAreCorrect, out a, out b, out p);
+            if (!theValuesAreCorrect)
+            {
+                return;
+            }
+
+            adleman.CalculateAdleman(a, b, p, label20);
+        }
     }
 }
