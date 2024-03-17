@@ -30,6 +30,8 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
         FactorBase primeFactorBase { get; set; }
         BigInteger B;
         List<ListGroupedValuesIndex> exponentiationModuloDividersGroupedList;
+        List<BigInteger> log_g_NUM;
+        List<List<BigInteger>> SLAU;
         public Adleman()
         {
             mathFunctions = new MathFunctions();
@@ -37,6 +39,8 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
             primeFactorBase = new FactorBase();
             B = 0;
             exponentiationModuloDividersGroupedList = new List<ListGroupedValuesIndex>();
+            log_g_NUM = new List<BigInteger>();
+            SLAU = new List<List<BigInteger>>();
         }
 
         public void CheckingTheInputValues(
@@ -73,6 +77,7 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
             p = 127;
             Step1(p);
             Step2(g, p);
+            Step3();
 
 
             inputLabel.Text = string.Format("Результат = {0}", 34);
@@ -117,6 +122,51 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
                 }
                 isSmooth = true;
             }
+        }
+
+        private void Step3()
+        {
+            CreateSLAU();
+
+            CalculateSLAU();
+        }
+
+        private void CreateSLAU()
+        {
+            for (int i = 0; i < exponentiationModuloDividersGroupedList.Count; i++)
+            {
+                for (int j = 0; j < exponentiationModuloDividersGroupedList[i].listGroupedValues.Count; j++)
+                {
+                    log_g_NUM.Add(exponentiationModuloDividersGroupedList[i].listGroupedValues[j].Key);
+                }
+            }
+            log_g_NUM.Sort();
+            log_g_NUM = log_g_NUM.Distinct().ToList();
+
+            // создание СЛАУ
+            int rowSLAUindex;
+            for (int i = 0; i < exponentiationModuloDividersGroupedList.Count; i++)
+            {
+                List<BigInteger> rowSLAU = new List<BigInteger>();
+                for (int j = 0; j < log_g_NUM.Count; j++)
+                {
+                    rowSLAU.Add(0);
+                }
+                rowSLAU.Add(exponentiationModuloDividersGroupedList[i].index);
+
+                for (int j = 0; j < exponentiationModuloDividersGroupedList[i].listGroupedValues.Count; j++)
+                {
+                    rowSLAUindex = log_g_NUM.IndexOf(exponentiationModuloDividersGroupedList[i].listGroupedValues[j].Key);
+                    rowSLAU[rowSLAUindex] = exponentiationModuloDividersGroupedList[i].listGroupedValues[j].degree_number;
+                }
+
+                SLAU.Add(rowSLAU);
+            }
+        }
+
+        private void CalculateSLAU()
+        {
+
         }
     }
 }
