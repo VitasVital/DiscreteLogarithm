@@ -32,6 +32,8 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
         List<ListGroupedValuesIndex> exponentiationModuloDividersGroupedList;
         List<BigInteger> log_g_NUM;
         List<List<BigInteger>> SLAU;
+        List<List<BigInteger>> log_g_NUM_result;
+        BigInteger[,] slauArray;
         public Adleman()
         {
             mathFunctions = new MathFunctions();
@@ -40,7 +42,9 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
             B = 0;
             exponentiationModuloDividersGroupedList = new List<ListGroupedValuesIndex>();
             log_g_NUM = new List<BigInteger>();
+            log_g_NUM_result = new List<List<BigInteger>>();
             SLAU = new List<List<BigInteger>>();
+            slauArray = new BigInteger[3, 3];
         }
 
         public void CheckingTheInputValues(
@@ -162,11 +166,157 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
 
                 SLAU.Add(rowSLAU);
             }
+
+            for (int i = 0; i < log_g_NUM.Count; i++)
+            {
+                Console.Write(string.Format("{0} ", log_g_NUM[i]));
+            }
+            Console.WriteLine();
+
+            for (int i = 0; i < SLAU.Count; i++)
+            {
+                for (int j = 0; j < SLAU[0].Count; j++)
+                {
+                    Console.Write(string.Format("{0} ", SLAU[i][j]));
+                }
+                Console.WriteLine();
+            }
         }
 
         private void CalculateSLAU()
         {
+            for (int i = 0; i < SLAU.Count - 1; i++)
+            {
+                if (NonZeroValuesCount(SLAU[i]) > 2)
+                {
+                    continue;
+                }
+                for (int j = i + 1; j < SLAU.Count; j++)
+                {
+                    if (NonZeroValuesCount(SLAU[j]) > 2)
+                    {
+                        continue;
+                    }
 
+                    if (SlauMatrixCreated(SLAU[i], SLAU[j]))
+                    {
+
+                    }
+                }
+            }
+        }
+
+        private int NonZeroValuesCount(List<BigInteger> slauRow)
+        {
+            int nonZeroValuesCount = 0;
+            for (int i = 0; i < slauRow.Count - 1; i++)
+            {
+                if (slauRow[i] != 0)
+                {
+                    nonZeroValuesCount++;
+                }
+            }
+            return nonZeroValuesCount;
+        }
+
+        private bool SlauMatrixCreated(List<BigInteger> slauRow_i, List<BigInteger> slauRow_j)
+        {
+            int slauArrayIndex_i_0 = -1;
+            int slauArrayIndex_i_1 = -1;
+            int slauArrayIndex_j_0 = -1;
+            int slauArrayIndex_j_1 = -1;
+            int slauRow_i_NonZeroValuesCount = NonZeroValuesCount(slauRow_i);
+            int slauRow_j_NonZeroValuesCount = NonZeroValuesCount(slauRow_j);
+
+            for (int q = 0; q < slauRow_i.Count - 1; q++)
+            {
+                if (slauRow_i[q] > 0)
+                {
+                    if (slauArrayIndex_i_0 == -1)
+                    {
+                        slauArrayIndex_i_0 = q;
+                    }
+                    else
+                    {
+                        slauArrayIndex_i_1 = q;
+                    }
+                }
+
+                if (slauRow_j[q] > 0)
+                {
+                    if (slauArrayIndex_j_0 == -1)
+                    {
+                        slauArrayIndex_j_0 = q;
+                    }
+                    else
+                    {
+                        slauArrayIndex_j_1 = q;
+                    }
+                }
+            }
+
+            bool result = false;
+            if (slauArrayIndex_i_0 == slauArrayIndex_j_0 
+                && slauArrayIndex_i_1 == slauArrayIndex_j_1 
+                && slauArrayIndex_i_0 != -1 && slauArrayIndex_i_1 != -1)
+            {
+                result = true;
+            }
+            else if (slauArrayIndex_i_0 == slauArrayIndex_j_0
+                && slauRow_i_NonZeroValuesCount == 2 
+                && slauRow_j_NonZeroValuesCount == 1)
+            {
+                slauArrayIndex_j_1 = slauArrayIndex_i_1;
+                result = true;
+            }
+            else if (slauArrayIndex_i_1 == slauArrayIndex_j_1
+                && slauRow_i_NonZeroValuesCount == 2
+                && slauRow_j_NonZeroValuesCount == 1)
+            {
+                slauArrayIndex_j_0 = slauArrayIndex_i_0;
+                result = true;
+            }
+            else if (slauArrayIndex_i_0 == slauArrayIndex_j_0
+                && slauRow_i_NonZeroValuesCount == 1
+                && slauRow_j_NonZeroValuesCount == 2)
+            {
+                slauArrayIndex_i_1 = slauArrayIndex_j_1;
+                result = true;
+            }
+            else if (slauArrayIndex_i_1 == slauArrayIndex_j_1
+                && slauRow_i_NonZeroValuesCount == 1
+                && slauRow_j_NonZeroValuesCount == 2)
+            {
+                slauArrayIndex_i_0 = slauArrayIndex_j_0;
+                result = true;
+            }
+
+            if (result)
+            {
+                slauArray[0, 0] = slauArrayIndex_i_0;
+                slauArray[0, 1] = slauArrayIndex_i_1;
+
+                slauArray[1, 0] = slauRow_i[slauArrayIndex_i_0];
+                slauArray[1, 1] = slauRow_i[slauArrayIndex_i_1];
+                slauArray[1, 2] = slauRow_i[slauRow_i.Count - 1];
+
+                slauArray[2, 0] = slauRow_j[slauArrayIndex_j_0];
+                slauArray[2, 1] = slauRow_j[slauArrayIndex_j_1];
+                slauArray[2, 2] = slauRow_j[slauRow_j.Count - 1];
+
+                Console.WriteLine();
+
+                for (int i = 0; i < 3; i++)
+                {
+                    for (int j = 0; j < 3; j++)
+                    {
+                        Console.Write(string.Format("{0} ", slauArray[i, j]));
+                    }
+                    Console.WriteLine();
+                }
+            }
+
+            return result;
         }
     }
 }
