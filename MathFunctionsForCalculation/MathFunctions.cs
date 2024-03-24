@@ -347,5 +347,44 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
 
             return "Вероятно простое";
         }
+
+        public BigInteger FindInvertibleNumberModulo(BigInteger n, BigInteger p)
+        {
+            for (BigInteger i = 1; i < 10000; i++)
+            {
+                if (ExponentiationModulo(n * i, 1, p) == 1)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        public BigInteger[] FindMultipliersModulo_x_y(BigInteger number1, BigInteger number2, BigInteger p, BigInteger sum)
+        {
+            for (BigInteger x = 1; x < 10000; x++)
+            {
+                for (BigInteger y = 1; y < 10000; y++)
+                {
+                    if (ExponentiationModulo(number1 * x + number2 * y, 1, p) == sum)
+                    {
+                        return [x, y];
+                    }
+                    else if (ExponentiationModulo(number1 * -x + number2 * y, 1, p) == sum)
+                    {
+                        return [p - x, y];
+                    }
+                    else if (ExponentiationModulo(number1 * x + number2 * -y, 1, p) == sum)
+                    {
+                        return [x, p - y];
+                    }
+                    else if (ExponentiationModulo(number1 * -x + number2 * -y, 1, p) == sum)
+                    {
+                        return [p - x, p - y];
+                    }
+                }
+            }
+            return [0, 0];
+        }
     }
 }

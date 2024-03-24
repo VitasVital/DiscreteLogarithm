@@ -34,6 +34,9 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
         List<List<BigInteger>> SLAU;
         List<List<BigInteger>> log_g_NUM_result;
         BigInteger[,] slauArray;
+        BigInteger g;
+        BigInteger p;
+        BigInteger A;
         public Adleman()
         {
             mathFunctions = new MathFunctions();
@@ -75,19 +78,19 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
             };
         }
 
-        public void CalculateAdleman(BigInteger g, BigInteger A, BigInteger p, Label inputLabel)
+        public void CalculateAdleman(BigInteger input_g, BigInteger input_A, BigInteger input_p, Label inputLabel)
         {
             g = 21;
             p = 127;
-            Step1(p);
-            Step2(g, p);
+            Step1();
+            Step2();
             Step3();
 
 
             inputLabel.Text = string.Format("Результат = {0}", 34);
         }
 
-        private void Step1(BigInteger p)
+        private void Step1()
         {
             BigInteger degree = BigRational.Sqrt(BigInteger.Log2(p) * BigInteger.Log2(BigInteger.Log2(p))).WholePart;
             B = (BigInteger)BigRational.Pow(expNumber, degree).FractionalPart;
@@ -95,7 +98,7 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
             primeFactorBase.RationalFactorBase = PrimeFactory.GetPrimesTo(B);
         }
 
-        private void Step2(BigInteger g, BigInteger p)
+        private void Step2()
         {
             BigInteger exponentiationModuloResult = 0;
             List<BigInteger> exponentiationModuloList = new List<BigInteger>();
@@ -200,7 +203,7 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
 
                     if (SlauMatrixCreated(SLAU[i], SLAU[j]))
                     {
-
+                        CalculateCreatedSlauMatrix();
                     }
                 }
             }
@@ -304,19 +307,103 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
                 slauArray[2, 1] = slauRow_j[slauArrayIndex_j_1];
                 slauArray[2, 2] = slauRow_j[slauRow_j.Count - 1];
 
-                Console.WriteLine();
-
-                for (int i = 0; i < 3; i++)
+                BigInteger swapNumber;
+                if (slauRow_j_NonZeroValuesCount == 1 && slauArray[2, 1] == 0 
+                    || slauRow_i_NonZeroValuesCount == 1 && slauArray[1, 0] == 0)
                 {
-                    for (int j = 0; j < 3; j++)
+                    for (int  i = 0; i < 3; i++)
                     {
-                        Console.Write(string.Format("{0} ", slauArray[i, j]));
+                        swapNumber = slauArray[1, i];
+                        slauArray[1, i] = slauArray[2, i];
+                        slauArray[2, i] = swapNumber;
                     }
-                    Console.WriteLine();
                 }
+
+                PrintSlauArray();
             }
 
             return result;
+        }
+
+        private bool CalculateCreatedSlauMatrix()
+        {
+            BigInteger invertibleNumberModulo;
+
+            BigInteger[] multipliersModulo_x_y;
+
+            BigInteger p_1 = p - 1;
+
+            if (slauArray[1, 1] != 0)
+            {
+                multipliersModulo_x_y = mathFunctions.FindMultipliersModulo_x_y(slauArray[1, 1], slauArray[2, 1], p_1, 0);
+
+                if (multipliersModulo_x_y[0] == 0 && multipliersModulo_x_y[1] == 0)
+                {
+                    return false;
+                }
+
+                slauArray[1, 0] = mathFunctions.ExponentiationModulo(slauArray[1, 0] * multipliersModulo_x_y[0] + slauArray[2, 0] * multipliersModulo_x_y[1], 1, p_1);
+                slauArray[1, 1] = 0;
+                slauArray[1, 2] = mathFunctions.ExponentiationModulo(slauArray[1, 2] * multipliersModulo_x_y[0] + slauArray[2, 2] * multipliersModulo_x_y[1], 1, p_1);
+            }
+
+            if (slauArray[1, 0] != 1)
+            {
+                invertibleNumberModulo = mathFunctions.FindInvertibleNumberModulo(slauArray[1, 0], p_1);
+
+                if (invertibleNumberModulo == -1)
+                {
+                    return false;
+                }
+
+                slauArray[1, 0] = 1;
+                slauArray[1, 2] = mathFunctions.ExponentiationModulo(slauArray[1, 2] * invertibleNumberModulo, 1, p_1);
+            }
+
+            if (slauArray[2, 0] != 0)
+            {
+                multipliersModulo_x_y = mathFunctions.FindMultipliersModulo_x_y(slauArray[1, 0], slauArray[2, 0], p_1, 0);
+
+                if (multipliersModulo_x_y[0] == 0 && multipliersModulo_x_y[1] == 0)
+                {
+                    return false;
+                }
+
+                slauArray[2, 0] = 0;
+                slauArray[2, 1] = mathFunctions.ExponentiationModulo(slauArray[1, 1] * multipliersModulo_x_y[0] + slauArray[2, 1] * multipliersModulo_x_y[1], 1, p_1);
+                slauArray[2, 2] = mathFunctions.ExponentiationModulo(slauArray[1, 2] * multipliersModulo_x_y[0] + slauArray[2, 2] * multipliersModulo_x_y[1], 1, p_1);
+            }
+
+            if (slauArray[2, 1] != 0)
+            {
+                invertibleNumberModulo = mathFunctions.FindInvertibleNumberModulo(slauArray[2, 1], p_1);
+
+                if (invertibleNumberModulo == -1)
+                {
+                    return false;
+                }
+
+                slauArray[2, 1] = 1;
+                slauArray[2, 2] = mathFunctions.ExponentiationModulo(slauArray[2, 2] * invertibleNumberModulo, 1, p_1);
+            }
+
+            PrintSlauArray("Преобразованная СЛАУ");
+
+            return true;
+        }
+
+        private void PrintSlauArray(string inputText = "")
+        {
+            Console.WriteLine(inputText);
+
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    Console.Write(string.Format("{0} ", slauArray[i, j]));
+                }
+                Console.WriteLine();
+            }
         }
     }
 }
