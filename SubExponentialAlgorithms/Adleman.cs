@@ -23,6 +23,17 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
         public List<ListGroupedValues> listGroupedValues { get; set; }
     }
 
+    public class Log_g_NUM_result
+    {
+        public Log_g_NUM_result(BigInteger input_num, BigInteger input_result)
+        {
+            num = input_num;
+            result = input_result;
+        }
+        public BigInteger num { get; set; }
+        public BigInteger result { get; set; }
+    }
+
     public class Adleman
     {
         MathFunctions mathFunctions;
@@ -32,8 +43,8 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
         List<ListGroupedValuesIndex> exponentiationModuloDividersGroupedList;
         List<BigInteger> log_g_NUM;
         List<List<BigInteger>> SLAU;
-        List<List<BigInteger>> log_g_NUM_result;
-        BigInteger[,] slauArray;
+        List<Log_g_NUM_result> log_g_NUM_result;
+        List<BigInteger[,]> slauArrayResults;
         BigInteger g;
         BigInteger p;
         BigInteger A;
@@ -45,9 +56,9 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
             B = 0;
             exponentiationModuloDividersGroupedList = new List<ListGroupedValuesIndex>();
             log_g_NUM = new List<BigInteger>();
-            log_g_NUM_result = new List<List<BigInteger>>();
+            log_g_NUM_result = new List<Log_g_NUM_result>();
             SLAU = new List<List<BigInteger>>();
-            slauArray = new BigInteger[3, 3];
+            slauArrayResults = new List<BigInteger[,]>();
         }
 
         public void CheckingTheInputValues(
@@ -80,14 +91,20 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
 
         public void CalculateAdleman(BigInteger input_g, BigInteger input_A, BigInteger input_p, Label inputLabel)
         {
-            g = 21;
-            p = 127;
+            //g = 21;
+            //p = 127;
+            //A = 34;
+
+            g = input_g;
+            p = input_p;
+            A = input_A;
             Step1();
             Step2();
             Step3();
+            BigInteger result = Step4();
 
 
-            inputLabel.Text = string.Format("Результат = {0}", 34);
+            inputLabel.Text = string.Format("Результат = {0}", result);
         }
 
         private void Step1()
@@ -136,6 +153,47 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
             CreateSLAU();
 
             CalculateSLAU();
+        }
+
+        private BigInteger Step4()
+        {
+            List<BigInteger> exponentiationModuloList = new List<BigInteger>();
+            List<ListGroupedValues> exponentiationModuloDividersGrouped = new List<ListGroupedValues>();
+            BigInteger x;
+            bool isContains;
+            for (int i = 2; i < 100; i++)
+            {
+                x = 0;
+                exponentiationModuloList = mathFunctions.Factorization(mathFunctions.ExponentiationModulo(A * BigInteger.Pow(g, i), 1, p));
+                exponentiationModuloDividersGrouped = exponentiationModuloList
+                    .GroupBy(x => x)
+                    .Select(group => new ListGroupedValues(group.Key, group.Count(), BigInteger.Pow(group.Key, group.Count())))
+                    .ToList();
+
+                isContains = false;
+                foreach(var exponentiationModuloDivider in exponentiationModuloDividersGrouped)
+                {
+                    foreach(var log_g_NUM_element in log_g_NUM_result)
+                    {
+                        if (exponentiationModuloDivider.Key == log_g_NUM[(int)log_g_NUM_element.num])
+                        {
+                            isContains = true;
+                            x += exponentiationModuloDivider.degree_number * log_g_NUM_element.result;
+                            break;
+                        }
+                    }
+                    if(isContains == false)
+                    {
+                        break;
+                    }
+                }
+                if (isContains == true)
+                {
+                    x -= i;
+                    return x;
+                }
+            }
+            return 0;
         }
 
         private void CreateSLAU()
@@ -201,12 +259,49 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
                         continue;
                     }
 
-                    if (SlauMatrixCreated(SLAU[i], SLAU[j]))
+                    BigInteger[,] slauArray = new BigInteger[3, 3];
+                    if (SlauMatrixCreated(slauArray, SLAU[i], SLAU[j]))
                     {
-                        CalculateCreatedSlauMatrix();
+                        if (CalculateCreatedSlauMatrix(slauArray))
+                        {
+                            slauArrayResults.Add(slauArray);
+                        }
                     }
                 }
             }
+
+            CreateLog_g_NUM_result();
+        }
+
+        private void CreateLog_g_NUM_result()
+        {
+            bool isСontainsList_0_0 = false;
+            bool isСontainsList_0_1 = false;
+            for (int i = 0; i < slauArrayResults.Count; i++)
+            {
+                for (int j = 0; j < log_g_NUM_result.Count; j++)
+                {
+                    if (log_g_NUM_result[j].num == slauArrayResults[i][0, 0] && log_g_NUM_result[j].result == slauArrayResults[i][1, 2])
+                    {
+                        isСontainsList_0_0 = true;
+                    }
+                    if (log_g_NUM_result[j].num == slauArrayResults[i][0, 1] && log_g_NUM_result[j].result == slauArrayResults[i][2, 2])
+                    {
+                        isСontainsList_0_1 = true;
+                    }
+                }
+                if (isСontainsList_0_0 == false)
+                {
+                    log_g_NUM_result.Add(new Log_g_NUM_result(slauArrayResults[i][0, 0], slauArrayResults[i][1, 2]));
+                }
+                if (isСontainsList_0_1 == false)
+                {
+                    log_g_NUM_result.Add(new Log_g_NUM_result(slauArrayResults[i][0, 1], slauArrayResults[i][2, 2]));
+                }
+                isСontainsList_0_0 = false;
+                isСontainsList_0_1 = false;
+            }
+            log_g_NUM_result = log_g_NUM_result.OrderBy(x => x.num).ToList();
         }
 
         private int NonZeroValuesCount(List<BigInteger> slauRow)
@@ -222,7 +317,7 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
             return nonZeroValuesCount;
         }
 
-        private bool SlauMatrixCreated(List<BigInteger> slauRow_i, List<BigInteger> slauRow_j)
+        private bool SlauMatrixCreated(BigInteger[,] slauArray, List<BigInteger> slauRow_i, List<BigInteger> slauRow_j)
         {
             int slauArrayIndex_i_0 = -1;
             int slauArrayIndex_i_1 = -1;
@@ -319,13 +414,13 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
                     }
                 }
 
-                PrintSlauArray();
+                PrintSlauArray(slauArray);
             }
 
             return result;
         }
 
-        private bool CalculateCreatedSlauMatrix()
+        private bool CalculateCreatedSlauMatrix(BigInteger[,] slauArray)
         {
             BigInteger invertibleNumberModulo;
 
@@ -387,12 +482,12 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
                 slauArray[2, 2] = mathFunctions.ExponentiationModulo(slauArray[2, 2] * invertibleNumberModulo, 1, p_1);
             }
 
-            PrintSlauArray("Преобразованная СЛАУ");
+            PrintSlauArray(slauArray, "Преобразованная СЛАУ");
 
             return true;
         }
 
-        private void PrintSlauArray(string inputText = "")
+        private void PrintSlauArray(BigInteger[,] slauArray, string inputText = "")
         {
             Console.WriteLine(inputText);
 
