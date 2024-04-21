@@ -48,6 +48,7 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
         BigInteger g;
         BigInteger p;
         BigInteger A;
+        bool numbersSwaped;
         public Adleman()
         {
             mathFunctions = new MathFunctions();
@@ -59,6 +60,7 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
             log_g_NUM_result = new List<Log_g_NUM_result>();
             SLAU = new List<List<BigInteger>>();
             slauArrayResults = new List<BigInteger[,]>();
+            numbersSwaped = false;
         }
 
         public void CheckingTheInputValues(
@@ -121,7 +123,7 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
             List<BigInteger> exponentiationModuloList = new List<BigInteger>();
             List<ListGroupedValues> exponentiationModuloDividersGrouped = new List<ListGroupedValues>();
             bool isSmooth = true;
-            for (int i = 4; i < 33; i++)
+            for (int i = 4; i < B; i++)
             {
                 exponentiationModuloResult = mathFunctions.ExponentiationModulo(g, i, p);
                 exponentiationModuloList = mathFunctions.Factorization(exponentiationModuloResult);
@@ -153,6 +155,7 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
             CreateSLAU();
 
             CalculateSLAU();
+            PrintSLAU();
         }
 
         private BigInteger Step4()
@@ -190,7 +193,10 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
                 if (isContains == true)
                 {
                     x -= i;
-                    return x;
+                    if (x != 0 && mathFunctions.ExponentiationModulo(g, x, p) == A)
+                    {
+                        return x;
+                    }
                 }
             }
             return 0;
@@ -228,20 +234,7 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
                 SLAU.Add(rowSLAU);
             }
 
-            for (int i = 0; i < log_g_NUM.Count; i++)
-            {
-                Console.Write(string.Format("{0} ", log_g_NUM[i]));
-            }
-            Console.WriteLine();
-
-            for (int i = 0; i < SLAU.Count; i++)
-            {
-                for (int j = 0; j < SLAU[0].Count; j++)
-                {
-                    Console.Write(string.Format("{0} ", SLAU[i][j]));
-                }
-                Console.WriteLine();
-            }
+            PrintSLAU();
         }
 
         private void CalculateSLAU()
@@ -262,10 +255,11 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
                     BigInteger[,] slauArray = new BigInteger[3, 3];
                     if (SlauMatrixCreated(slauArray, SLAU[i], SLAU[j]))
                     {
-                        if (CalculateCreatedSlauMatrix(slauArray))
+                        if (CalculateCreatedSlauMatrix(slauArray, i, j))
                         {
                             slauArrayResults.Add(slauArray);
                         }
+                        numbersSwaped = false;
                     }
                 }
             }
@@ -412,6 +406,7 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
                         slauArray[1, i] = slauArray[2, i];
                         slauArray[2, i] = swapNumber;
                     }
+                    numbersSwaped = true;
                 }
 
                 PrintSlauArray(slauArray);
@@ -420,7 +415,7 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
             return result;
         }
 
-        private bool CalculateCreatedSlauMatrix(BigInteger[,] slauArray)
+        private bool CalculateCreatedSlauMatrix(BigInteger[,] slauArray, int i, int j)
         {
             BigInteger invertibleNumberModulo;
 
@@ -482,6 +477,22 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
                 slauArray[2, 2] = mathFunctions.ExponentiationModulo(slauArray[2, 2] * invertibleNumberModulo, 1, p_1);
             }
 
+            if (numbersSwaped)
+            {
+                int swapNumber;
+                swapNumber = i;
+                i = j;
+                j = swapNumber;
+            }
+
+            SLAU[i][(int)slauArray[0, 0]] = slauArray[1, 0];
+            SLAU[i][(int)slauArray[0, 1]] = slauArray[1, 1];
+            SLAU[i][SLAU[i].Count - 1] = slauArray[1, 2];
+
+            SLAU[j][(int)slauArray[0, 0]] = slauArray[2, 0];
+            SLAU[j][(int)slauArray[0, 1]] = slauArray[2, 1];
+            SLAU[j][SLAU[j].Count - 1] = slauArray[2, 2];
+
             PrintSlauArray(slauArray, "Преобразованная СЛАУ");
 
             return true;
@@ -496,6 +507,24 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
                 for (int j = 0; j < 3; j++)
                 {
                     Console.Write(string.Format("{0} ", slauArray[i, j]));
+                }
+                Console.WriteLine();
+            }
+        }
+
+        private void PrintSLAU()
+        {
+            for (int i = 0; i < log_g_NUM.Count; i++)
+            {
+                Console.Write(string.Format("{0} ", log_g_NUM[i]));
+            }
+            Console.WriteLine();
+
+            for (int i = 0; i < SLAU.Count; i++)
+            {
+                for (int j = 0; j < SLAU[0].Count; j++)
+                {
+                    Console.Write(string.Format("{0} ", SLAU[i][j]));
                 }
                 Console.WriteLine();
             }

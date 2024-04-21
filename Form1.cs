@@ -20,7 +20,7 @@ namespace DiscreteLogarithmCore
             mathFunctions = new MathFunctions();
             roPollard = new RoPollard();
             poligHellman = new PoligHellman();
-            adleman = new Adleman();
+            //adleman = new Adleman();
             gNFS = new GNFS();
         }
 
@@ -118,6 +118,7 @@ namespace DiscreteLogarithmCore
             BigInteger p;
             bool theValuesAreCorrect = true;
 
+            adleman = new Adleman();
             adleman.CheckingTheInputValues(textBox10.Text, textBox9.Text, textBox8.Text, label20, ref theValuesAreCorrect, out a, out b, out p);
             if (!theValuesAreCorrect)
             {
