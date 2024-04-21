@@ -1,6 +1,7 @@
 using DiscreteLogarithm.ExponentialAlgorithms;
 using DiscreteLogarithm.MathFunctionsForCalculation;
 using DiscreteLogarithm.SubExponentialAlgorithms;
+using DiscreteLogarithmCore.SubExponentialAlgorithms;
 using System.Numerics;
 
 namespace DiscreteLogarithmCore
@@ -13,15 +14,12 @@ namespace DiscreteLogarithmCore
         PoligHellman poligHellman;
         Adleman adleman;
         GNFS gNFS;
+        COS cos;
         public Form1()
         {
             InitializeComponent();
-            shenks = new Shenks();
+            
             mathFunctions = new MathFunctions();
-            roPollard = new RoPollard();
-            poligHellman = new PoligHellman();
-            //adleman = new Adleman();
-            gNFS = new GNFS();
         }
 
         private void button1_Click_1(object sender, EventArgs e)
@@ -29,6 +27,7 @@ namespace DiscreteLogarithmCore
             BigInteger N;
             bool theValuesAreCorrect = true;
 
+            gNFS = new GNFS();
             gNFS.CheckingTheInputValues(textBox1.Text, label28, ref theValuesAreCorrect, out N);
             if (!theValuesAreCorrect)
             {
@@ -45,6 +44,7 @@ namespace DiscreteLogarithmCore
             BigInteger p;
             bool theValuesAreCorrect = true;
 
+            shenks = new Shenks();
             shenks.CheckingTheInputValues(textBox2.Text, textBox3.Text, textBox4.Text, label15, ref theValuesAreCorrect, out g, out A, out p);
             if (!theValuesAreCorrect)
             {
@@ -61,6 +61,7 @@ namespace DiscreteLogarithmCore
             BigInteger p;
             bool theValuesAreCorrect = true;
 
+            poligHellman = new PoligHellman();
             poligHellman.CheckingTheInputValues(textBox7.Text, textBox6.Text, textBox5.Text, label16, ref theValuesAreCorrect, out a, out b, out p);
             if (!theValuesAreCorrect)
             {
@@ -75,6 +76,7 @@ namespace DiscreteLogarithmCore
             BigInteger N;
             bool theValuesAreCorrect = true;
 
+            roPollard = new RoPollard();
             roPollard.CheckingTheInputValues(textBox14.Text, label29, ref theValuesAreCorrect, out N);
             if (!theValuesAreCorrect)
             {
@@ -126,6 +128,23 @@ namespace DiscreteLogarithmCore
             }
 
             adleman.CalculateAdleman(a, b, p, label20);
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            BigInteger a;
+            BigInteger b;
+            BigInteger p;
+            bool theValuesAreCorrect = true;
+
+            cos = new COS();
+            cos.CheckingTheInputValues(textBox13.Text, textBox12.Text, textBox11.Text, label24, ref theValuesAreCorrect, out a, out b, out p);
+            if (!theValuesAreCorrect)
+            {
+                return;
+            }
+
+            cos.CalculateCOS(a, b, p, label24);
         }
     }
 }

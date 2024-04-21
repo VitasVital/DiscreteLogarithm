@@ -419,6 +419,7 @@
             button5.TabIndex = 44;
             button5.Text = "Вычислить";
             button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click;
             // 
             // textBox11
             // 
