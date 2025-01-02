@@ -1,7 +1,6 @@
 using DiscreteLogarithm.ExponentialAlgorithms;
 using DiscreteLogarithm.MathFunctionsForCalculation;
 using DiscreteLogarithm.SubExponentialAlgorithms;
-using DiscreteLogarithmCore.SubExponentialAlgorithms;
 using System.Numerics;
 
 namespace DiscreteLogarithmCore
@@ -120,14 +119,23 @@ namespace DiscreteLogarithmCore
             BigInteger p;
             bool theValuesAreCorrect = true;
 
-            adleman = new Adleman();
-            adleman.CheckingTheInputValues(textBox10.Text, textBox9.Text, textBox8.Text, label20, ref theValuesAreCorrect, out a, out b, out p);
+            //adleman = new Adleman();
+            //adleman.CheckingTheInputValues(textBox10.Text, textBox9.Text, textBox8.Text, label20, ref theValuesAreCorrect, out a, out b, out p);
+            //if (!theValuesAreCorrect)
+            //{
+            //    return;
+            //}
+
+            //adleman.CalculateAdleman(a, b, p, label20);
+
+            shenks = new Shenks();
+            shenks.CheckingTheInputValues(textBox10.Text, textBox9.Text, textBox8.Text, label20, ref theValuesAreCorrect, out a, out b, out p);
             if (!theValuesAreCorrect)
             {
                 return;
             }
 
-            adleman.CalculateAdleman(a, b, p, label20);
+            shenks.CalculateShenks(a, b, p, label20);
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -137,14 +145,23 @@ namespace DiscreteLogarithmCore
             BigInteger p;
             bool theValuesAreCorrect = true;
 
-            cos = new COS();
-            cos.CheckingTheInputValues(textBox13.Text, textBox12.Text, textBox11.Text, label24, ref theValuesAreCorrect, out a, out b, out p);
+            //cos = new COS();
+            //cos.CheckingTheInputValues(textBox13.Text, textBox12.Text, textBox11.Text, label24, ref theValuesAreCorrect, out a, out b, out p);
+            //if (!theValuesAreCorrect)
+            //{
+            //    return;
+            //}
+
+            //cos.CalculateCOS(a, b, p, label24);
+
+            shenks = new Shenks();
+            shenks.CheckingTheInputValues(textBox13.Text, textBox12.Text, textBox11.Text, label24, ref theValuesAreCorrect, out a, out b, out p);
             if (!theValuesAreCorrect)
             {
                 return;
             }
 
-            cos.CalculateCOS(a, b, p, label24);
+            shenks.CalculateShenks(a, b, p, label24);
         }
     }
 }

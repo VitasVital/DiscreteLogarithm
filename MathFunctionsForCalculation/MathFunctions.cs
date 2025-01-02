@@ -276,14 +276,14 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
                         continue;
                     }
 
-                    for (int i = 0; i < p_dividers.Count; i++) // для усиления генератора
-                    {
-                        if (ExponentiationModulo(g, fi_p / p_dividers[i], p) != 1)
-                        {
-                            true_p = false;
-                            break;
-                        };
-                    }
+                    //for (int i = 0; i < p_dividers.Count; i++) // для усиления генератора
+                    //{
+                    //    if (ExponentiationModulo(g, fi_p / p_dividers[i], p) != 1)
+                    //    {
+                    //        true_p = false;
+                    //        break;
+                    //    };
+                    //}
 
                     if (true_p)
                     {

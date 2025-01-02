@@ -43,17 +43,17 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
             out BigInteger p)
         {
             inputLabel.Text = "";
-            if (!BigInteger.TryParse(input_g, out g))
+            if (!BigInteger.TryParse(input_g, out g) || g <= 0)
             {
                 theValuesAreCorrect = false;
                 inputLabel.Text = "Ошибка ввода числа g";
             };
-            if (!BigInteger.TryParse(input_A, out A))
+            if (!BigInteger.TryParse(input_A, out A) || A <= 0)
             {
                 theValuesAreCorrect = false;
                 inputLabel.Text += "\nОшибка ввода числа A";
             };
-            if (!BigInteger.TryParse(input_p, out p))
+            if (!BigInteger.TryParse(input_p, out p) || p <= 0)
             {
                 theValuesAreCorrect = false;
                 inputLabel.Text += "\nОшибка ввода числа p";
