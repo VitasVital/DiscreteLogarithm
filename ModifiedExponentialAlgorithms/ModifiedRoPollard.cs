@@ -1,9 +1,9 @@
 ﻿using System.Numerics;
 using Label = System.Windows.Forms.Label;
 
-namespace DiscreteLogarithm.ExponentialAlgorithms
+namespace DiscreteLogarithm.ModifiedExponentialAlgorithms
 {
-    public class RoPollard
+    public class ModifiedRoPollard
     {
         public void CheckingTheInputValues(
             string input_N,

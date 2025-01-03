@@ -1,35 +1,13 @@
 ﻿using DiscreteLogarithm.ExponentialAlgorithms;
 using DiscreteLogarithm.MathFunctionsForCalculation;
+using DiscreteLogarithm.SubExponentialAlgorithms;
 using ExtendedNumerics;
 using System.Numerics;
 using Label = System.Windows.Forms.Label;
 
-namespace DiscreteLogarithm.SubExponentialAlgorithms
+namespace DiscreteLogarithm.ModifiedSubExponentialAlgorithms
 {
-    public class ListGroupedValuesIndex
-    {
-        public ListGroupedValuesIndex(int index, List<ListGroupedValues> listGroupedValues)
-        {
-            this.index = index;
-            this.listGroupedValues = listGroupedValues;
-        }
-
-        public int index { get; set; }
-        public List<ListGroupedValues> listGroupedValues { get; set; }
-    }
-
-    public class Log_g_NUM_result
-    {
-        public Log_g_NUM_result(BigInteger input_num, BigInteger input_result)
-        {
-            num = input_num;
-            result = input_result;
-        }
-        public BigInteger num { get; set; }
-        public BigInteger result { get; set; }
-    }
-
-    public class Adleman
+    public class ModifiedCOS
     {
         MathFunctions mathFunctions;
         BigRational expNumber;
@@ -44,7 +22,7 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
         BigInteger p;
         BigInteger A;
         bool numbersSwaped;
-        public Adleman()
+        public ModifiedCOS()
         {
             mathFunctions = new MathFunctions();
             expNumber = new BigRational(2, 718, 1000); // 2.718
@@ -86,7 +64,7 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
             };
         }
 
-        public void CalculateAdleman(BigInteger input_g, BigInteger input_A, BigInteger input_p, Label inputLabel)
+        public void CalculateCOS(BigInteger input_g, BigInteger input_A, BigInteger input_p, Label inputLabel)
         {
             g = input_g;
             p = input_p;
@@ -165,9 +143,9 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
                     .ToList();
 
                 isContains = false;
-                foreach(var exponentiationModuloDivider in exponentiationModuloDividersGrouped)
+                foreach (var exponentiationModuloDivider in exponentiationModuloDividersGrouped)
                 {
-                    foreach(var log_g_NUM_element in log_g_NUM_result)
+                    foreach (var log_g_NUM_element in log_g_NUM_result)
                     {
                         if (exponentiationModuloDivider.Key == log_g_NUM[(int)log_g_NUM_element.num])
                         {
@@ -176,7 +154,7 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
                             break;
                         }
                     }
-                    if(isContains == false)
+                    if (isContains == false)
                     {
                         break;
                     }
@@ -339,14 +317,14 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
             }
 
             bool result = false;
-            if (slauArrayIndex_i_0 == slauArrayIndex_j_0 
-                && slauArrayIndex_i_1 == slauArrayIndex_j_1 
+            if (slauArrayIndex_i_0 == slauArrayIndex_j_0
+                && slauArrayIndex_i_1 == slauArrayIndex_j_1
                 && slauArrayIndex_i_0 != -1 && slauArrayIndex_i_1 != -1)
             {
                 result = true;
             }
             else if (slauArrayIndex_i_0 == slauArrayIndex_j_0
-                && slauRow_i_NonZeroValuesCount == 2 
+                && slauRow_i_NonZeroValuesCount == 2
                 && slauRow_j_NonZeroValuesCount == 1)
             {
                 slauArrayIndex_j_1 = slauArrayIndex_i_1;
@@ -388,10 +366,10 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
                 slauArray[2, 2] = slauRow_j[slauRow_j.Count - 1];
 
                 BigInteger swapNumber;
-                if (slauRow_j_NonZeroValuesCount == 1 && slauArray[2, 1] == 0 
+                if (slauRow_j_NonZeroValuesCount == 1 && slauArray[2, 1] == 0
                     || slauRow_i_NonZeroValuesCount == 1 && slauArray[1, 0] == 0)
                 {
-                    for (int  i = 0; i < 3; i++)
+                    for (int i = 0; i < 3; i++)
                     {
                         swapNumber = slauArray[1, i];
                         slauArray[1, i] = slauArray[2, i];

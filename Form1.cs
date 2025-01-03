@@ -1,23 +1,32 @@
 using DiscreteLogarithm.ExponentialAlgorithms;
 using DiscreteLogarithm.MathFunctionsForCalculation;
+using DiscreteLogarithm.ModifiedExponentialAlgorithms;
+using DiscreteLogarithm.ModifiedSubExponentialAlgorithms;
 using DiscreteLogarithm.SubExponentialAlgorithms;
+using System.Diagnostics;
 using System.Numerics;
 
 namespace DiscreteLogarithmCore
 {
     public partial class Form1 : Form
     {
-        Shenks shenks;
-        RoPollard roPollard;
         MathFunctions mathFunctions;
+        Shenks shenks;
+        ModifiedShenks modifiedShenks;
         PoligHellman poligHellman;
+        ModifiedPoligHellman modifiedPoligHellman;
+        RoPollard roPollard;
+        ModifiedRoPollard modifiedRoPollard;
         Adleman adleman;
-        GNFS gNFS;
+        ModifiedAdleman modifiedAdleman;
         COS cos;
+        ModifiedCOS modifiedCOS;
+        GNFS gNFS;
+        ModifiedGNFS modifiedGNFS;
         public Form1()
         {
             InitializeComponent();
-            
+
             mathFunctions = new MathFunctions();
         }
 
@@ -33,7 +42,18 @@ namespace DiscreteLogarithmCore
                 return;
             }
 
-            gNFS.CalculateGNFS(N, label28);
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            try
+            {
+                gNFS.CalculateGNFS(N, label28);
+            }
+            catch (Exception ex)
+            {
+                label28.Text = "Error";
+            }
+            stopwatch.Stop();
+            label28.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс";
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -50,7 +70,11 @@ namespace DiscreteLogarithmCore
                 return;
             }
 
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             shenks.CalculateShenks(g, A, p, label15);
+            stopwatch.Stop();
+            label15.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс";
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -67,7 +91,11 @@ namespace DiscreteLogarithmCore
                 return;
             }
 
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             poligHellman.CalculatePoligHellman(a, b, p, label16);
+            stopwatch.Stop();
+            label16.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс";
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -82,7 +110,11 @@ namespace DiscreteLogarithmCore
                 return;
             }
 
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             roPollard.CalculateRoPollard(N, label29);
+            stopwatch.Stop();
+            label29.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс";
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -119,23 +151,27 @@ namespace DiscreteLogarithmCore
             BigInteger p;
             bool theValuesAreCorrect = true;
 
-            //adleman = new Adleman();
-            //adleman.CheckingTheInputValues(textBox10.Text, textBox9.Text, textBox8.Text, label20, ref theValuesAreCorrect, out a, out b, out p);
-            //if (!theValuesAreCorrect)
-            //{
-            //    return;
-            //}
-
-            //adleman.CalculateAdleman(a, b, p, label20);
-
-            shenks = new Shenks();
-            shenks.CheckingTheInputValues(textBox10.Text, textBox9.Text, textBox8.Text, label20, ref theValuesAreCorrect, out a, out b, out p);
+            adleman = new Adleman();
+            adleman.CheckingTheInputValues(textBox10.Text, textBox9.Text, textBox8.Text, label20, ref theValuesAreCorrect, out a, out b, out p);
             if (!theValuesAreCorrect)
             {
                 return;
             }
 
-            shenks.CalculateShenks(a, b, p, label20);
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            adleman.CalculateAdleman(a, b, p, label20);
+            stopwatch.Stop();
+            label20.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс";
+
+            //shenks = new Shenks();
+            //shenks.CheckingTheInputValues(textBox10.Text, textBox9.Text, textBox8.Text, label20, ref theValuesAreCorrect, out a, out b, out p);
+            //if (!theValuesAreCorrect)
+            //{
+            //    return;
+            //}
+
+            //shenks.CalculateShenks(a, b, p, label20);
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -145,23 +181,156 @@ namespace DiscreteLogarithmCore
             BigInteger p;
             bool theValuesAreCorrect = true;
 
-            //cos = new COS();
-            //cos.CheckingTheInputValues(textBox13.Text, textBox12.Text, textBox11.Text, label24, ref theValuesAreCorrect, out a, out b, out p);
-            //if (!theValuesAreCorrect)
-            //{
-            //    return;
-            //}
-
-            //cos.CalculateCOS(a, b, p, label24);
-
-            shenks = new Shenks();
-            shenks.CheckingTheInputValues(textBox13.Text, textBox12.Text, textBox11.Text, label24, ref theValuesAreCorrect, out a, out b, out p);
+            cos = new COS();
+            cos.CheckingTheInputValues(textBox13.Text, textBox12.Text, textBox11.Text, label24, ref theValuesAreCorrect, out a, out b, out p);
             if (!theValuesAreCorrect)
             {
                 return;
             }
 
-            shenks.CalculateShenks(a, b, p, label24);
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            cos.CalculateCOS(a, b, p, label24);
+            stopwatch.Stop();
+            label24.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс";
+
+            //shenks = new Shenks();
+            //shenks.CheckingTheInputValues(textBox13.Text, textBox12.Text, textBox11.Text, label24, ref theValuesAreCorrect, out a, out b, out p);
+            //if (!theValuesAreCorrect)
+            //{
+            //    return;
+            //}
+
+            //shenks.CalculateShenks(a, b, p, label24);
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            BigInteger a;
+            BigInteger b;
+            BigInteger p;
+            bool theValuesAreCorrect = true;
+
+            modifiedShenks = new ModifiedShenks();
+            modifiedShenks.CheckingTheInputValues(textBox2.Text, textBox3.Text, textBox4.Text, label40, ref theValuesAreCorrect, out a, out b, out p);
+            if (!theValuesAreCorrect)
+            {
+                return;
+            }
+
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            modifiedShenks.CalculateModifiedShenks(a, b, p, label40);
+            stopwatch.Stop();
+            label40.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс";
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            BigInteger a;
+            BigInteger b;
+            BigInteger p;
+            bool theValuesAreCorrect = true;
+
+            modifiedPoligHellman = new ModifiedPoligHellman();
+            modifiedPoligHellman.CheckingTheInputValues(textBox7.Text, textBox6.Text, textBox5.Text, label41, ref theValuesAreCorrect, out a, out b, out p);
+            if (!theValuesAreCorrect)
+            {
+                return;
+            }
+
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            modifiedPoligHellman.CalculatePoligHellman(a, b, p, label41);
+            stopwatch.Stop();
+            label41.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс";
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            BigInteger N;
+            bool theValuesAreCorrect = true;
+
+            modifiedRoPollard = new ModifiedRoPollard();
+            modifiedRoPollard.CheckingTheInputValues(textBox14.Text, label42, ref theValuesAreCorrect, out N);
+            if (!theValuesAreCorrect)
+            {
+                return;
+            }
+
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            modifiedRoPollard.CalculateRoPollard(N, label42);
+            stopwatch.Stop();
+            label42.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс";
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            BigInteger a;
+            BigInteger b;
+            BigInteger p;
+            bool theValuesAreCorrect = true;
+
+            modifiedAdleman = new ModifiedAdleman();
+            modifiedAdleman.CheckingTheInputValues(textBox10.Text, textBox9.Text, textBox8.Text, label43, ref theValuesAreCorrect, out a, out b, out p);
+            if (!theValuesAreCorrect)
+            {
+                return;
+            }
+
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            modifiedAdleman.CalculateAdleman(a, b, p, label43);
+            stopwatch.Stop();
+            label43.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс";
+        }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+            BigInteger a;
+            BigInteger b;
+            BigInteger p;
+            bool theValuesAreCorrect = true;
+
+            modifiedCOS = new ModifiedCOS();
+            modifiedCOS.CheckingTheInputValues(textBox13.Text, textBox12.Text, textBox11.Text, label44, ref theValuesAreCorrect, out a, out b, out p);
+            if (!theValuesAreCorrect)
+            {
+                return;
+            }
+
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            modifiedCOS.CalculateCOS(a, b, p, label44);
+            stopwatch.Stop();
+            label44.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс";
+        }
+
+        private void button14_Click(object sender, EventArgs e)
+        {
+            BigInteger N;
+            bool theValuesAreCorrect = true;
+
+            modifiedGNFS = new ModifiedGNFS();
+            modifiedGNFS.CheckingTheInputValues(textBox1.Text, label45, ref theValuesAreCorrect, out N);
+            if (!theValuesAreCorrect)
+            {
+                return;
+            }
+
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            try
+            {
+                modifiedGNFS.CalculateGNFS(N, label45);
+            }
+            catch (Exception ex)
+            {
+                label45.Text = "Error";
+            }
+            stopwatch.Stop();
+            label45.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс";
         }
     }
 }

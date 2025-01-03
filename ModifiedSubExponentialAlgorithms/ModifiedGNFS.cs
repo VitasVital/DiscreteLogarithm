@@ -7,9 +7,9 @@ using System.Runtime.Serialization;
 using System.Text;
 using Label = System.Windows.Forms.Label;
 
-namespace DiscreteLogarithm.SubExponentialAlgorithms
+namespace DiscreteLogarithm.ModifiedSubExponentialAlgorithms
 {
-    public class GNFS
+    public class ModifiedGNFS
     {
         public BigInteger N;
         public Solution Factorization { get; private set; }
@@ -208,9 +208,9 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
             }
         }
 
-        internal GNFS _gnfs;
+        internal ModifiedGNFS _gnfs;
 
-        public PolyRelationsSieveProgress(GNFS gnfs, int smoothRelationsTargetQuantity, BigInteger valueRange)
+        public PolyRelationsSieveProgress(ModifiedGNFS gnfs, int smoothRelationsTargetQuantity, BigInteger valueRange)
         {
             mathFunctions = new MathFunctions();
             _gnfs = gnfs;
@@ -390,7 +390,7 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
             AlgebraicFactorization = new CountDictionary();
         }
 
-        public Relation(GNFS gnfs, BigInteger a, BigInteger b)
+        public Relation(ModifiedGNFS gnfs, BigInteger a, BigInteger b)
             : this()
         {
             A = a;
@@ -732,7 +732,7 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
         {
             // array of (p, m % p) up to bound
             // quantity = phi(bound)
-            public static FactorPairCollection BuildRationalFactorPairCollection(GNFS gnfs)
+            public static FactorPairCollection BuildRationalFactorPairCollection(ModifiedGNFS gnfs)
             {
                 IEnumerable<FactorPair> result = gnfs.PrimeFactorBase.RationalFactorBase.Select(p => new FactorPair(p, (gnfs.PolynomialBase % p))).Distinct();
                 return new FactorPairCollection(result);
@@ -740,7 +740,7 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
 
             // array of (p, r) where ƒ(r) % p == 0
             // quantity = 2-3 times RFB.quantity
-            public static FactorPairCollection BuildAlgebraicFactorPairCollection(GNFS gnfs)
+            public static FactorPairCollection BuildAlgebraicFactorPairCollection(ModifiedGNFS gnfs)
             {
                 return new FactorPairCollection(FindPolynomialRootsInRange(gnfs.CurrentPolynomial, gnfs.PrimeFactorBase.AlgebraicFactorBase, 0, gnfs.PrimeFactorBase.AlgebraicFactorBaseMax, 2000));
             }
@@ -748,7 +748,7 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
             // array of (p, r) where ƒ(r) % p == 0
             // quantity =< 100
             // magnitude p > AFB.Last().p
-            public static FactorPairCollection BuildQuadraticFactorPairCollection(GNFS gnfs)
+            public static FactorPairCollection BuildQuadraticFactorPairCollection(ModifiedGNFS gnfs)
             {
                 return new FactorPairCollection(FindPolynomialRootsInRange(gnfs.CurrentPolynomial, gnfs.PrimeFactorBase.QuadraticFactorBase, 2, gnfs.PrimeFactorBase.QuadraticFactorBaseMax, gnfs.PrimeFactorBase.QuadraticBaseCount));
             }
@@ -979,7 +979,7 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
             {
                 public static class Smooth
                 {
-                    public static void Append(GNFS gnfs)
+                    public static void Append(ModifiedGNFS gnfs)
                     {
                         if (gnfs.CurrentRelationsProgress.Relations.SmoothRelations.Any())
                         {
@@ -991,7 +991,7 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
                         }
                     }
 
-                    public static void Append(GNFS gnfs, Relation relation)
+                    public static void Append(ModifiedGNFS gnfs, Relation relation)
                     {
                         if (relation != null && relation.IsSmooth && !relation.IsPersisted)
                         {
@@ -1008,7 +1008,7 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
 
     public static class MatrixSolve
     {
-        public static void GaussianSolve(GNFS gnfs)
+        public static void GaussianSolve(ModifiedGNFS gnfs)
         {
             Serialization.Save.Relations.Smooth.Append(gnfs); // Persist any relations not already persisted to disk
 
@@ -1098,12 +1098,12 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
         private bool[] freeCols;
         private bool eliminationStep;
 
-        private GNFS _gnfs;
+        private ModifiedGNFS _gnfs;
         private List<Relation> relations;
         public Dictionary<int, Relation> ColumnIndexRelationDictionary;
         private List<Tuple<Relation, bool[]>> relationMatrixTuple;
 
-        public GaussianMatrix(GNFS gnfs, List<Relation> rels)
+        public GaussianMatrix(ModifiedGNFS gnfs, List<Relation> rels)
         {
             _gnfs = gnfs;
             relationMatrixTuple = new List<Tuple<Relation, bool[]>>();
@@ -1358,7 +1358,7 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
 
         public Relation SourceRelation { get; private set; }
 
-        public GaussianRow(GNFS gnfs, Relation relation)
+        public GaussianRow(ModifiedGNFS gnfs, Relation relation)
         {
             SourceRelation = relation;
 
@@ -1565,12 +1565,12 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
         public BigInteger MonicPolynomialDerivativeValue { get; set; }
         public BigInteger MonicPolynomialDerivativeValueSquared { get; set; }
 
-        private GNFS gnfs { get; set; }
+        private ModifiedGNFS gnfs { get; set; }
         private List<BigInteger> rationalNorms { get; set; }
         private List<BigInteger> algebraicNormCollection { get; set; }
         private List<Relation> relationsSet { get; set; }
 
-        public SquareFinder(GNFS sieve)
+        public SquareFinder(ModifiedGNFS sieve)
         {
             RationalSquareRootResidue = -1;
             RootsOfS = new List<Tuple<BigInteger, BigInteger>>();
@@ -1595,7 +1595,7 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
             MonicPolynomialDerivativeValueSquared = MonicPolynomialDerivativeSquared.Evaluate(gnfs.PolynomialBase);
         }
 
-        public static bool Solve(GNFS gnfs)
+        public static bool Solve(ModifiedGNFS gnfs)
         {
             List<int> triedFreeRelationIndices = new List<int>();
 

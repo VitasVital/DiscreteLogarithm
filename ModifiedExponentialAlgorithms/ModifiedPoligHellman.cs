@@ -2,11 +2,11 @@
 using System.Numerics;
 using Label = System.Windows.Forms.Label;
 
-namespace DiscreteLogarithm.ExponentialAlgorithms
+namespace DiscreteLogarithm.ModifiedExponentialAlgorithms
 {
     public class ListGroupedValues
     {
-        public ListGroupedValues(BigInteger Key, int degree_number, BigInteger key_degree) 
+        public ListGroupedValues(BigInteger Key, int degree_number, BigInteger key_degree)
         {
             this.Key = Key;
             this.degree_number = degree_number;
@@ -18,10 +18,10 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
         public BigInteger key_degree { get; set; }
     }
 
-    public class PoligHellman
+    public class ModifiedPoligHellman
     {
         MathFunctions mathFunctions;
-        public PoligHellman()
+        public ModifiedPoligHellman()
         {
             mathFunctions = new MathFunctions();
         }
@@ -72,7 +72,7 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
         private List<List<BigInteger>> Step1(List<ListGroupedValues> fi_p_dividers_grouped, BigInteger g, BigInteger fi_p, BigInteger p)
         {
             List<List<BigInteger>> step1_result = new List<List<BigInteger>>();
-            for (int i = 0; i <  fi_p_dividers_grouped.Count; i++)
+            for (int i = 0; i < fi_p_dividers_grouped.Count; i++)
             {
                 List<BigInteger> step1_result_i = new List<BigInteger>();
                 for (int j = 0; j < fi_p_dividers_grouped[i].Key; j++)
@@ -89,7 +89,7 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
             BigInteger Agmodp;
             BigInteger p_1_q_degree;
             List<List<BigInteger>> x_list = new List<List<BigInteger>>();
-            for (int i = 0; i <  fi_p_dividers_grouped.Count; i++)
+            for (int i = 0; i < fi_p_dividers_grouped.Count; i++)
             {
                 List<BigInteger> x_list_i = new List<BigInteger>() { 0 };
                 for (int j = 0; j < fi_p_dividers_grouped[i].degree_number; j++)

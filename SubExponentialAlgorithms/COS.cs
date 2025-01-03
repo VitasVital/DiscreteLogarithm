@@ -1,12 +1,7 @@
 ﻿using DiscreteLogarithm.ExponentialAlgorithms;
 using DiscreteLogarithm.MathFunctionsForCalculation;
 using ExtendedNumerics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 using Label = System.Windows.Forms.Label;
 
 namespace DiscreteLogarithm.SubExponentialAlgorithms
@@ -54,26 +49,22 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
             if (!BigInteger.TryParse(input_g, out g) || g <= 0)
             {
                 theValuesAreCorrect = false;
-                inputLabel.Text = "Ошибка ввода числа g";
+                inputLabel.Text = "Ошибка g";
             };
             if (!BigInteger.TryParse(input_A, out A) || A <= 0)
             {
                 theValuesAreCorrect = false;
-                inputLabel.Text += "\nОшибка ввода числа A";
+                inputLabel.Text += "\nОшибка A";
             };
             if (!BigInteger.TryParse(input_p, out p) || p <= 0)
             {
                 theValuesAreCorrect = false;
-                inputLabel.Text += "\nОшибка ввода числа p";
+                inputLabel.Text += "\nОшибка p";
             };
         }
 
         public void CalculateCOS(BigInteger input_g, BigInteger input_A, BigInteger input_p, Label inputLabel)
         {
-            //g = 21;
-            //p = 127;
-            //A = 34;
-
             g = input_g;
             p = input_p;
             A = input_A;
@@ -83,7 +74,7 @@ namespace DiscreteLogarithm.SubExponentialAlgorithms
             BigInteger result = Step4();
 
 
-            inputLabel.Text = string.Format("Результат = {0}", result);
+            inputLabel.Text = string.Format("Результат: \na = {0}", result);
         }
 
         private void Step1()

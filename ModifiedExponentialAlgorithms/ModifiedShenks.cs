@@ -2,13 +2,13 @@
 using System.Numerics;
 using Label = System.Windows.Forms.Label;
 
-namespace DiscreteLogarithm.ExponentialAlgorithms
+namespace DiscreteLogarithm.ModifiedExponentialAlgorithms
 {
     // Алгоритм https://ilovecalc.com/calcs/maths/baby-step-giant-step/1382/
-    public class Shenks
+    public class ModifiedShenks
     {
         MathFunctions mathFunctions;
-        public Shenks()
+        public ModifiedShenks()
         {
             mathFunctions = new MathFunctions();
         }
@@ -41,7 +41,7 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
             };
         }
 
-        public void CalculateShenks(BigInteger g, BigInteger A, BigInteger p, Label inputLabel)
+        public void CalculateModifiedShenks(BigInteger g, BigInteger A, BigInteger p, Label inputLabel)
         {
             BigInteger m, k;
             Step1(p, out m, out k);
@@ -104,20 +104,20 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
             }
             for (int m_i = 0; m_i <= m - 1; m_i++)
             {
-                Ag_m_degree.Add(mathFunctions.ExponentiationModulo(A * BigInteger.Pow(g, m_i), 1, p)); 
+                Ag_m_degree.Add(mathFunctions.ExponentiationModulo(A * BigInteger.Pow(g, m_i), 1, p));
             }
         }
 
         private void Step3(List<BigInteger> g_km_degree, List<BigInteger> Ag_m_degree, out int ind_i, out int ind_j)
         {
-            for(int i = 0; i < g_km_degree.Count; i++)
+            for (int i = 0; i < g_km_degree.Count; i++)
             {
                 for (int j = 0; j < Ag_m_degree.Count; j++)
                 {
                     if (g_km_degree[i] == Ag_m_degree[j])
                     {
-                        ind_i = i + 1; 
-                        ind_j = j; 
+                        ind_i = i + 1;
+                        ind_j = j;
                         return;
                     }
                 }
