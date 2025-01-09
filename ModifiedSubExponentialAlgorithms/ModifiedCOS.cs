@@ -1,6 +1,5 @@
 ﻿using DiscreteLogarithm.ExponentialAlgorithms;
 using DiscreteLogarithm.MathFunctionsForCalculation;
-using DiscreteLogarithm.SubExponentialAlgorithms;
 using ExtendedNumerics;
 using System.Numerics;
 using Label = System.Windows.Forms.Label;
@@ -22,6 +21,8 @@ namespace DiscreteLogarithm.ModifiedSubExponentialAlgorithms
         BigInteger p;
         BigInteger A;
         bool numbersSwaped;
+        BigInteger H;
+        BigInteger J;
         public ModifiedCOS()
         {
             mathFunctions = new MathFunctions();
@@ -69,6 +70,20 @@ namespace DiscreteLogarithm.ModifiedSubExponentialAlgorithms
             g = input_g;
             p = input_p;
             A = input_A;
+            _Step1();
+            _Step2();
+            Step3();
+            BigInteger result = Step4();
+
+
+            inputLabel.Text = string.Format("Результат: \na = {0}", result);
+        }
+
+        public void CalculateCOS1(BigInteger input_g, BigInteger input_A, BigInteger input_p, Label inputLabel)
+        {
+            g = input_g;
+            p = input_p;
+            A = input_A;
             Step1();
             Step2();
             Step3();
@@ -80,13 +95,49 @@ namespace DiscreteLogarithm.ModifiedSubExponentialAlgorithms
 
         private void Step1()
         {
-            BigInteger degree = BigRational.Sqrt(BigInteger.Log2(p) * BigInteger.Log2(BigInteger.Log2(p))).WholePart;
-            B = (BigInteger)BigRational.Pow(expNumber, degree).FractionalPart;
-
-            primeFactorBase.RationalFactorBase = PrimeFactory.GetPrimesTo(B);
+            H = (BigInteger)BigRational.Sqrt(p).FractionalPart + 1;
+            J = H * H - p;
         }
 
         private void Step2()
+        {
+            BigInteger exponentiationModuloResult = 0;
+            List<BigInteger> exponentiationModuloList = new List<BigInteger>();
+            List<ListGroupedValues> exponentiationModuloDividersGrouped = new List<ListGroupedValues>();
+            bool isSmooth = true;
+            for (int c = 1; c < 10; c++)
+            {
+                exponentiationModuloList = mathFunctions.Factorization((H + c) * (H + c));
+                exponentiationModuloDividersGrouped = exponentiationModuloList
+                    .GroupBy(x => x)
+                    .Select(group => new ListGroupedValues(group.Key, group.Count(), BigInteger.Pow(group.Key, group.Count())))
+                    .ToList();
+
+                for (int j = 0; j < exponentiationModuloDividersGrouped.Count; j++)
+                {
+                    if (exponentiationModuloDividersGrouped[j].Key > B)
+                    {
+                        isSmooth = false;
+                        break;
+                    }
+                }
+
+                if (isSmooth)
+                {
+                    ListGroupedValuesIndex listGroupedValuesIndex = new ListGroupedValuesIndex(c, exponentiationModuloDividersGrouped);
+                    exponentiationModuloDividersGroupedList.Add(listGroupedValuesIndex);
+                }
+                isSmooth = true;
+            }
+        }
+
+        private void _Step1()
+        {
+            BigInteger degree = BigRational.Sqrt(BigInteger.Log2(p) * BigInteger.Log2(BigInteger.Log2(p))).WholePart;
+            B = (BigInteger)BigRational.Pow(expNumber, degree).FractionalPart;
+        }
+
+        private void _Step2()
         {
             BigInteger exponentiationModuloResult = 0;
             List<BigInteger> exponentiationModuloList = new List<BigInteger>();
@@ -124,7 +175,7 @@ namespace DiscreteLogarithm.ModifiedSubExponentialAlgorithms
             CreateSLAU();
 
             CalculateSLAU();
-            PrintSLAU();
+            //PrintSLAU();
         }
 
         private BigInteger Step4()
@@ -203,7 +254,7 @@ namespace DiscreteLogarithm.ModifiedSubExponentialAlgorithms
                 SLAU.Add(rowSLAU);
             }
 
-            PrintSLAU();
+            //PrintSLAU();
         }
 
         private void CalculateSLAU()
@@ -378,7 +429,7 @@ namespace DiscreteLogarithm.ModifiedSubExponentialAlgorithms
                     numbersSwaped = true;
                 }
 
-                PrintSlauArray(slauArray);
+                //PrintSlauArray(slauArray);
             }
 
             return result;
@@ -462,7 +513,7 @@ namespace DiscreteLogarithm.ModifiedSubExponentialAlgorithms
             SLAU[j][(int)slauArray[0, 1]] = slauArray[2, 1];
             SLAU[j][SLAU[j].Count - 1] = slauArray[2, 2];
 
-            PrintSlauArray(slauArray, "Преобразованная СЛАУ");
+            //PrintSlauArray(slauArray, "Преобразованная СЛАУ");
 
             return true;
         }
