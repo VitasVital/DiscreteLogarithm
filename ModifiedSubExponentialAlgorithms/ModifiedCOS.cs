@@ -23,6 +23,7 @@ namespace DiscreteLogarithm.ModifiedSubExponentialAlgorithms
         bool numbersSwaped;
         BigInteger H;
         BigInteger J;
+        Random rnd;
         public ModifiedCOS()
         {
             mathFunctions = new MathFunctions();
@@ -35,6 +36,7 @@ namespace DiscreteLogarithm.ModifiedSubExponentialAlgorithms
             SLAU = new List<List<BigInteger>>();
             slauArrayResults = new List<BigInteger[,]>();
             numbersSwaped = false;
+            rnd = new Random();
         }
 
         public void CheckingTheInputValues(
@@ -107,7 +109,7 @@ namespace DiscreteLogarithm.ModifiedSubExponentialAlgorithms
             bool isSmooth = true;
             for (int c = 1; c < 10; c++)
             {
-                exponentiationModuloList = mathFunctions.Factorization((H + c) * (H + c));
+                exponentiationModuloList = mathFunctions.Factorization((H +  rnd.Next(1, c)) * (H + rnd.Next(1, c)));
                 exponentiationModuloDividersGrouped = exponentiationModuloList
                     .GroupBy(x => x)
                     .Select(group => new ListGroupedValues(group.Key, group.Count(), BigInteger.Pow(group.Key, group.Count())))
