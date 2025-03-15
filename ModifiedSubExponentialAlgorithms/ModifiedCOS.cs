@@ -109,7 +109,8 @@ namespace DiscreteLogarithm.ModifiedSubExponentialAlgorithms
             bool isSmooth = true;
             for (int c = 1; c < 10; c++)
             {
-                exponentiationModuloList = mathFunctions.Factorization((H +  rnd.Next(1, c)) * (H + rnd.Next(1, c)));
+                exponentiationModuloList = mathFunctions.Factorization((H +  rnd.Next(1, c)) * (H + rnd.Next(1, c)) * (H + rnd.Next(1, c)));
+                // повысил значение логарифмов (H + c), добавив занчение c3, чтобы увеличить разложение чисел для формирования СЛАУ
                 exponentiationModuloDividersGrouped = exponentiationModuloList
                     .GroupBy(x => x)
                     .Select(group => new ListGroupedValues(group.Key, group.Count(), BigInteger.Pow(group.Key, group.Count())))

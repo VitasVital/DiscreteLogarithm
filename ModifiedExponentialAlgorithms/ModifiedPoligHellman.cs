@@ -59,6 +59,13 @@ namespace DiscreteLogarithm.ModifiedExponentialAlgorithms
             BigInteger fi_p = p - 1;
             List<BigInteger> p_dividers = mathFunctions.Factorization(fi_p);
             List<ListGroupedValues> fi_p_dividers_grouped = p_dividers.GroupBy(x => x).Select(group => new ListGroupedValues(group.Key, group.Count(), BigInteger.Pow(group.Key, group.Count()))).ToList();
+            foreach (ListGroupedValues listGroupedValues in fi_p_dividers_grouped)
+            {
+                listGroupedValues.Key = listGroupedValues.key_degree;
+                listGroupedValues.degree_number = 1;
+            }
+            // сделал так, чтобы число p - 1 было разложено без степеней
+            // таким образом на 1 шаге строится таблица с единичными значениями в каждой строке
 
             List<List<BigInteger>> step1_result = Step1(fi_p_dividers_grouped, g, fi_p, p);
 
@@ -66,7 +73,7 @@ namespace DiscreteLogarithm.ModifiedExponentialAlgorithms
 
             BigInteger step3_result = Step3(fi_p_dividers_grouped, step2_result);
 
-            inputLabel.Text = string.Format("Результат: {0}", step3_result);
+            inputLabel.Text = string.Format("Результат: \na = {0}", step3_result);
         }
 
         private List<List<BigInteger>> Step1(List<ListGroupedValues> fi_p_dividers_grouped, BigInteger g, BigInteger fi_p, BigInteger p)

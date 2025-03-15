@@ -58,42 +58,9 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
             inputLabel.Text = "Результат: \na = " + result.ToString();
         }
 
-        private BigInteger Sqrt(BigInteger number)
-        {
-            BigInteger n = 0, p = 0;
-            if (number == BigInteger.Zero)
-            {
-                return BigInteger.Zero;
-            }
-            var high = number >> 1;
-            var low = BigInteger.Zero;
-
-            while (high > low + 1)
-            {
-                n = (high + low) >> 1;
-                p = n * n;
-                if (number < p)
-                {
-                    high = n;
-                }
-                else
-                {
-                    if (number > p)
-                    {
-                        low = n;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-            }
-            return number == p ? n : low;
-        }
-
         private void Step1(BigInteger p, out BigInteger m, out BigInteger k)
         {
-            m = k = Sqrt(p) + 1;
+            m = k = mathFunctions.Sqrt(p) + 1;
         }
 
         private void Step2(List<BigInteger> g_km_degree, List<BigInteger> Ag_m_degree, BigInteger g, BigInteger A, BigInteger p, BigInteger m, BigInteger k)

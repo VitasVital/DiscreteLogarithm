@@ -66,7 +66,7 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
 
             BigInteger step3_result = Step3(fi_p_dividers_grouped, step2_result);
 
-            inputLabel.Text = string.Format("Результат: {0}", step3_result);
+            inputLabel.Text = string.Format("Результат: \na = {0}", step3_result);
         }
 
         private List<List<BigInteger>> Step1(List<ListGroupedValues> fi_p_dividers_grouped, BigInteger g, BigInteger fi_p, BigInteger p)

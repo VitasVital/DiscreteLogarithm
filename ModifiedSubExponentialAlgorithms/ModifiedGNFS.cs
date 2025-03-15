@@ -33,6 +33,7 @@ namespace DiscreteLogarithm.ModifiedSubExponentialAlgorithms
 		/// Array of (p, r) where ƒ(r) % p == 0
 		/// </summary>
 		public FactorPairCollection AlgebraicFactorPairCollection { get; set; }
+        MathFunctions mathFunctions;
 
         public void CheckingTheInputValues(
             string input_N,
@@ -62,8 +63,17 @@ namespace DiscreteLogarithm.ModifiedSubExponentialAlgorithms
 
         private void Step1(BigInteger N) // Create Polynomial, Factor Bases && Roots
         {
-            PolynomialBase = 31;
-            PolynomialDegree = 3;
+            mathFunctions = new MathFunctions();
+            //PolynomialBase = 35;
+            //PolynomialDegree = 4;
+            PolynomialBase = N;
+            PolynomialDegree = N.GetByteCount();
+            for (int i = 0; i < PolynomialDegree / 2 + 1; i++) 
+            {
+                PolynomialBase = mathFunctions.Sqrt(PolynomialBase);
+            }
+            // в исходном алгоритме степень неприводимого многочлена берётся случайным d >= 3
+            // сделал вычисление степень полинома по количеству байт входного числа N
             relationQuantity = 65;
             relationValueRange = 1000;
             PrimeFactorBase = new FactorBase();

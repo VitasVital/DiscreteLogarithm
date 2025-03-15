@@ -1,6 +1,5 @@
 ﻿using DiscreteLogarithm.ExponentialAlgorithms;
 using DiscreteLogarithm.MathFunctionsForCalculation;
-using DiscreteLogarithm.SubExponentialAlgorithms;
 using ExtendedNumerics;
 using System.Numerics;
 using Label = System.Windows.Forms.Label;
@@ -103,10 +102,9 @@ namespace DiscreteLogarithm.ModifiedSubExponentialAlgorithms
 
         private void Step1()
         {
-            BigInteger degree = BigRational.Sqrt(BigInteger.Log2(p) * BigInteger.Log2(BigInteger.Log2(p))).WholePart;
+            BigInteger degree = BigRational.Sqrt(BigInteger.Log2(p) * BigInteger.Log2(p)).WholePart;
+            // поменял формулу вычисления B, чтобы повысить факторную базу при вычислении логарифмов
             B = (BigInteger)BigRational.Pow(expNumber, degree).FractionalPart;
-
-            primeFactorBase.RationalFactorBase = PrimeFactory.GetPrimesTo(B);
         }
 
         private void Step2()
@@ -147,7 +145,7 @@ namespace DiscreteLogarithm.ModifiedSubExponentialAlgorithms
             CreateSLAU();
 
             CalculateSLAU();
-            //PrintSLAU();
+            PrintSLAU();
         }
 
         private BigInteger Step4()
@@ -226,7 +224,7 @@ namespace DiscreteLogarithm.ModifiedSubExponentialAlgorithms
                 SLAU.Add(rowSLAU);
             }
 
-            //PrintSLAU();
+            PrintSLAU();
         }
 
         private void CalculateSLAU()
@@ -401,7 +399,7 @@ namespace DiscreteLogarithm.ModifiedSubExponentialAlgorithms
                     numbersSwaped = true;
                 }
 
-                //PrintSlauArray(slauArray);
+                PrintSlauArray(slauArray);
             }
 
             return result;
@@ -485,7 +483,7 @@ namespace DiscreteLogarithm.ModifiedSubExponentialAlgorithms
             SLAU[j][(int)slauArray[0, 1]] = slauArray[2, 1];
             SLAU[j][SLAU[j].Count - 1] = slauArray[2, 2];
 
-            //PrintSlauArray(slauArray, "Преобразованная СЛАУ");
+            PrintSlauArray(slauArray, "Преобразованная СЛАУ");
 
             return true;
         }

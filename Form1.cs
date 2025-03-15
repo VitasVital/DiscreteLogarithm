@@ -44,16 +44,20 @@ namespace DiscreteLogarithmCore
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-            try
+			long before = GC.GetTotalMemory(false);
+			try
             {
                 gNFS.CalculateGNFS(N, label28);
             }
             catch (Exception ex)
             {
                 label28.Text = "Error";
-            }
-            stopwatch.Stop();
-            label28.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс";
+			}
+			long after = GC.GetTotalMemory(false);
+			int consumedInBytes = (int)(after - before);
+			consumedInBytes = consumedInBytes > 0 ? consumedInBytes : -consumedInBytes;
+			stopwatch.Stop();
+            label28.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс\n{consumedInBytes} байт";
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -72,9 +76,13 @@ namespace DiscreteLogarithmCore
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-            shenks.CalculateShenks(g, A, p, label15);
-            stopwatch.Stop();
-            label15.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс";
+			long before = GC.GetTotalMemory(false);
+			shenks.CalculateShenks(g, A, p, label15);
+			long after = GC.GetTotalMemory(false);
+			int consumedInBytes = (int)(after - before);
+			consumedInBytes = consumedInBytes > 0 ? consumedInBytes : -consumedInBytes;
+			stopwatch.Stop();
+            label15.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс\n{consumedInBytes} байт";
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -93,9 +101,13 @@ namespace DiscreteLogarithmCore
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-            poligHellman.CalculatePoligHellman(a, b, p, label16);
-            stopwatch.Stop();
-            label16.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс";
+			long before = GC.GetTotalMemory(false);
+			poligHellman.CalculatePoligHellman(a, b, p, label16);
+			long after = GC.GetTotalMemory(false);
+			int consumedInBytes = (int)(after - before);
+			consumedInBytes = consumedInBytes > 0 ? consumedInBytes : -consumedInBytes;
+			stopwatch.Stop();
+            label16.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс\n{consumedInBytes} байт";
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -112,9 +124,13 @@ namespace DiscreteLogarithmCore
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-            roPollard.CalculateRoPollard(N, label29);
-            stopwatch.Stop();
-            label29.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс";
+			long before = GC.GetTotalMemory(false);
+			roPollard.CalculateRoPollard(N, label29);
+			long after = GC.GetTotalMemory(false);
+			int consumedInBytes = (int)(after - before);
+			consumedInBytes = consumedInBytes > 0 ? consumedInBytes : -consumedInBytes;
+			stopwatch.Stop();
+            label29.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс\n{consumedInBytes} байт";
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -160,9 +176,13 @@ namespace DiscreteLogarithmCore
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-            adleman.CalculateAdleman(a, b, p, label20);
-            stopwatch.Stop();
-            label20.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс";
+			long before = GC.GetTotalMemory(false);
+			adleman.CalculateAdleman(a, b, p, label20);
+			long after = GC.GetTotalMemory(false);
+			int consumedInBytes = (int)(after - before);
+            consumedInBytes = consumedInBytes > 0 ? consumedInBytes : -consumedInBytes;
+			stopwatch.Stop();
+            label20.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс\n{consumedInBytes} байт";
 
             //shenks = new Shenks();
             //shenks.CheckingTheInputValues(textBox10.Text, textBox9.Text, textBox8.Text, label20, ref theValuesAreCorrect, out a, out b, out p);
@@ -190,9 +210,13 @@ namespace DiscreteLogarithmCore
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-            cos.CalculateCOS(a, b, p, label24);
-            stopwatch.Stop();
-            label24.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс";
+			long before = GC.GetTotalMemory(false);
+			cos.CalculateCOS(a, b, p, label24);
+			long after = GC.GetTotalMemory(false);
+			int consumedInBytes = (int)(after - before);
+			consumedInBytes = consumedInBytes > 0 ? consumedInBytes : -consumedInBytes;
+			stopwatch.Stop();
+            label24.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс\n{consumedInBytes} байт";
 
             //shenks = new Shenks();
             //shenks.CheckingTheInputValues(textBox13.Text, textBox12.Text, textBox11.Text, label24, ref theValuesAreCorrect, out a, out b, out p);
@@ -204,7 +228,7 @@ namespace DiscreteLogarithmCore
             //shenks.CalculateShenks(a, b, p, label24);
         }
 
-        private void button9_Click(object sender, EventArgs e)
+        async private void button9_Click(object sender, EventArgs e)
         {
             BigInteger a;
             BigInteger b;
@@ -220,9 +244,13 @@ namespace DiscreteLogarithmCore
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-            modifiedShenks.CalculateModifiedShenks(a, b, p, label40);
-            stopwatch.Stop();
-            label40.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс";
+			long before = GC.GetTotalMemory(false);
+			await modifiedShenks.CalculateModifiedShenksAsync(a, b, p, label40);
+			long after = GC.GetTotalMemory(false);
+			int consumedInBytes = (int)(after - before);
+			consumedInBytes = consumedInBytes > 0 ? consumedInBytes : -consumedInBytes;
+			stopwatch.Stop();
+            label40.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс\n{consumedInBytes} байт";
         }
 
         private void button10_Click(object sender, EventArgs e)
@@ -241,9 +269,13 @@ namespace DiscreteLogarithmCore
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-            modifiedPoligHellman.CalculatePoligHellman(a, b, p, label41);
-            stopwatch.Stop();
-            label41.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс";
+			long before = GC.GetTotalMemory(false);
+			modifiedPoligHellman.CalculatePoligHellman(a, b, p, label41);
+			long after = GC.GetTotalMemory(false);
+			int consumedInBytes = (int)(after - before);
+			consumedInBytes = consumedInBytes > 0 ? consumedInBytes : -consumedInBytes;
+			stopwatch.Stop();
+            label41.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс\n{consumedInBytes} байт";
         }
 
         private void button11_Click(object sender, EventArgs e)
@@ -260,9 +292,13 @@ namespace DiscreteLogarithmCore
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-            modifiedRoPollard.CalculateRoPollard(N, label42);
-            stopwatch.Stop();
-            label42.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс";
+			long before = GC.GetTotalMemory(false);
+			modifiedRoPollard.CalculateRoPollard(N, label42);
+			long after = GC.GetTotalMemory(false);
+			int consumedInBytes = (int)(after - before);
+			consumedInBytes = consumedInBytes > 0 ? consumedInBytes : -consumedInBytes;
+			stopwatch.Stop();
+            label42.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс\n{consumedInBytes} байт";
         }
 
         private void button12_Click(object sender, EventArgs e)
@@ -281,9 +317,13 @@ namespace DiscreteLogarithmCore
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-            modifiedAdleman.CalculateAdleman(a, b, p, label43);
-            stopwatch.Stop();
-            label43.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс";
+			long before = GC.GetTotalMemory(false);
+			modifiedAdleman.CalculateAdleman(a, b, p, label43);
+			long after = GC.GetTotalMemory(false);
+			int consumedInBytes = (int)(after - before);
+			consumedInBytes = consumedInBytes > 0 ? consumedInBytes : -consumedInBytes;
+			stopwatch.Stop();
+            label43.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс\n{consumedInBytes} байт";
         }
 
         private void button13_Click(object sender, EventArgs e)
@@ -302,9 +342,13 @@ namespace DiscreteLogarithmCore
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-            modifiedCOS.CalculateCOS(a, b, p, label44);
-            stopwatch.Stop();
-            label44.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс";
+			long before = GC.GetTotalMemory(false);
+			modifiedCOS.CalculateCOS(a, b, p, label44);
+			long after = GC.GetTotalMemory(false);
+			int consumedInBytes = (int)(after - before);
+			consumedInBytes = consumedInBytes > 0 ? consumedInBytes : -consumedInBytes;
+			stopwatch.Stop();
+            label44.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс\n{consumedInBytes} байт";
         }
 
         private void button14_Click(object sender, EventArgs e)
@@ -321,16 +365,20 @@ namespace DiscreteLogarithmCore
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-            try
+			long before = GC.GetTotalMemory(false);
+			try
             {
                 modifiedGNFS.CalculateGNFS(N, label45);
             }
             catch (Exception ex)
             {
                 label45.Text = "Error";
-            }
-            stopwatch.Stop();
-            label45.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс";
+			}
+			long after = GC.GetTotalMemory(false);
+			int consumedInBytes = (int)(after - before);
+			consumedInBytes = consumedInBytes > 0 ? consumedInBytes : -consumedInBytes;
+			stopwatch.Stop();
+            label45.Text += $"\nt = {stopwatch.ElapsedMilliseconds} мс\n{consumedInBytes} байт";
         }
     }
 }

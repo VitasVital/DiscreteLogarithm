@@ -38,7 +38,8 @@ namespace DiscreteLogarithm.ModifiedExponentialAlgorithms
                     y = x;
                     stage = stage * 2;
                 }
-                x = (x * x - 1) % n;
+                //x = (x * x - 1) % n; // сделал вычисление x, не возводя в квадрат x
+                x = (x * x * x - 1) % n;
                 i = i + 1;
             }
             return BigInteger.GreatestCommonDivisor(n, BigInteger.Abs(x - y));
