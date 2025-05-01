@@ -87,10 +87,10 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
             inputLabel.Text = string.Format("Результат = {0}", result);
         }
 
-        public BigInteger Generate_a()
+        public BigInteger Generate_a(int bitCount)
         {
             // число a 16 бит
-            int byteCount = 16 / 8;
+            int byteCount = bitCount / 8;
             BigInteger a;
             while (true)
             {
@@ -102,10 +102,10 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
             }
         }
 
-        public BigInteger Generate_p()
+        public BigInteger Generate_p(int bitCount)
         {
             // число p 64 бит
-            int byteCount = 24 / 8;
+            int byteCount = bitCount / 8;
             BigInteger p;
             while (true)
             {
@@ -244,20 +244,20 @@ namespace DiscreteLogarithm.MathFunctionsForCalculation
             FindAllDivisors(p_dividers, q_factorized_new);
         }
 
-        public List<BigInteger> Generate_p_g()
+        public List<BigInteger> Generate_p_g(int bitCount)
         {
             BigInteger p;
             BigInteger fi_p;
             List<BigInteger> p_dividers;
 
             // число g 64 бит
-            int byteCount = 24 / 8;
+            int byteCount = bitCount / 8;
             BigInteger g;
 
             bool true_p;
             while (true)
             {
-                p = Generate_p();
+                p = Generate_p(bitCount);
                 fi_p = p - 1;
                 p_dividers = Factorization(fi_p);
                 p_dividers = p_dividers.Distinct().ToList();

@@ -489,8 +489,9 @@ namespace DiscreteLogarithm.ModifiedSubExponentialAlgorithms
         }
 
         private void PrintSlauArray(BigInteger[,] slauArray, string inputText = "")
-        {
-            Console.WriteLine(inputText);
+		{
+			return;
+			Console.WriteLine(inputText);
 
             for (int i = 0; i < 3; i++)
             {
@@ -503,8 +504,9 @@ namespace DiscreteLogarithm.ModifiedSubExponentialAlgorithms
         }
 
         private void PrintSLAU()
-        {
-            for (int i = 0; i < log_g_NUM.Count; i++)
+		{
+			return;
+			for (int i = 0; i < log_g_NUM.Count; i++)
             {
                 Console.Write(string.Format("{0} ", log_g_NUM[i]));
             }

@@ -74,7 +74,6 @@
 			label1 = new Label();
 			button1 = new Button();
 			label28 = new Label();
-			label29 = new Label();
 			button6 = new Button();
 			textBox14 = new TextBox();
 			label30 = new Label();
@@ -100,7 +99,6 @@
 			label40 = new Label();
 			label41 = new Label();
 			button10 = new Button();
-			label42 = new Label();
 			button11 = new Button();
 			label43 = new Label();
 			button12 = new Button();
@@ -108,16 +106,24 @@
 			button13 = new Button();
 			label45 = new Label();
 			button14 = new Button();
+			button15 = new Button();
+			button16 = new Button();
+			button17 = new Button();
+			textBox22 = new TextBox();
+			textBox23 = new TextBox();
+			button18 = new Button();
+			button19 = new Button();
+			button20 = new Button();
 			SuspendLayout();
 			// 
 			// label2
 			// 
 			label2.AutoSize = true;
 			label2.Font = new Font("Microsoft Sans Serif", 14F);
-			label2.Location = new Point(22, 25);
+			label2.Location = new Point(18, 20);
 			label2.Margin = new Padding(2, 0, 2, 0);
 			label2.Name = "label2";
-			label2.Size = new Size(862, 32);
+			label2.Size = new Size(769, 29);
 			label2.TabIndex = 3;
 			label2.Text = "Экспоненциальные алгоритмы дискретного логарифмирования";
 			// 
@@ -125,10 +131,10 @@
 			// 
 			label3.AutoSize = true;
 			label3.Font = new Font("Microsoft Sans Serif", 14F);
-			label3.Location = new Point(22, 90);
+			label3.Location = new Point(18, 72);
 			label3.Margin = new Padding(2, 0, 2, 0);
 			label3.Name = "label3";
-			label3.Size = new Size(248, 32);
+			label3.Size = new Size(219, 29);
 			label3.TabIndex = 4;
 			label3.Text = "Алгоритм Шенкса";
 			// 
@@ -136,10 +142,10 @@
 			// 
 			label4.AutoSize = true;
 			label4.Font = new Font("Microsoft Sans Serif", 14F);
-			label4.Location = new Point(338, 90);
+			label4.Location = new Point(270, 72);
 			label4.Margin = new Padding(2, 0, 2, 0);
 			label4.Name = "label4";
-			label4.Size = new Size(387, 32);
+			label4.Size = new Size(346, 29);
 			label4.TabIndex = 5;
 			label4.Text = "Алгоритм Полига-Хеллмана";
 			// 
@@ -147,10 +153,10 @@
 			// 
 			label5.AutoSize = true;
 			label5.Font = new Font("Microsoft Sans Serif", 14F);
-			label5.Location = new Point(806, 90);
+			label5.Location = new Point(645, 72);
 			label5.Margin = new Padding(2, 0, 2, 0);
 			label5.Name = "label5";
-			label5.Size = new Size(259, 32);
+			label5.Size = new Size(228, 29);
 			label5.TabIndex = 6;
 			label5.Text = "ρ-метод Полларда";
 			// 
@@ -158,10 +164,10 @@
 			// 
 			label6.AutoSize = true;
 			label6.Font = new Font("Microsoft Sans Serif", 14F);
-			label6.Location = new Point(1125, 90);
+			label6.Location = new Point(900, 72);
 			label6.Margin = new Padding(2, 0, 2, 0);
 			label6.Name = "label6";
-			label6.Size = new Size(239, 32);
+			label6.Size = new Size(213, 29);
 			label6.TabIndex = 7;
 			label6.Text = "Генератор чисел";
 			// 
@@ -169,10 +175,10 @@
 			// 
 			label7.AutoSize = true;
 			label7.Font = new Font("Microsoft Sans Serif", 14F);
-			label7.Location = new Point(22, 512);
+			label7.Location = new Point(18, 409);
 			label7.Margin = new Padding(2, 0, 2, 0);
 			label7.Name = "label7";
-			label7.Size = new Size(906, 32);
+			label7.Size = new Size(807, 29);
 			label7.TabIndex = 8;
 			label7.Text = "Субэкспоненциальные алгоритмы дискретного логарифмирования";
 			// 
@@ -180,10 +186,10 @@
 			// 
 			label8.AutoSize = true;
 			label8.Font = new Font("Microsoft Sans Serif", 14F);
-			label8.Location = new Point(1124, 537);
+			label8.Location = new Point(899, 429);
 			label8.Margin = new Padding(2, 0, 2, 0);
 			label8.Name = "label8";
-			label8.Size = new Size(316, 64);
+			label8.Size = new Size(281, 58);
 			label8.TabIndex = 9;
 			label8.Text = "Возведение в степень \r\nпо модулю";
 			// 
@@ -191,10 +197,10 @@
 			// 
 			label9.AutoSize = true;
 			label9.Font = new Font("Microsoft Sans Serif", 14F);
-			label9.Location = new Point(20, 571);
+			label9.Location = new Point(16, 457);
 			label9.Margin = new Padding(2, 0, 2, 0);
 			label9.Name = "label9";
-			label9.Size = new Size(283, 32);
+			label9.Size = new Size(250, 29);
 			label9.TabIndex = 10;
 			label9.Text = "Алгоритм Адлемана";
 			// 
@@ -202,10 +208,10 @@
 			// 
 			label10.AutoSize = true;
 			label10.Font = new Font("Microsoft Sans Serif", 14F);
-			label10.Location = new Point(337, 571);
+			label10.Location = new Point(270, 457);
 			label10.Margin = new Padding(2, 0, 2, 0);
 			label10.Name = "label10";
-			label10.Size = new Size(209, 32);
+			label10.Size = new Size(185, 29);
 			label10.TabIndex = 11;
 			label10.Text = "Алгоритм COS";
 			// 
@@ -213,10 +219,10 @@
 			// 
 			label11.AutoSize = true;
 			label11.Font = new Font("Microsoft Sans Serif", 14F);
-			label11.Location = new Point(724, 571);
+			label11.Location = new Point(579, 457);
 			label11.Margin = new Padding(2, 0, 2, 0);
 			label11.Name = "label11";
-			label11.Size = new Size(328, 32);
+			label11.Size = new Size(295, 29);
 			label11.TabIndex = 12;
 			label11.Text = "Решето числового поля";
 			// 
@@ -224,10 +230,10 @@
 			// 
 			label12.AutoSize = true;
 			label12.Font = new Font("Microsoft Sans Serif", 10F);
-			label12.Location = new Point(22, 142);
+			label12.Location = new Point(18, 114);
 			label12.Margin = new Padding(2, 0, 2, 0);
 			label12.Name = "label12";
-			label12.Size = new Size(107, 25);
+			label12.Size = new Size(97, 20);
 			label12.TabIndex = 13;
 			label12.Text = "Введите g";
 			// 
@@ -235,10 +241,10 @@
 			// 
 			label13.AutoSize = true;
 			label13.Font = new Font("Microsoft Sans Serif", 10F);
-			label13.Location = new Point(20, 202);
+			label13.Location = new Point(16, 162);
 			label13.Margin = new Padding(2, 0, 2, 0);
 			label13.Name = "label13";
-			label13.Size = new Size(110, 25);
+			label13.Size = new Size(99, 20);
 			label13.TabIndex = 14;
 			label13.Text = "Введите A";
 			// 
@@ -246,10 +252,10 @@
 			// 
 			label14.AutoSize = true;
 			label14.Font = new Font("Microsoft Sans Serif", 10F);
-			label14.Location = new Point(20, 261);
+			label14.Location = new Point(16, 209);
 			label14.Margin = new Padding(2, 0, 2, 0);
 			label14.Name = "label14";
-			label14.Size = new Size(107, 25);
+			label14.Size = new Size(97, 20);
 			label14.TabIndex = 15;
 			label14.Text = "Введите p";
 			// 
@@ -257,43 +263,43 @@
 			// 
 			label15.AutoSize = true;
 			label15.Font = new Font("Microsoft Sans Serif", 10F);
-			label15.Location = new Point(22, 395);
+			label15.Location = new Point(18, 316);
 			label15.Margin = new Padding(2, 0, 2, 0);
 			label15.Name = "label15";
-			label15.Size = new Size(117, 25);
+			label15.Size = new Size(102, 20);
 			label15.TabIndex = 16;
 			label15.Text = "Результат:";
 			// 
 			// textBox2
 			// 
-			textBox2.Location = new Point(20, 170);
+			textBox2.Location = new Point(16, 136);
 			textBox2.Margin = new Padding(2);
 			textBox2.Name = "textBox2";
-			textBox2.Size = new Size(269, 31);
+			textBox2.Size = new Size(216, 27);
 			textBox2.TabIndex = 17;
 			// 
 			// textBox3
 			// 
-			textBox3.Location = new Point(20, 229);
+			textBox3.Location = new Point(16, 183);
 			textBox3.Margin = new Padding(2);
 			textBox3.Name = "textBox3";
-			textBox3.Size = new Size(269, 31);
+			textBox3.Size = new Size(216, 27);
 			textBox3.TabIndex = 18;
 			// 
 			// textBox4
 			// 
-			textBox4.Location = new Point(20, 289);
+			textBox4.Location = new Point(16, 231);
 			textBox4.Margin = new Padding(2);
 			textBox4.Name = "textBox4";
-			textBox4.Size = new Size(269, 31);
+			textBox4.Size = new Size(216, 27);
 			textBox4.TabIndex = 19;
 			// 
 			// button2
 			// 
-			button2.Location = new Point(20, 323);
+			button2.Location = new Point(16, 258);
 			button2.Margin = new Padding(2);
 			button2.Name = "button2";
-			button2.Size = new Size(115, 70);
+			button2.Size = new Size(92, 56);
 			button2.TabIndex = 20;
 			button2.Text = "Вычислить";
 			button2.UseVisualStyleBackColor = true;
@@ -301,10 +307,10 @@
 			// 
 			// button3
 			// 
-			button3.Location = new Point(335, 323);
+			button3.Location = new Point(268, 258);
 			button3.Margin = new Padding(2);
 			button3.Name = "button3";
-			button3.Size = new Size(115, 70);
+			button3.Size = new Size(92, 56);
 			button3.TabIndex = 28;
 			button3.Text = "Вычислить";
 			button3.UseVisualStyleBackColor = true;
@@ -312,36 +318,36 @@
 			// 
 			// textBox5
 			// 
-			textBox5.Location = new Point(335, 289);
+			textBox5.Location = new Point(268, 231);
 			textBox5.Margin = new Padding(2);
 			textBox5.Name = "textBox5";
-			textBox5.Size = new Size(269, 31);
+			textBox5.Size = new Size(216, 27);
 			textBox5.TabIndex = 27;
 			// 
 			// textBox6
 			// 
-			textBox6.Location = new Point(335, 230);
+			textBox6.Location = new Point(268, 184);
 			textBox6.Margin = new Padding(2);
 			textBox6.Name = "textBox6";
-			textBox6.Size = new Size(269, 31);
+			textBox6.Size = new Size(216, 27);
 			textBox6.TabIndex = 26;
 			// 
 			// textBox7
 			// 
-			textBox7.Location = new Point(335, 170);
+			textBox7.Location = new Point(268, 136);
 			textBox7.Margin = new Padding(2);
 			textBox7.Name = "textBox7";
-			textBox7.Size = new Size(269, 31);
+			textBox7.Size = new Size(216, 27);
 			textBox7.TabIndex = 25;
 			// 
 			// label16
 			// 
 			label16.AutoSize = true;
 			label16.Font = new Font("Microsoft Sans Serif", 10F);
-			label16.Location = new Point(333, 395);
+			label16.Location = new Point(266, 316);
 			label16.Margin = new Padding(2, 0, 2, 0);
 			label16.Name = "label16";
-			label16.Size = new Size(117, 25);
+			label16.Size = new Size(102, 20);
 			label16.TabIndex = 24;
 			label16.Text = "Результат:";
 			// 
@@ -349,10 +355,10 @@
 			// 
 			label17.AutoSize = true;
 			label17.Font = new Font("Microsoft Sans Serif", 10F);
-			label17.Location = new Point(335, 262);
+			label17.Location = new Point(268, 209);
 			label17.Margin = new Padding(2, 0, 2, 0);
 			label17.Name = "label17";
-			label17.Size = new Size(107, 25);
+			label17.Size = new Size(97, 20);
 			label17.TabIndex = 23;
 			label17.Text = "Введите p";
 			// 
@@ -360,10 +366,10 @@
 			// 
 			label18.AutoSize = true;
 			label18.Font = new Font("Microsoft Sans Serif", 10F);
-			label18.Location = new Point(335, 202);
+			label18.Location = new Point(268, 162);
 			label18.Margin = new Padding(2, 0, 2, 0);
 			label18.Name = "label18";
-			label18.Size = new Size(110, 25);
+			label18.Size = new Size(99, 20);
 			label18.TabIndex = 22;
 			label18.Text = "Введите A";
 			// 
@@ -371,19 +377,19 @@
 			// 
 			label19.AutoSize = true;
 			label19.Font = new Font("Microsoft Sans Serif", 10F);
-			label19.Location = new Point(338, 144);
+			label19.Location = new Point(270, 115);
 			label19.Margin = new Padding(2, 0, 2, 0);
 			label19.Name = "label19";
-			label19.Size = new Size(107, 25);
+			label19.Size = new Size(97, 20);
 			label19.TabIndex = 21;
 			label19.Text = "Введите g";
 			// 
 			// button4
 			// 
-			button4.Location = new Point(27, 821);
+			button4.Location = new Point(22, 657);
 			button4.Margin = new Padding(2);
 			button4.Name = "button4";
-			button4.Size = new Size(115, 70);
+			button4.Size = new Size(92, 56);
 			button4.TabIndex = 36;
 			button4.Text = "Вычислить";
 			button4.UseVisualStyleBackColor = true;
@@ -391,36 +397,36 @@
 			// 
 			// textBox8
 			// 
-			textBox8.Location = new Point(27, 786);
+			textBox8.Location = new Point(22, 629);
 			textBox8.Margin = new Padding(2);
 			textBox8.Name = "textBox8";
-			textBox8.Size = new Size(269, 31);
+			textBox8.Size = new Size(216, 27);
 			textBox8.TabIndex = 35;
 			// 
 			// textBox9
 			// 
-			textBox9.Location = new Point(27, 726);
+			textBox9.Location = new Point(22, 581);
 			textBox9.Margin = new Padding(2);
 			textBox9.Name = "textBox9";
-			textBox9.Size = new Size(269, 31);
+			textBox9.Size = new Size(216, 27);
 			textBox9.TabIndex = 34;
 			// 
 			// textBox10
 			// 
-			textBox10.Location = new Point(27, 666);
+			textBox10.Location = new Point(22, 532);
 			textBox10.Margin = new Padding(2);
 			textBox10.Name = "textBox10";
-			textBox10.Size = new Size(269, 31);
+			textBox10.Size = new Size(216, 27);
 			textBox10.TabIndex = 33;
 			// 
 			// label20
 			// 
 			label20.AutoSize = true;
 			label20.Font = new Font("Microsoft Sans Serif", 10F);
-			label20.Location = new Point(27, 893);
+			label20.Location = new Point(22, 714);
 			label20.Margin = new Padding(2, 0, 2, 0);
 			label20.Name = "label20";
-			label20.Size = new Size(117, 25);
+			label20.Size = new Size(102, 20);
 			label20.TabIndex = 32;
 			label20.Text = "Результат:";
 			// 
@@ -428,10 +434,10 @@
 			// 
 			label21.AutoSize = true;
 			label21.Font = new Font("Microsoft Sans Serif", 10F);
-			label21.Location = new Point(27, 759);
+			label21.Location = new Point(22, 608);
 			label21.Margin = new Padding(2, 0, 2, 0);
 			label21.Name = "label21";
-			label21.Size = new Size(107, 25);
+			label21.Size = new Size(97, 20);
 			label21.TabIndex = 31;
 			label21.Text = "Введите p";
 			// 
@@ -439,10 +445,10 @@
 			// 
 			label22.AutoSize = true;
 			label22.Font = new Font("Microsoft Sans Serif", 10F);
-			label22.Location = new Point(27, 699);
+			label22.Location = new Point(22, 559);
 			label22.Margin = new Padding(2, 0, 2, 0);
 			label22.Name = "label22";
-			label22.Size = new Size(110, 25);
+			label22.Size = new Size(99, 20);
 			label22.TabIndex = 30;
 			label22.Text = "Введите A";
 			// 
@@ -450,19 +456,19 @@
 			// 
 			label23.AutoSize = true;
 			label23.Font = new Font("Microsoft Sans Serif", 10F);
-			label23.Location = new Point(24, 640);
+			label23.Location = new Point(19, 512);
 			label23.Margin = new Padding(2, 0, 2, 0);
 			label23.Name = "label23";
-			label23.Size = new Size(107, 25);
+			label23.Size = new Size(97, 20);
 			label23.TabIndex = 29;
 			label23.Text = "Введите g";
 			// 
 			// button5
 			// 
-			button5.Location = new Point(337, 821);
+			button5.Location = new Point(270, 657);
 			button5.Margin = new Padding(2);
 			button5.Name = "button5";
-			button5.Size = new Size(115, 70);
+			button5.Size = new Size(92, 56);
 			button5.TabIndex = 44;
 			button5.Text = "Вычислить";
 			button5.UseVisualStyleBackColor = true;
@@ -470,36 +476,36 @@
 			// 
 			// textBox11
 			// 
-			textBox11.Location = new Point(337, 786);
+			textBox11.Location = new Point(270, 629);
 			textBox11.Margin = new Padding(2);
 			textBox11.Name = "textBox11";
-			textBox11.Size = new Size(269, 31);
+			textBox11.Size = new Size(216, 27);
 			textBox11.TabIndex = 43;
 			// 
 			// textBox12
 			// 
-			textBox12.Location = new Point(337, 726);
+			textBox12.Location = new Point(270, 581);
 			textBox12.Margin = new Padding(2);
 			textBox12.Name = "textBox12";
-			textBox12.Size = new Size(269, 31);
+			textBox12.Size = new Size(216, 27);
 			textBox12.TabIndex = 42;
 			// 
 			// textBox13
 			// 
-			textBox13.Location = new Point(337, 666);
+			textBox13.Location = new Point(270, 532);
 			textBox13.Margin = new Padding(2);
 			textBox13.Name = "textBox13";
-			textBox13.Size = new Size(269, 31);
+			textBox13.Size = new Size(216, 27);
 			textBox13.TabIndex = 41;
 			// 
 			// label24
 			// 
 			label24.AutoSize = true;
 			label24.Font = new Font("Microsoft Sans Serif", 10F);
-			label24.Location = new Point(340, 893);
+			label24.Location = new Point(272, 714);
 			label24.Margin = new Padding(2, 0, 2, 0);
 			label24.Name = "label24";
-			label24.Size = new Size(117, 25);
+			label24.Size = new Size(102, 20);
 			label24.TabIndex = 40;
 			label24.Text = "Результат:";
 			// 
@@ -507,10 +513,10 @@
 			// 
 			label25.AutoSize = true;
 			label25.Font = new Font("Microsoft Sans Serif", 10F);
-			label25.Location = new Point(337, 759);
+			label25.Location = new Point(270, 608);
 			label25.Margin = new Padding(2, 0, 2, 0);
 			label25.Name = "label25";
-			label25.Size = new Size(107, 25);
+			label25.Size = new Size(97, 20);
 			label25.TabIndex = 39;
 			label25.Text = "Введите p";
 			// 
@@ -518,10 +524,10 @@
 			// 
 			label26.AutoSize = true;
 			label26.Font = new Font("Microsoft Sans Serif", 10F);
-			label26.Location = new Point(337, 699);
+			label26.Location = new Point(270, 559);
 			label26.Margin = new Padding(2, 0, 2, 0);
 			label26.Name = "label26";
-			label26.Size = new Size(110, 25);
+			label26.Size = new Size(99, 20);
 			label26.TabIndex = 38;
 			label26.Text = "Введите A";
 			// 
@@ -529,38 +535,38 @@
 			// 
 			label27.AutoSize = true;
 			label27.Font = new Font("Microsoft Sans Serif", 10F);
-			label27.Location = new Point(340, 640);
+			label27.Location = new Point(272, 512);
 			label27.Margin = new Padding(2, 0, 2, 0);
 			label27.Name = "label27";
-			label27.Size = new Size(107, 25);
+			label27.Size = new Size(97, 20);
 			label27.TabIndex = 37;
 			label27.Text = "Введите g";
 			// 
 			// textBox1
 			// 
-			textBox1.Location = new Point(727, 666);
+			textBox1.Location = new Point(582, 532);
 			textBox1.Margin = new Padding(2);
 			textBox1.Name = "textBox1";
-			textBox1.Size = new Size(269, 31);
+			textBox1.Size = new Size(216, 27);
 			textBox1.TabIndex = 46;
 			// 
 			// label1
 			// 
 			label1.AutoSize = true;
 			label1.Font = new Font("Microsoft Sans Serif", 10F);
-			label1.Location = new Point(727, 640);
+			label1.Location = new Point(582, 512);
 			label1.Margin = new Padding(2, 0, 2, 0);
 			label1.Name = "label1";
-			label1.Size = new Size(110, 25);
+			label1.Size = new Size(100, 20);
 			label1.TabIndex = 45;
 			label1.Text = "Введите N";
 			// 
 			// button1
 			// 
-			button1.Location = new Point(727, 703);
+			button1.Location = new Point(582, 562);
 			button1.Margin = new Padding(2);
 			button1.Name = "button1";
-			button1.Size = new Size(115, 70);
+			button1.Size = new Size(92, 56);
 			button1.TabIndex = 47;
 			button1.Text = "Вычислить";
 			button1.UseVisualStyleBackColor = true;
@@ -570,30 +576,19 @@
 			// 
 			label28.AutoSize = true;
 			label28.Font = new Font("Microsoft Sans Serif", 10F);
-			label28.Location = new Point(727, 775);
+			label28.Location = new Point(582, 620);
 			label28.Margin = new Padding(2, 0, 2, 0);
 			label28.Name = "label28";
-			label28.Size = new Size(117, 25);
+			label28.Size = new Size(102, 20);
 			label28.TabIndex = 48;
 			label28.Text = "Результат:";
 			// 
-			// label29
-			// 
-			label29.AutoSize = true;
-			label29.Font = new Font("Microsoft Sans Serif", 10F);
-			label29.Location = new Point(811, 277);
-			label29.Margin = new Padding(2, 0, 2, 0);
-			label29.Name = "label29";
-			label29.Size = new Size(117, 25);
-			label29.TabIndex = 52;
-			label29.Text = "Результат:";
-			// 
 			// button6
 			// 
-			button6.Location = new Point(808, 205);
+			button6.Location = new Point(646, 164);
 			button6.Margin = new Padding(2);
 			button6.Name = "button6";
-			button6.Size = new Size(115, 70);
+			button6.Size = new Size(92, 56);
 			button6.TabIndex = 51;
 			button6.Text = "Вычислить";
 			button6.UseVisualStyleBackColor = true;
@@ -601,29 +596,29 @@
 			// 
 			// textBox14
 			// 
-			textBox14.Location = new Point(808, 170);
+			textBox14.Location = new Point(646, 136);
 			textBox14.Margin = new Padding(2);
 			textBox14.Name = "textBox14";
-			textBox14.Size = new Size(269, 31);
+			textBox14.Size = new Size(216, 27);
 			textBox14.TabIndex = 50;
 			// 
 			// label30
 			// 
 			label30.AutoSize = true;
 			label30.Font = new Font("Microsoft Sans Serif", 10F);
-			label30.Location = new Point(808, 142);
+			label30.Location = new Point(646, 114);
 			label30.Margin = new Padding(2, 0, 2, 0);
 			label30.Name = "label30";
-			label30.Size = new Size(110, 25);
+			label30.Size = new Size(100, 20);
 			label30.TabIndex = 49;
 			label30.Text = "Введите N";
 			// 
 			// button7
 			// 
-			button7.Location = new Point(1122, 411);
+			button7.Location = new Point(898, 329);
 			button7.Margin = new Padding(2);
 			button7.Name = "button7";
-			button7.Size = new Size(115, 36);
+			button7.Size = new Size(92, 29);
 			button7.TabIndex = 59;
 			button7.Text = "Вычислить";
 			button7.UseVisualStyleBackColor = true;
@@ -631,36 +626,36 @@
 			// 
 			// textBox15
 			// 
-			textBox15.Location = new Point(1125, 298);
+			textBox15.Location = new Point(900, 238);
 			textBox15.Margin = new Padding(2);
 			textBox15.Name = "textBox15";
-			textBox15.Size = new Size(269, 31);
+			textBox15.Size = new Size(216, 27);
 			textBox15.TabIndex = 58;
 			// 
 			// textBox16
 			// 
-			textBox16.Location = new Point(1122, 230);
+			textBox16.Location = new Point(898, 184);
 			textBox16.Margin = new Padding(2);
 			textBox16.Name = "textBox16";
-			textBox16.Size = new Size(269, 31);
+			textBox16.Size = new Size(216, 27);
 			textBox16.TabIndex = 57;
 			// 
 			// textBox17
 			// 
-			textBox17.Location = new Point(1122, 170);
+			textBox17.Location = new Point(898, 136);
 			textBox17.Margin = new Padding(2);
 			textBox17.Name = "textBox17";
-			textBox17.Size = new Size(269, 31);
+			textBox17.Size = new Size(216, 27);
 			textBox17.TabIndex = 56;
 			// 
 			// label31
 			// 
 			label31.AutoSize = true;
 			label31.Font = new Font("Microsoft Sans Serif", 10F);
-			label31.Location = new Point(1122, 205);
+			label31.Location = new Point(898, 164);
 			label31.Margin = new Padding(2, 0, 2, 0);
 			label31.Name = "label31";
-			label31.Size = new Size(190, 25);
+			label31.Size = new Size(173, 20);
 			label31.TabIndex = 55;
 			label31.Text = "Сгенерированное a";
 			// 
@@ -668,10 +663,10 @@
 			// 
 			label32.AutoSize = true;
 			label32.Font = new Font("Microsoft Sans Serif", 10F);
-			label32.Location = new Point(1122, 262);
+			label32.Location = new Point(898, 209);
 			label32.Margin = new Padding(2, 0, 2, 0);
 			label32.Name = "label32";
-			label32.Size = new Size(190, 25);
+			label32.Size = new Size(173, 20);
 			label32.TabIndex = 54;
 			label32.Text = "Сгенерированное p";
 			// 
@@ -679,38 +674,38 @@
 			// 
 			label33.AutoSize = true;
 			label33.Font = new Font("Microsoft Sans Serif", 10F);
-			label33.Location = new Point(1125, 144);
+			label33.Location = new Point(900, 115);
 			label33.Margin = new Padding(2, 0, 2, 0);
 			label33.Name = "label33";
-			label33.Size = new Size(190, 25);
+			label33.Size = new Size(173, 20);
 			label33.TabIndex = 53;
 			label33.Text = "Сгенерированное g";
 			// 
 			// textBox18
 			// 
-			textBox18.Location = new Point(1122, 362);
+			textBox18.Location = new Point(898, 289);
 			textBox18.Margin = new Padding(2);
 			textBox18.Name = "textBox18";
-			textBox18.Size = new Size(269, 31);
+			textBox18.Size = new Size(216, 27);
 			textBox18.TabIndex = 60;
 			// 
 			// label34
 			// 
 			label34.AutoSize = true;
 			label34.Font = new Font("Microsoft Sans Serif", 10F);
-			label34.Location = new Point(1122, 336);
+			label34.Location = new Point(898, 269);
 			label34.Margin = new Padding(2, 0, 2, 0);
 			label34.Name = "label34";
-			label34.Size = new Size(193, 25);
+			label34.Size = new Size(175, 20);
 			label34.TabIndex = 61;
 			label34.Text = "Сгенерированное A";
 			// 
 			// button8
 			// 
-			button8.Location = new Point(1124, 821);
+			button8.Location = new Point(899, 657);
 			button8.Margin = new Padding(2);
 			button8.Name = "button8";
-			button8.Size = new Size(115, 36);
+			button8.Size = new Size(92, 29);
 			button8.TabIndex = 69;
 			button8.Text = "Вычислить";
 			button8.UseVisualStyleBackColor = true;
@@ -718,36 +713,36 @@
 			// 
 			// textBox19
 			// 
-			textBox19.Location = new Point(1124, 786);
+			textBox19.Location = new Point(899, 629);
 			textBox19.Margin = new Padding(2);
 			textBox19.Name = "textBox19";
-			textBox19.Size = new Size(269, 31);
+			textBox19.Size = new Size(216, 27);
 			textBox19.TabIndex = 68;
 			// 
 			// textBox20
 			// 
-			textBox20.Location = new Point(1124, 726);
+			textBox20.Location = new Point(899, 581);
 			textBox20.Margin = new Padding(2);
 			textBox20.Name = "textBox20";
-			textBox20.Size = new Size(269, 31);
+			textBox20.Size = new Size(216, 27);
 			textBox20.TabIndex = 67;
 			// 
 			// textBox21
 			// 
-			textBox21.Location = new Point(1124, 666);
+			textBox21.Location = new Point(899, 532);
 			textBox21.Margin = new Padding(2);
 			textBox21.Name = "textBox21";
-			textBox21.Size = new Size(269, 31);
+			textBox21.Size = new Size(216, 27);
 			textBox21.TabIndex = 66;
 			// 
 			// label35
 			// 
 			label35.AutoSize = true;
 			label35.Font = new Font("Microsoft Sans Serif", 10F);
-			label35.Location = new Point(1124, 859);
+			label35.Location = new Point(899, 688);
 			label35.Margin = new Padding(2, 0, 2, 0);
 			label35.Name = "label35";
-			label35.Size = new Size(117, 25);
+			label35.Size = new Size(102, 20);
 			label35.TabIndex = 65;
 			label35.Text = "Результат:";
 			// 
@@ -755,10 +750,10 @@
 			// 
 			label36.AutoSize = true;
 			label36.Font = new Font("Microsoft Sans Serif", 10F);
-			label36.Location = new Point(1124, 759);
+			label36.Location = new Point(899, 608);
 			label36.Margin = new Padding(2, 0, 2, 0);
 			label36.Name = "label36";
-			label36.Size = new Size(107, 25);
+			label36.Size = new Size(97, 20);
 			label36.TabIndex = 64;
 			label36.Text = "Введите p";
 			// 
@@ -766,10 +761,10 @@
 			// 
 			label37.AutoSize = true;
 			label37.Font = new Font("Microsoft Sans Serif", 10F);
-			label37.Location = new Point(1124, 699);
+			label37.Location = new Point(899, 559);
 			label37.Margin = new Padding(2, 0, 2, 0);
 			label37.Name = "label37";
-			label37.Size = new Size(107, 25);
+			label37.Size = new Size(97, 20);
 			label37.TabIndex = 63;
 			label37.Text = "Введите a";
 			// 
@@ -777,10 +772,10 @@
 			// 
 			label38.AutoSize = true;
 			label38.Font = new Font("Microsoft Sans Serif", 10F);
-			label38.Location = new Point(1124, 640);
+			label38.Location = new Point(899, 512);
 			label38.Margin = new Padding(2, 0, 2, 0);
 			label38.Name = "label38";
-			label38.Size = new Size(107, 25);
+			label38.Size = new Size(97, 20);
 			label38.TabIndex = 62;
 			label38.Text = "Введите g";
 			// 
@@ -788,19 +783,19 @@
 			// 
 			label39.AutoSize = true;
 			label39.Font = new Font("Microsoft Sans Serif", 10F);
-			label39.Location = new Point(1038, 33);
+			label39.Location = new Point(830, 26);
 			label39.Margin = new Padding(2, 0, 2, 0);
 			label39.Name = "label39";
-			label39.Size = new Size(125, 25);
+			label39.Size = new Size(106, 20);
 			label39.TabIndex = 70;
 			label39.Text = "A = gᵃ mod p";
 			// 
 			// button9
 			// 
-			button9.Location = new Point(171, 323);
+			button9.Location = new Point(137, 258);
 			button9.Margin = new Padding(2);
 			button9.Name = "button9";
-			button9.Size = new Size(118, 70);
+			button9.Size = new Size(94, 56);
 			button9.TabIndex = 71;
 			button9.Text = "Модифицированный";
 			button9.UseVisualStyleBackColor = true;
@@ -810,10 +805,10 @@
 			// 
 			label40.AutoSize = true;
 			label40.Font = new Font("Microsoft Sans Serif", 10F);
-			label40.Location = new Point(171, 395);
+			label40.Location = new Point(137, 316);
 			label40.Margin = new Padding(2, 0, 2, 0);
 			label40.Name = "label40";
-			label40.Size = new Size(117, 25);
+			label40.Size = new Size(102, 20);
 			label40.TabIndex = 72;
 			label40.Text = "Результат:";
 			// 
@@ -821,41 +816,30 @@
 			// 
 			label41.AutoSize = true;
 			label41.Font = new Font("Microsoft Sans Serif", 10F);
-			label41.Location = new Point(486, 396);
+			label41.Location = new Point(389, 317);
 			label41.Margin = new Padding(2, 0, 2, 0);
 			label41.Name = "label41";
-			label41.Size = new Size(117, 25);
+			label41.Size = new Size(102, 20);
 			label41.TabIndex = 74;
 			label41.Text = "Результат:";
 			// 
 			// button10
 			// 
-			button10.Location = new Point(486, 324);
+			button10.Location = new Point(389, 259);
 			button10.Margin = new Padding(2);
 			button10.Name = "button10";
-			button10.Size = new Size(118, 70);
+			button10.Size = new Size(94, 56);
 			button10.TabIndex = 73;
 			button10.Text = "Модифицированный";
 			button10.UseVisualStyleBackColor = true;
 			button10.Click += button10_Click;
 			// 
-			// label42
-			// 
-			label42.AutoSize = true;
-			label42.Font = new Font("Microsoft Sans Serif", 10F);
-			label42.Location = new Point(811, 385);
-			label42.Margin = new Padding(2, 0, 2, 0);
-			label42.Name = "label42";
-			label42.Size = new Size(117, 25);
-			label42.TabIndex = 76;
-			label42.Text = "Результат:";
-			// 
 			// button11
 			// 
-			button11.Location = new Point(959, 205);
+			button11.Location = new Point(767, 164);
 			button11.Margin = new Padding(2);
 			button11.Name = "button11";
-			button11.Size = new Size(118, 70);
+			button11.Size = new Size(94, 56);
 			button11.TabIndex = 75;
 			button11.Text = "Модифицированный";
 			button11.UseVisualStyleBackColor = true;
@@ -865,19 +849,19 @@
 			// 
 			label43.AutoSize = true;
 			label43.Font = new Font("Microsoft Sans Serif", 10F);
-			label43.Location = new Point(178, 893);
+			label43.Location = new Point(142, 714);
 			label43.Margin = new Padding(2, 0, 2, 0);
 			label43.Name = "label43";
-			label43.Size = new Size(117, 25);
+			label43.Size = new Size(102, 20);
 			label43.TabIndex = 78;
 			label43.Text = "Результат:";
 			// 
 			// button12
 			// 
-			button12.Location = new Point(178, 821);
+			button12.Location = new Point(142, 657);
 			button12.Margin = new Padding(2);
 			button12.Name = "button12";
-			button12.Size = new Size(118, 70);
+			button12.Size = new Size(94, 56);
 			button12.TabIndex = 77;
 			button12.Text = "Модифицированный";
 			button12.UseVisualStyleBackColor = true;
@@ -887,19 +871,19 @@
 			// 
 			label44.AutoSize = true;
 			label44.Font = new Font("Microsoft Sans Serif", 10F);
-			label44.Location = new Point(488, 893);
+			label44.Location = new Point(390, 714);
 			label44.Margin = new Padding(2, 0, 2, 0);
 			label44.Name = "label44";
-			label44.Size = new Size(117, 25);
+			label44.Size = new Size(102, 20);
 			label44.TabIndex = 80;
 			label44.Text = "Результат:";
 			// 
 			// button13
 			// 
-			button13.Location = new Point(488, 821);
+			button13.Location = new Point(390, 657);
 			button13.Margin = new Padding(2);
 			button13.Name = "button13";
-			button13.Size = new Size(118, 70);
+			button13.Size = new Size(94, 56);
 			button13.TabIndex = 79;
 			button13.Text = "Модифицированный";
 			button13.UseVisualStyleBackColor = true;
@@ -909,36 +893,127 @@
 			// 
 			label45.AutoSize = true;
 			label45.Font = new Font("Microsoft Sans Serif", 10F);
-			label45.Location = new Point(878, 775);
+			label45.Location = new Point(702, 620);
 			label45.Margin = new Padding(2, 0, 2, 0);
 			label45.Name = "label45";
-			label45.Size = new Size(117, 25);
+			label45.Size = new Size(102, 20);
 			label45.TabIndex = 82;
 			label45.Text = "Результат:";
 			// 
 			// button14
 			// 
-			button14.Location = new Point(878, 703);
+			button14.Location = new Point(702, 562);
 			button14.Margin = new Padding(2);
 			button14.Name = "button14";
-			button14.Size = new Size(118, 70);
+			button14.Size = new Size(94, 56);
 			button14.TabIndex = 81;
 			button14.Text = "Модифицированный";
 			button14.UseVisualStyleBackColor = true;
 			button14.Click += button14_Click;
 			// 
+			// button15
+			// 
+			button15.Location = new Point(119, 101);
+			button15.Margin = new Padding(2);
+			button15.Name = "button15";
+			button15.Size = new Size(110, 26);
+			button15.TabIndex = 83;
+			button15.Text = "Копировать";
+			button15.UseVisualStyleBackColor = true;
+			button15.Click += button15_Click;
+			// 
+			// button16
+			// 
+			button16.Location = new Point(371, 101);
+			button16.Margin = new Padding(2);
+			button16.Name = "button16";
+			button16.Size = new Size(113, 26);
+			button16.TabIndex = 84;
+			button16.Text = "Копировать";
+			button16.UseVisualStyleBackColor = true;
+			button16.Click += button16_Click;
+			// 
+			// button17
+			// 
+			button17.Location = new Point(750, 106);
+			button17.Margin = new Padding(2);
+			button17.Name = "button17";
+			button17.Size = new Size(133, 26);
+			button17.TabIndex = 85;
+			button17.Text = "Сгенерировать";
+			button17.UseVisualStyleBackColor = true;
+			button17.Click += button17_Click;
+			// 
+			// textBox22
+			// 
+			textBox22.Location = new Point(646, 224);
+			textBox22.Margin = new Padding(2);
+			textBox22.Multiline = true;
+			textBox22.Name = "textBox22";
+			textBox22.Size = new Size(216, 90);
+			textBox22.TabIndex = 86;
+			// 
+			// textBox23
+			// 
+			textBox23.Location = new Point(646, 316);
+			textBox23.Margin = new Padding(2);
+			textBox23.Multiline = true;
+			textBox23.Name = "textBox23";
+			textBox23.Size = new Size(216, 93);
+			textBox23.TabIndex = 87;
+			// 
+			// button18
+			// 
+			button18.Location = new Point(135, 495);
+			button18.Margin = new Padding(2);
+			button18.Name = "button18";
+			button18.Size = new Size(101, 26);
+			button18.TabIndex = 88;
+			button18.Text = "Копировать";
+			button18.UseVisualStyleBackColor = true;
+			button18.Click += button18_Click;
+			// 
+			// button19
+			// 
+			button19.Location = new Point(391, 495);
+			button19.Margin = new Padding(2);
+			button19.Name = "button19";
+			button19.Size = new Size(101, 26);
+			button19.TabIndex = 89;
+			button19.Text = "Копировать";
+			button19.UseVisualStyleBackColor = true;
+			button19.Click += button19_Click;
+			// 
+			// button20
+			// 
+			button20.Location = new Point(686, 495);
+			button20.Margin = new Padding(2);
+			button20.Name = "button20";
+			button20.Size = new Size(133, 26);
+			button20.TabIndex = 90;
+			button20.Text = "Сгенерировать";
+			button20.UseVisualStyleBackColor = true;
+			button20.Click += button20_Click;
+			// 
 			// Form1
 			// 
-			AutoScaleDimensions = new SizeF(10F, 25F);
+			AutoScaleDimensions = new SizeF(8F, 20F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(1466, 1009);
+			ClientSize = new Size(1173, 808);
+			Controls.Add(button20);
+			Controls.Add(button19);
+			Controls.Add(button18);
+			Controls.Add(textBox23);
+			Controls.Add(textBox22);
+			Controls.Add(button17);
+			Controls.Add(button16);
+			Controls.Add(button15);
 			Controls.Add(label45);
 			Controls.Add(button14);
 			Controls.Add(label44);
 			Controls.Add(button13);
 			Controls.Add(label43);
 			Controls.Add(button12);
-			Controls.Add(label42);
 			Controls.Add(button11);
 			Controls.Add(label41);
 			Controls.Add(button10);
@@ -962,7 +1037,6 @@
 			Controls.Add(label31);
 			Controls.Add(label32);
 			Controls.Add(label33);
-			Controls.Add(label29);
 			Controls.Add(button6);
 			Controls.Add(textBox14);
 			Controls.Add(label30);
@@ -1066,7 +1140,6 @@
         private Label label1;
         private Button button1;
         private Label label28;
-        private Label label29;
         private Button button6;
         private TextBox textBox14;
         private Label label30;
@@ -1092,7 +1165,6 @@
         private Label label40;
         private Label label41;
         private Button button10;
-        private Label label42;
         private Button button11;
         private Label label43;
         private Button button12;
@@ -1100,5 +1172,13 @@
         private Button button13;
         private Label label45;
         private Button button14;
-    }
+		private Button button15;
+		private Button button16;
+		private Button button17;
+		private TextBox textBox22;
+		private TextBox textBox23;
+		private Button button18;
+		private Button button19;
+		private Button button20;
+	}
 }

@@ -7,15 +7,15 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
     {
         public void CheckingTheInputValues(
             string input_N,
-            Label inputLabel,
+            TextBox inputTextBox,
             ref bool theValuesAreCorrect,
             out BigInteger a)
         {
-            inputLabel.Text = "";
+			inputTextBox.Text = "";
             if (!BigInteger.TryParse(input_N, out a) || a < 5)
             {
                 theValuesAreCorrect = false;
-                inputLabel.Text = "Ошибка N";
+				inputTextBox.Text = "Ошибка N";
             };
         }
 
@@ -44,12 +44,12 @@ namespace DiscreteLogarithm.ExponentialAlgorithms
             return BigInteger.GreatestCommonDivisor(n, BigInteger.Abs(x - y));
         }
 
-        public void CalculateRoPollard(BigInteger N, Label inputLabel)
+        public void CalculateRoPollard(BigInteger N, TextBox inputTextBox)
         {
             BigInteger p = ro_Pollard(N);
             BigInteger q = N / p;
 
-            inputLabel.Text = string.Format("P = {0} \nQ = {1}", p, q);
+			inputTextBox.Text = string.Format("P = {0} \nQ = {1}", p, q);
         }
     }
 }
